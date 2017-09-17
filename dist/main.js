@@ -28,4 +28,9 @@ module.exports.loop = function () {
 
 // Goals
 // x Upgrader creep
-// 2. Repair creeps
+// x Repair creeps
+// x Sync with Github
+// - Creeps go to other energy sources
+// - Build extensions
+// - Build bigger creeps
+// - Build roads
