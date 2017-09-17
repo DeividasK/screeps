@@ -12,7 +12,7 @@ module.exports.loop = function () {
 
     mainControls.maintain('harvester', 10, smallCarrier);
     mainControls.maintain('upgrader', 5, smallestBody);
-    mainControls.maintain('builder', 2, smallestBody);
+    mainControls.maintain('builder', 1, smallestBody);
 
     initRoles();
 }
@@ -25,3 +25,4 @@ module.exports.loop = function () {
 // x Build extensions
 // x Build roads
 // x Build bigger creeps
+// - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
