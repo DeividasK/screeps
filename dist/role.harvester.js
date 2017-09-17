@@ -1,8 +1,12 @@
 function moveToEnergySource(creep) {
     const sources = creep.room.find(FIND_SOURCES);
-    
-    if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0]);
+    if (sources.length === 0) return;
+    if (Game.creeps.length === 0) return;
+
+    const selectedSource = Game.creeps.length % sources.length;
+
+    if(creep.harvest(sources[selectedSource]) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(sources[selectedSource]);
     }
 }
 
@@ -24,9 +28,9 @@ var roleHarvester = {
     /** @param {Creep} creep **/
     run: function(creep) {
         if (creep.ticksToLive < 300) {
-            return moveToSpawn(creep);    
+            return moveToSpawn(creep);
         }
-        
+
       if(creep.carry.energy < creep.carryCapacity) {
            return moveToEnergySource(creep);
         }
@@ -38,7 +42,7 @@ var roleHarvester = {
         if(targetsWithCapacity.length > 0 && creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             return creep.moveTo(targetsWithCapacity[0]);
         }
-        
+
         return moveToSpawn(creep);
   }
 };
