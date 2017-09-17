@@ -30,7 +30,7 @@ module.exports.loop = function () {
 // x Upgrader creep
 // x Repair creeps
 // x Sync with Github
-// - Creeps go to other energy sources
+// x Creeps go to other energy sources
 // - Build extensions
 // - Build bigger creeps
 // - Build roads

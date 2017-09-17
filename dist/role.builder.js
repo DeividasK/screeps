@@ -10,8 +10,10 @@ var builder = {
 		  creep.memory.canWork = true;
 	  }
 
-	  if(creep.memory.canWork && creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-			return creep.moveTo(creep.room.controller);
+    const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+
+	  if(creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
+			return creep.moveTo(constructionSites[0]);
 		}
 
     return actions.withdrawEnergy(creep);
