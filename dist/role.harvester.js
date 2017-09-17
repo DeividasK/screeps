@@ -38,7 +38,7 @@ var roleHarvester = {
         return creep.moveTo(targetsWithCapacity[0]);
     }
 
-    return moveToSpawn(creep);
+    return actions.moveToSpawn(creep);
   }
 };
 
