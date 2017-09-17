@@ -1,3 +1,5 @@
+const actions = require('actions');
+
 function moveToEnergySource(creep) {
     const sources = creep.room.find(FIND_SOURCES, {
         filter: (source) => source.energy > 0
@@ -17,16 +19,11 @@ function hasCapacity(structure) {
     return structure.energy < structure.energyCapacity;
 }
 
-function moveToSpawn(creep) {
-    const spawn1 = Game.spawns['Spawn1'];
-    return creep.moveTo(spawn1);
-}
-
 var roleHarvester = {
   /** @param {Creep} creep **/
   run: function(creep) {
     if (creep.ticksToLive < 300) {
-        return moveToSpawn(creep);
+        return actions.moveToSpawn(creep);
     }
 
     if(creep.carry.energy < creep.carryCapacity) {

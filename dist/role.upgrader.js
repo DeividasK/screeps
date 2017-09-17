@@ -1,4 +1,6 @@
-var roleUpgrader = {
+const actions = require('actions');
+
+const upgrader = {
 	/** @param {Creep} creep **/
 	run: function(creep) {
 		if(creep.memory.upgrading && creep.carry.energy == 0) {
@@ -13,17 +15,12 @@ var roleUpgrader = {
 
 	  if(creep.memory.upgrading) {
 			if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-				creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+				return creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
 			}
 		}
-		else {
-			var mySpawns = creep.room.find(FIND_MY_SPAWNS);
 
-			if(creep.withdraw(mySpawns[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-				creep.moveTo(mySpawns[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-			}
-		}
+		return actions.withdrawEnergy(creep);
   }
 };
 
-module.exports = roleUpgrader;
+module.exports = upgrader;
