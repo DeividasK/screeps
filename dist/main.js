@@ -1,4 +1,5 @@
 const smallestBody = [WORK,CARRY,MOVE];
+const smallCarrier = [WORK,CARRY,CARRY,CARRY,MOVE];
 
 const initRoles = require('role.init');
 const memoryHandler = require('memory');
@@ -9,14 +10,9 @@ module.exports.loop = function () {
 
     const spawn1 = Game.spawns['Spawn1'];
 
-    mainControls.maintain('harvester', 10, smallestBody);
+    mainControls.maintain('harvester', 10, smallCarrier);
     mainControls.maintain('upgrader', 5, smallestBody);
-
-    const harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-
-    for (const creepName in harvesters) {
-        spawn1.renewCreep(harvesters[creepName]);
-    }
+    mainControls.maintain('builder', 2, smallestBody);
 
     initRoles();
 }
@@ -28,4 +24,4 @@ module.exports.loop = function () {
 // x Creeps go to other energy sources
 // x Build extensions
 // x Build roads
-// - Build bigger creeps
+// x Build bigger creeps

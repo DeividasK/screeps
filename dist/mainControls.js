@@ -9,6 +9,11 @@ const actions = {
         console.log('Spawning new ' + creepRole + ': ' + newName);
     }
 
+    _.find(Game.creeps, (creep) => creep.memory.role === creepRole);
+
+    for (const creepName in creepsByRole) {
+        spawn1.renewCreep(creepsByRole[creepName]);
+    }
   }
 };
 
