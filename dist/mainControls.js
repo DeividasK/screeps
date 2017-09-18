@@ -1,6 +1,10 @@
 const memory = require('memory');
 const logger = require('logger');
 
+// function getBodyArray(body) {
+//   return body.reduce((accumulator, bodyPart) => accumulator.concat(bodyPart.type));
+// }
+
 const actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
     const spawn1 = Game.spawns['Spawn1'];
@@ -11,10 +15,11 @@ const actions = {
     }
 
     const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
+    // const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && getBodyArray(creep.body) === creepBody);
     const additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
-    logger('Currently ' + creepsByRole + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
+    logger('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
 
     if (additionalCreepsRequired <= 0) {
       logger(creepRole + ' role check - no more creeps is required.');
