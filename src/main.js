@@ -9,7 +9,7 @@ module.exports.loop = function () {
     memoryHandler.flushIfNecessary();
 
     mainControls.maintain('harvester', 10, smallestBody);
-    mainControls.maintain('upgrader', 5, smallestBody);
+    mainControls.maintain('upgrader', 2, smallestBody);
     mainControls.maintain('builder', 1, smallestBody);
 
     mainControls.processQueue();
