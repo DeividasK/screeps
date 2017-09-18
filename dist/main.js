@@ -66,18 +66,21 @@ module.exports =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-const spawn1 = Game.spawns['Spawn1'];
+"use strict";
 
-const actions = {
+
+var spawn1 = Game.spawns['Spawn1'];
+
+var actions = {
   moveToSpawn: function moveToSpawn(creep) {
     return creep.moveTo(spawn1);
   },
   withdrawEnergy: function withdrawEnergy(creep) {
-    const withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
+    var withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
 
-    switch(withdrawalStatus) {
+    switch (withdrawalStatus) {
       case ERR_NOT_IN_RANGE:
         return actions.moveToSpawn(creep);
       case ERR_NOT_ENOUGH_RESOURCES:
@@ -88,19 +91,21 @@ const actions = {
 
 module.exports = actions;
 
-
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = {
-  addToQueue: (creepSchema) => {
-    Memory.queue = Memory.queue.concat(creepSchema)
+  addToQueue: function addToQueue(creepSchema) {
+    Memory.queue = Memory.queue.concat(creepSchema);
     return Memory.queue.slice();
   },
-  getQueue: () => {
+  getQueue: function getQueue() {
     if (!Array.isArray(Memory.queue)) {
-      Memory.queue = []
+      Memory.queue = [];
     }
     return Memory.queue.slice();
   },
@@ -108,30 +113,32 @@ module.exports = {
     Memory.queue = [];
     return Memory.queue.slice();
   },
-  flushIfNecessary: function() {
+  flushIfNecessary: function flushIfNecessary() {
     if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
       return;
     }
 
-    for (const creepName in Memory.creeps) {
+    for (var creepName in Memory.creeps) {
       if (Game.creeps[creepName] === undefined) {
-          delete Memory.creeps[creepName];
+        delete Memory.creeps[creepName];
       }
     }
   }
 };
 
-
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const smallestBody = [WORK,CARRY,MOVE];
-const smallCarrier = [WORK,CARRY,CARRY,CARRY,MOVE];
+"use strict";
 
-const initRoles = __webpack_require__(3);
-const memoryHandler = __webpack_require__(1);
-const mainControls = __webpack_require__(7);
+
+var smallestBody = [WORK, CARRY, MOVE];
+var smallCarrier = [WORK, CARRY, CARRY, CARRY, MOVE];
+
+var initRoles = __webpack_require__(3);
+var memoryHandler = __webpack_require__(1);
+var mainControls = __webpack_require__(7);
 
 module.exports.loop = function () {
     memoryHandler.flushIfNecessary();
@@ -143,7 +150,7 @@ module.exports.loop = function () {
     mainControls.processQueue();
 
     initRoles();
-}
+};
 
 // Goals
 // x Upgrader creep
@@ -155,21 +162,23 @@ module.exports.loop = function () {
 // x Build bigger creeps
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
-
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const roles = {
+"use strict";
+
+
+var roles = {
     harvester: __webpack_require__(4),
     upgrader: __webpack_require__(5),
-    builder: __webpack_require__(6),
+    builder: __webpack_require__(6)
 };
 
 module.exports = function init() {
-    for(const creepName in Game.creeps) {
-        const creep = Game.creeps[creepName];
-        const role = roles[creep.memory.role]
+    for (var creepName in Game.creeps) {
+        var creep = Game.creeps[creepName];
+        var role = roles[creep.memory.role];
 
         if (role !== undefined) {
             role.run(creep);
@@ -179,21 +188,25 @@ module.exports = function init() {
     }
 };
 
-
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const actions = __webpack_require__(0);
+"use strict";
+
+
+var actions = __webpack_require__(0);
 
 function moveToEnergySource(creep) {
-    const sources = creep.room.find(FIND_SOURCES, {
-        filter: (source) => source.energy > 0
+    var sources = creep.room.find(FIND_SOURCES, {
+        filter: function filter(source) {
+            return source.energy > 0;
+        }
     });
     if (sources.length === 0) return;
 
-    if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(sources[0]);
+    if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(sources[0]);
     }
 }
 
@@ -206,113 +219,123 @@ function hasCapacity(structure) {
 }
 
 var roleHarvester = {
-  /** @param {Creep} creep **/
-  run: function(creep) {
-    if (creep.ticksToLive < 300) {
+    /** @param {Creep} creep **/
+    run: function run(creep) {
+        if (creep.ticksToLive < 300) {
+            return actions.moveToSpawn(creep);
+        }
+
+        if (creep.carry.energy < creep.carryCapacity) {
+            return moveToEnergySource(creep);
+        }
+
+        var targetsWithCapacity = creep.room.find(FIND_STRUCTURES, {
+            filter: function filter(structure) {
+                return canStoreEnergy(structure) && hasCapacity(structure);
+            }
+        });
+
+        if (targetsWithCapacity.length > 0 && creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            return creep.moveTo(targetsWithCapacity[0]);
+        }
+
         return actions.moveToSpawn(creep);
     }
-
-    if(creep.carry.energy < creep.carryCapacity) {
-       return moveToEnergySource(creep);
-    }
-
-    const targetsWithCapacity = creep.room.find(FIND_STRUCTURES, {
-        filter: (structure) => canStoreEnergy(structure) && hasCapacity(structure)
-    });
-
-    if(targetsWithCapacity.length > 0 && creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-        return creep.moveTo(targetsWithCapacity[0]);
-    }
-
-    return actions.moveToSpawn(creep);
-  }
 };
 
 module.exports = roleHarvester;
-
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const actions = __webpack_require__(0);
+"use strict";
 
-const upgrader = {
+
+var actions = __webpack_require__(0);
+
+var upgrader = {
 	/** @param {Creep} creep **/
-	run: function(creep) {
-		if(creep.memory.upgrading && creep.carry.energy == 0) {
+	run: function run(creep) {
+		if (creep.memory.upgrading && creep.carry.energy == 0) {
 			creep.memory.upgrading = false;
-	  }
+		}
 
-	  if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-		  creep.memory.upgrading = true;
-	  }
+		if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
+			creep.memory.upgrading = true;
+		}
 
-	  if(creep.memory.upgrading) {
-			if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+		if (creep.memory.upgrading) {
+			if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
 				return creep.moveTo(creep.room.controller);
 			}
 		}
 
 		return actions.withdrawEnergy(creep);
-  }
+	}
 };
 
 module.exports = upgrader;
-
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const actions = __webpack_require__(0);
+"use strict";
+
+
+var actions = __webpack_require__(0);
 
 var builder = {
-	run: function(creep) {
-		if(creep.memory.canWork && creep.carry.energy === 0) {
+	run: function run(creep) {
+		if (creep.memory.canWork && creep.carry.energy === 0) {
 			creep.memory.canWork = false;
-	  }
+		}
 
-	  if(!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
-		  creep.memory.canWork = true;
-	  }
+		if (!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
+			creep.memory.canWork = true;
+		}
 
-    const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
 
-	  if(creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
+		if (creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
 			return creep.moveTo(constructionSites[0]);
 		}
 
-    return actions.withdrawEnergy(creep);
-  }
+		return actions.withdrawEnergy(creep);
+	}
 };
 
 module.exports = builder;
-
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const memory = __webpack_require__(1);
-const logger = __webpack_require__(8);
+"use strict";
+
+
+var memory = __webpack_require__(1);
+var logger = __webpack_require__(8);
 
 // function getBodyArray(body) {
 //   return body.reduce((accumulator, bodyPart) => accumulator.concat(bodyPart.type));
 // }
 
-const actions = {
+var actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
-    const spawn1 = Game.spawns['Spawn1'];
+    var spawn1 = Game.spawns['Spawn1'];
     // Return if queue is not empty
     if (memory.getQueue().length > 0) {
       logger(creepRole + ' role check - queue is not empty.');
       return;
     }
 
-    const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
+    var creepsByRole = _.filter(Game.creeps, function (creep) {
+      return creep.memory.role === creepRole;
+    });
     // const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && getBodyArray(creep.body) === creepBody);
-    const additionalCreepsRequired = creepCount - creepsByRole.length;
+    var additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
     logger('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
@@ -324,15 +347,15 @@ const actions = {
 
     memory.addToQueue({ role: creepRole, body: creepBody });
 
-    for (const creepName in creepsByRole) {
+    for (var creepName in creepsByRole) {
       if (creepsByRole.length <= creepCount) {
         spawn1.renewCreep(creepsByRole[creepName]);
       }
     }
   },
   processQueue: function processQueue() {
-    const spawn1 = Game.spawns['Spawn1'];
-    const queue = memory.getQueue();
+    var spawn1 = Game.spawns['Spawn1'];
+    var queue = memory.getQueue();
     if (queue.length === 0) {
       logger('Queue is empty.');
       return;
@@ -346,17 +369,17 @@ const actions = {
       logger('Nothing is being spawned.');
     }
 
-    const creepSchema = queue[0];
+    var creepSchema = queue[0];
 
-    const canCreate = spawn1.canCreateCreep(creepSchema.body);
+    var canCreate = spawn1.canCreateCreep(creepSchema.body);
 
-    if(canCreate !== OK) {
-      logger('Cannot create creep: ' + canCreate)
+    if (canCreate !== OK) {
+      logger('Cannot create creep: ' + canCreate);
       return;
     }
 
     logger('Spawning new ' + creepSchema.role + '.');
-    const creepName = spawn1.createCreep(creepSchema.body, undefined, {role: creepSchema.role});
+    var creepName = spawn1.createCreep(creepSchema.body, undefined, { role: creepSchema.role });
     logger('Clearing queue');
     memory.clearQueue();
   }
@@ -364,15 +387,16 @@ const actions = {
 
 module.exports = actions;
 
-
 /***/ }),
 /* 8 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 module.exports = function logger(message) {
-  console.log(Game.time + ': ' + message)
-}
-
+  console.log(Game.time + ': ' + message);
+};
 
 /***/ })
 /******/ ]);
