@@ -12,7 +12,7 @@ module.exports.loop = function () {
 
     mainControls.maintain('harvester', 10, smallCarrier);
     mainControls.maintain('upgrader', 5, smallestBody);
-    mainControls.maintain('builder', 1, smallestBody);
+    mainControls.maintain('builder', 0, smallestBody);
 
     initRoles();
 }

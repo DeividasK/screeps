@@ -10,6 +10,8 @@ const actions = {
     switch(withdrawalStatus) {
       case ERR_NOT_IN_RANGE:
         return actions.moveToSpawn(creep);
+      case ERR_NOT_ENOUGH_RESOURCES:
+        return creep.memory.role = 'harvester';
     }
   }
 };
