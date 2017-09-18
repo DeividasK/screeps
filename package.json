@@ -1,0 +1,16 @@
+{
+  "name": "screeps",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "repository": "git@github.com:DeividasK/screeps.git",
+  "author": "DeividasK <deividas.karzinauskas@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "webpack": "^3.6.0"
+  },
+  "scripts": {
+    "build": "webpack --config internals/webpack.config.js"
+  }
+}
