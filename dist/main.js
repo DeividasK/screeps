@@ -14,6 +14,8 @@ module.exports.loop = function () {
     mainControls.maintain('upgrader', 5, smallestBody);
     mainControls.maintain('builder', 0, smallestBody);
 
+    mainControls.processQueue();
+
     initRoles();
 }
 

@@ -1,34 +1,50 @@
+const memory = require('memory');
+
 const spawn1 = Game.spawns['Spawn1'];
 
 const actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
-    if (spawn1.spawning === null) {
-      console.log('Ready to spawn.');
-      spawn1.memory.spawning === false;
-    }
+    // Return if queue is not empty
+    if (memory.getQueue().length > 0) { return; }
 
-    if (spawn1.memory.spawning === true) {
-      console.log('Spawning in progress: ' + JSON.stringify(spawn1.spawning));
-      return;
-    }
+    const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && creep.body === creepBody);
+    const additionalCreepsRequired = creepCount - creepsByRole.length;
 
-    console.log('Preparing to spawn ' + creepRole + ' with ' + creepBody + ' body.');
-    spawn1.memory.spawning = true;
+    // Return if required creep amount is reached or exceeded
+    if (differenceFromRequiredCount <= 0) { return; }
 
-    const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
+    memory.addToQueue({ role: creepRole, body: creepBody });
 
-    if(creepsByRole.length < creepCount && spawn1.canCreateCreep(creepBody) === OK) {
-        var newName = spawn1.createCreep(creepBody, undefined, {role: creepRole});
-        console.log('Spawning new ' + creepRole + ': ' + newName);
-    }
 
-    _.find(Game.creeps, (creep) => creep.memory.role === creepRole);
 
     for (const creepName in creepsByRole) {
       if (creepsByRole.length <= creepCount) {
         spawn1.renewCreep(creepsByRole[creepName]);
       }
     }
+  },
+  processQueue: function processQueue() {
+    const queue = memory.getQueue();
+    if (queue.length === 0) {
+      console.log('Queue is empty.');
+      return;
+    }
+
+    if (spawn1.spawning !== null) {
+      console.log('Still spawning ' + JSON.stringify(spawn1.spawning))
+      console.log('Game time: ' + Game.time);
+      return;
+    }
+
+    const canCreate = spawn1.canCreateCreep(creepBody);
+
+    if(canCreate !== OK) {
+      console.log('Cannot create creep: ' + canCreate)
+      console.log('Game time: ' + Game.time);
+    }
+
+    var newName = spawn1.createCreep(creepBody, undefined, {role: creepRole});
+    console.log('Spawning new ' + creepRole + ': ' + newName);
   }
 };
 
