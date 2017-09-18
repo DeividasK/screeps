@@ -11,11 +11,9 @@ const actions = {
     const additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
-    if (differenceFromRequiredCount <= 0) { return; }
+    if (additionalCreepsRequired <= 0) { return; }
 
     memory.addToQueue({ role: creepRole, body: creepBody });
-
-
 
     for (const creepName in creepsByRole) {
       if (creepsByRole.length <= creepCount) {

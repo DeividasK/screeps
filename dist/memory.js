@@ -1,17 +1,17 @@
 module.exports = {
   addToQueue: (creepSchema) => {
     Memory.queue = Memory.queue.concat(creepSchema)
-    return Memory.queue.shift();
+    return Memory.queue.slice();
   },
   getQueue: () => {
     if (!Array.isArray(Memory.queue)) {
       Memory.queue = []
     }
-    return Memory.queue.shift();
+    return Memory.queue.slice();
   },
   clearQueue: function clearQueue() {
     Memory.queue = [];
-    return Memory.queue.shift();
+    return Memory.queue.slice();
   },
   flushIfNecessary: function() {
     if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
