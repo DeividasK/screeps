@@ -34,15 +34,17 @@ const actions = {
       return;
     }
 
-    const canCreate = spawn1.canCreateCreep(creepBody);
+    const creepSchema = queue[0];
+
+    const canCreate = spawn1.canCreateCreep(creepSchema.body);
 
     if(canCreate !== OK) {
       console.log('Cannot create creep: ' + canCreate)
       console.log('Game time: ' + Game.time);
     }
 
-    var newName = spawn1.createCreep(creepBody, undefined, {role: creepRole});
-    console.log('Spawning new ' + creepRole + ': ' + newName);
+    const creepName = spawn1.createCreep(creepSchema.body, undefined, {role: creepSchema.role});
+    console.log('Spawning new ' + creepSchema.role + ': ' + creepName);
   }
 };
 
