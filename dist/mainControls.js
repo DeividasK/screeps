@@ -34,6 +34,8 @@ const actions = {
       logger('Time remaining ' + spawn1.spawning.remainingTime + '.');
       logger('Current queue: ' + JSON.stringify(queue) + '.');
       return;
+    } else {
+      logger('Nothing is being spawned.');
     }
 
     const creepSchema = queue[0];
@@ -41,12 +43,13 @@ const actions = {
     const canCreate = spawn1.canCreateCreep(creepSchema.body);
 
     if(canCreate !== OK) {
-      console.log('Cannot create creep: ' + canCreate)
-      console.log('Game time: ' + Game.time);
+      logger('Cannot create creep: ' + canCreate)
+      return;
     }
 
+    logger('Spawning new ' + creepSchema.role + '.');
     const creepName = spawn1.createCreep(creepSchema.body, undefined, {role: creepSchema.role});
-    console.log('Spawning new ' + creepSchema.role + ': ' + creepName);
+    logger('Clearing queue');
     memory.clearQueue();
   }
 };
