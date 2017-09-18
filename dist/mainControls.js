@@ -1,10 +1,9 @@
 const memory = require('memory');
 const logger = require('logger');
 
-const spawn1 = Game.spawns['Spawn1'];
-
 const actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
+    const spawn1 = Game.spawns['Spawn1'];
     // Return if queue is not empty
     if (memory.getQueue().length > 0) { return; }
 
@@ -23,6 +22,7 @@ const actions = {
     }
   },
   processQueue: function processQueue() {
+    const spawn1 = Game.spawns['Spawn1'];
     const queue = memory.getQueue();
     if (queue.length === 0) {
       console.log('Queue is empty.');
