@@ -1,11 +1,11 @@
 const smallestBody = [WORK,CARRY,MOVE];
 const smallCarrier = [WORK,CARRY,CARRY,CARRY,MOVE];
 
-const initRoles = require('role.init');
-const memoryHandler = require('memory');
-const mainControls = require('mainControls');
+import initRoles from 'role.init';
+import memoryHandler from 'memory';
+import mainControls from 'mainControls';
 
-module.exports.loop = function () {
+function loop() {
     memoryHandler.flushIfNecessary();
 
     mainControls.maintain('harvester', 10, smallestBody);
@@ -16,6 +16,8 @@ module.exports.loop = function () {
 
     initRoles();
 }
+
+export { loop };
 
 // Goals
 // x Upgrader creep

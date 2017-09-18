@@ -133,24 +133,41 @@ module.exports = {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.loop = undefined;
+
+var _role = __webpack_require__(3);
+
+var _role2 = _interopRequireDefault(_role);
+
+var _memory = __webpack_require__(1);
+
+var _memory2 = _interopRequireDefault(_memory);
+
+var _mainControls = __webpack_require__(7);
+
+var _mainControls2 = _interopRequireDefault(_mainControls);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var smallestBody = [WORK, CARRY, MOVE];
 var smallCarrier = [WORK, CARRY, CARRY, CARRY, MOVE];
 
-var initRoles = __webpack_require__(3);
-var memoryHandler = __webpack_require__(1);
-var mainControls = __webpack_require__(7);
+function loop() {
+    _memory2.default.flushIfNecessary();
 
-module.exports.loop = function () {
-    memoryHandler.flushIfNecessary();
+    _mainControls2.default.maintain('harvester', 10, smallestBody);
+    _mainControls2.default.maintain('upgrader', 2, smallestBody);
+    _mainControls2.default.maintain('builder', 1, smallestBody);
 
-    mainControls.maintain('harvester', 10, smallestBody);
-    mainControls.maintain('upgrader', 2, smallestBody);
-    mainControls.maintain('builder', 1, smallestBody);
+    _mainControls2.default.processQueue();
 
-    mainControls.processQueue();
+    (0, _role2.default)();
+}
 
-    initRoles();
-};
+exports.loop = loop;
 
 // Goals
 // x Upgrader creep
