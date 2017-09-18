@@ -45,6 +45,7 @@ const actions = {
 
     const creepName = spawn1.createCreep(creepSchema.body, undefined, {role: creepSchema.role});
     console.log('Spawning new ' + creepSchema.role + ': ' + creepName);
+    memory.clearQueue();
   }
 };
 
