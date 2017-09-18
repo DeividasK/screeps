@@ -8,8 +8,6 @@ const mainControls = require('mainControls');
 module.exports.loop = function () {
     memoryHandler.flushIfNecessary();
 
-    const spawn1 = Game.spawns['Spawn1'];
-
     mainControls.maintain('harvester', 10, smallestBody);
     mainControls.maintain('upgrader', 5, smallestBody);
     mainControls.maintain('builder', 1, smallestBody);
