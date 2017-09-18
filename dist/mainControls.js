@@ -1,4 +1,5 @@
 const memory = require('memory');
+const logger = require('logger');
 
 const spawn1 = Game.spawns['Spawn1'];
 
@@ -29,10 +30,9 @@ const actions = {
     }
 
     if (spawn1.spawning !== null) {
-      console.log('Still spawning ' + spawn1.spawning.name + '.');
-      console.log('Time remaining ' + spawn1.spawning.remainingTime + '.');
-      console.log('Current queue: ' + JSON.stringify(queue) + '.');
-      console.log('Game time: ' + Game.time);
+      logger('Still spawning ' + spawn1.spawning.name + '.');
+      logger('Time remaining ' + spawn1.spawning.remainingTime + '.');
+      logger('Current queue: ' + JSON.stringify(queue) + '.');
       return;
     }
 
