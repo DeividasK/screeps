@@ -10,12 +10,12 @@ const actions = {
       return;
     }
 
-    const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && creep.body === creepBody);
+    const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
     const additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
     logger('Currently ' + creepsByRole + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
-    
+
     if (additionalCreepsRequired <= 0) {
       logger(creepRole + ' role check - no more creeps is required.');
       return;
