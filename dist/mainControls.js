@@ -5,13 +5,21 @@ const actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
     const spawn1 = Game.spawns['Spawn1'];
     // Return if queue is not empty
-    if (memory.getQueue().length > 0) { return; }
+    if (memory.getQueue().length > 0) {
+      logger(creepRole + ' role check - queue is not empty.');
+      return;
+    }
 
     const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && creep.body === creepBody);
     const additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
-    if (additionalCreepsRequired <= 0) { return; }
+    logger('Currently ' + creepsByRole + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
+    
+    if (additionalCreepsRequired <= 0) {
+      logger(creepRole + ' role check - no more creeps is required.');
+      return;
+    }
 
     memory.addToQueue({ role: creepRole, body: creepBody });
 
@@ -25,13 +33,12 @@ const actions = {
     const spawn1 = Game.spawns['Spawn1'];
     const queue = memory.getQueue();
     if (queue.length === 0) {
-      console.log('Queue is empty.');
+      logger('Queue is empty.');
       return;
     }
 
     if (spawn1.spawning !== null) {
-      logger('Still spawning ' + spawn1.spawning.name + '.');
-      logger('Time remaining ' + spawn1.spawning.remainingTime + '.');
+      logger('Still spawning ' + spawn1.spawning.name + '. Time remaining ' + spawn1.spawning.remainingTime + '.');
       logger('Current queue: ' + JSON.stringify(queue) + '.');
       return;
     } else {
