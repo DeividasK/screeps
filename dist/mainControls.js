@@ -7,6 +7,8 @@ const actions = {
       return;
     }
 
+    console.log('Started spawning ' + creepRole + ' with ' + creepBody + ' body.');
+
     const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
 
     if(creepsByRole.length < creepCount && spawn1.canCreateCreep(creepBody) === OK) {
