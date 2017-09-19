@@ -379,7 +379,7 @@ var _logger = __webpack_require__(9);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _lodash = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"lodash\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+var _lodash = __webpack_require__(10);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -470,6 +470,11 @@ function logger(message) {
   console.log(Game.time + ': ' + message);
 }
 
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.js.map

@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -7,7 +6,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   entry: './src/main.js',
   target: 'node',
-  devtool: 'source-map',
   resolve: {
     modules: [
       path.resolve('src')
@@ -29,8 +27,10 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], { root: path.resolve() }),
-    new webpack.IgnorePlugin(/lodash/)
   ],
+  externals : {
+    lodash : 'lodash'
+  },
   output: {
     filename: 'main.js',
     libraryTarget: 'commonjs2',
