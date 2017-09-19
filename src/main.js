@@ -9,7 +9,7 @@ import mainControls from 'mainControls';
 function loop() {
     memoryHandler.flushIfNecessary();
 
-    mainControls.maintain('harvester', 10, smallestBody);
+    mainControls.maintain('harvester', 8, smallCarrier);
     mainControls.maintain('upgrader', 2, smallestBody);
     mainControls.maintain('builder', 1, smallestBody);
 
