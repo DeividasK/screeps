@@ -381,41 +381,37 @@ var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// function getBodyArray(body) {
-//   return body.reduce((accumulator, bodyPart) => accumulator.concat(bodyPart.type));
-// }
-
 var actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
     var spawn1 = Game.spawns['Spawn1'];
-    // Return if queue is not empty
-    if (_memory2.default.getQueue().length > 0) {
-      (0, _logger2.default)(creepRole + ' role check - queue is not empty.');
-      return;
-    }
 
     // $FlowFixMe
     var creepsByRole = _.filter(Game.creeps, function (creep) {
-      return creep.memory.role === creepRole;
+      return creep.memory.role === creepRole && _.pluck(creep.body, 'type') === creepBody;
     });
-    // const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && getBodyArray(creep.body) === creepBody);
-    var additionalCreepsRequired = creepCount - creepsByRole.length;
-
-    // Return if required creep amount is reached or exceeded
-    (0, _logger2.default)('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
-
-    if (additionalCreepsRequired <= 0) {
-      (0, _logger2.default)(creepRole + ' role check - no more creeps is required.');
-      return;
-    }
-
-    _memory2.default.addToQueue({ role: creepRole, body: creepBody });
 
     for (var creepName in creepsByRole) {
       if (creepsByRole.length <= creepCount) {
         spawn1.renewCreep(creepsByRole[creepName]);
       }
     }
+
+    // Return if queue is not empty
+    if (_memory2.default.getQueue().length > 0) {
+      (0, _logger2.default)(creepRole + ' role check - queue is not empty.');
+      return;
+    }
+
+    var additionalCreepsRequired = creepCount - creepsByRole.length;
+
+    // Return if required creep amount is reached or exceeded
+    (0, _logger2.default)('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
+    if (additionalCreepsRequired <= 0) {
+      (0, _logger2.default)(creepRole + ' role check - no more creeps is required.');
+      return;
+    }
+
+    _memory2.default.addToQueue({ role: creepRole, body: creepBody });
   },
   processQueue: function processQueue() {
     var spawn1 = Game.spawns['Spawn1'];
