@@ -15,6 +15,7 @@ const actions = {
       return;
     }
 
+    // $FlowFixMe
     const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole);
     // const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && getBodyArray(creep.body) === creepBody);
     const additionalCreepsRequired = creepCount - creepsByRole.length;

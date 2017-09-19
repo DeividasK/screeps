@@ -114,6 +114,7 @@ module.exports = {
     return Memory.queue.slice();
   },
   flushIfNecessary: function flushIfNecessary() {
+    // $FlowFixMe
     if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
       return;
     }
@@ -393,6 +394,7 @@ var actions = {
       return;
     }
 
+    // $FlowFixMe
     var creepsByRole = _.filter(Game.creeps, function (creep) {
       return creep.memory.role === creepRole;
     });

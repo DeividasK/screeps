@@ -15,6 +15,7 @@ module.exports = {
     return Memory.queue.slice();
   },
   flushIfNecessary: function() {
+    // $FlowFixMe
     if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
       return;
     }

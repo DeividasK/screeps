@@ -49,12 +49,6 @@ declare type BodyPart = {
   hits: number,
 };
 
-declare interface hasRoomPosition {
-  x: number;
-  y: number;
-  roomName: string;
-};
-
 declare type Source = RoomObject & {
   energy: number,
   energyCapacity: number,
@@ -80,7 +74,7 @@ declare type Creep = RoomObject & {
   hits: number,
   hitsMax: number,
   id: string,
-  memory: any,
+  memory: { role: string, canWork?: boolean, upgrading?: boolean },
   my: boolean,
   name: string,
   owner: { username: string },
