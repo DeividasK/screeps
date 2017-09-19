@@ -1,3 +1,4 @@
+// @flow
 const smallestBody = [WORK,CARRY,MOVE];
 const smallCarrier = [WORK,CARRY,CARRY,CARRY,MOVE];
 
@@ -20,11 +21,8 @@ function loop() {
 export { loop };
 
 // Goals
-// x Upgrader creep
-// x Repair creeps
-// x Sync with Github
-// x Creeps go to other energy sources
-// x Build extensions
-// x Build roads
-// x Build bigger creeps
+// - Add typescript
+// - Update all syntax
+// - Folders
+// - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available

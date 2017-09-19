@@ -1,12 +1,13 @@
-const memory = require('memory');
-const logger = require('logger');
+// @flow
+import memory from 'memory';
+import logger from 'logger';
 
 // function getBodyArray(body) {
 //   return body.reduce((accumulator, bodyPart) => accumulator.concat(bodyPart.type));
 // }
 
 const actions = {
-  maintain: function maintain(creepRole, creepCount, creepBody) {
+  maintain: function maintain(creepRole: string, creepCount: number, creepBody: Array<string>) {
     const spawn1 = Game.spawns['Spawn1'];
     // Return if queue is not empty
     if (memory.getQueue().length > 0) {

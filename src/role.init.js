@@ -1,3 +1,4 @@
+// @flow
 const roles = {
     harvester: require('role.harvester'),
     upgrader: require('role.upgrader'),

@@ -1,7 +1,8 @@
+// @flow
 const actions = require('actions');
 
 var builder = {
-	run: function(creep) {
+	run: function(creep: Creep) {
 		if(creep.memory.canWork && creep.carry.energy === 0) {
 			creep.memory.canWork = false;
 	  }

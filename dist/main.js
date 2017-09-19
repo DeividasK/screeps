@@ -71,13 +71,13 @@ module.exports =
 "use strict";
 
 
-var spawn1 = Game.spawns['Spawn1'];
-
 var actions = {
   moveToSpawn: function moveToSpawn(creep) {
+    var spawn1 = Game.spawns['Spawn1'];
     return creep.moveTo(spawn1);
   },
   withdrawEnergy: function withdrawEnergy(creep) {
+    var spawn1 = Game.spawns['Spawn1'];
     var withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
 
     switch (withdrawalStatus) {
@@ -170,13 +170,10 @@ function loop() {
 exports.loop = loop;
 
 // Goals
-// x Upgrader creep
-// x Repair creeps
-// x Sync with Github
-// x Creeps go to other energy sources
-// x Build extensions
-// x Build roads
-// x Build bigger creeps
+// - Add typescript
+// - Update all syntax
+// - Folders
+// - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),
@@ -212,7 +209,15 @@ module.exports = function init() {
 "use strict";
 
 
-var actions = __webpack_require__(0);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _actions = __webpack_require__(0);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function moveToEnergySource(creep) {
     var sources = creep.room.find(FIND_SOURCES, {
@@ -227,6 +232,7 @@ function moveToEnergySource(creep) {
     }
 }
 
+
 function canStoreEnergy(structure) {
     return structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN;
 }
@@ -235,11 +241,10 @@ function hasCapacity(structure) {
     return structure.energy < structure.energyCapacity;
 }
 
-var roleHarvester = {
-    /** @param {Creep} creep **/
+exports.default = {
     run: function run(creep) {
         if (creep.ticksToLive < 300) {
-            return actions.moveToSpawn(creep);
+            return _actions2.default.moveToSpawn(creep);
         }
 
         if (creep.carry.energy < creep.carryCapacity) {
@@ -256,11 +261,9 @@ var roleHarvester = {
             return creep.moveTo(targetsWithCapacity[0]);
         }
 
-        return actions.moveToSpawn(creep);
+        return _actions2.default.moveToSpawn(creep);
     }
 };
-
-module.exports = roleHarvester;
 
 /***/ }),
 /* 5 */
@@ -272,7 +275,6 @@ module.exports = roleHarvester;
 var actions = __webpack_require__(0);
 
 var upgrader = {
-	/** @param {Creep} creep **/
 	run: function run(creep) {
 		if (creep.memory.upgrading && creep.carry.energy == 0) {
 			creep.memory.upgrading = false;
@@ -332,8 +334,15 @@ module.exports = builder;
 "use strict";
 
 
-var memory = __webpack_require__(1);
-var logger = __webpack_require__(8);
+var _memory = __webpack_require__(1);
+
+var _memory2 = _interopRequireDefault(_memory);
+
+var _logger = __webpack_require__(8);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // function getBodyArray(body) {
 //   return body.reduce((accumulator, bodyPart) => accumulator.concat(bodyPart.type));
@@ -343,8 +352,8 @@ var actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
     var spawn1 = Game.spawns['Spawn1'];
     // Return if queue is not empty
-    if (memory.getQueue().length > 0) {
-      logger(creepRole + ' role check - queue is not empty.');
+    if (_memory2.default.getQueue().length > 0) {
+      (0, _logger2.default)(creepRole + ' role check - queue is not empty.');
       return;
     }
 
@@ -355,14 +364,14 @@ var actions = {
     var additionalCreepsRequired = creepCount - creepsByRole.length;
 
     // Return if required creep amount is reached or exceeded
-    logger('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
+    (0, _logger2.default)('Currently ' + creepsByRole.length + ' creeps with ' + creepRole + ' role and ' + JSON.stringify(creepBody) + ' body.');
 
     if (additionalCreepsRequired <= 0) {
-      logger(creepRole + ' role check - no more creeps is required.');
+      (0, _logger2.default)(creepRole + ' role check - no more creeps is required.');
       return;
     }
 
-    memory.addToQueue({ role: creepRole, body: creepBody });
+    _memory2.default.addToQueue({ role: creepRole, body: creepBody });
 
     for (var creepName in creepsByRole) {
       if (creepsByRole.length <= creepCount) {
@@ -372,18 +381,18 @@ var actions = {
   },
   processQueue: function processQueue() {
     var spawn1 = Game.spawns['Spawn1'];
-    var queue = memory.getQueue();
+    var queue = _memory2.default.getQueue();
     if (queue.length === 0) {
-      logger('Queue is empty.');
+      (0, _logger2.default)('Queue is empty.');
       return;
     }
 
     if (spawn1.spawning !== null) {
-      logger('Still spawning ' + spawn1.spawning.name + '. Time remaining ' + spawn1.spawning.remainingTime + '.');
-      logger('Current queue: ' + JSON.stringify(queue) + '.');
+      (0, _logger2.default)('Still spawning ' + spawn1.spawning.name + '. Time remaining ' + spawn1.spawning.remainingTime + '.');
+      (0, _logger2.default)('Current queue: ' + JSON.stringify(queue) + '.');
       return;
     } else {
-      logger('Nothing is being spawned.');
+      (0, _logger2.default)('Nothing is being spawned.');
     }
 
     var creepSchema = queue[0];
@@ -391,14 +400,14 @@ var actions = {
     var canCreate = spawn1.canCreateCreep(creepSchema.body);
 
     if (canCreate !== OK) {
-      logger('Cannot create creep: ' + canCreate);
+      (0, _logger2.default)('Cannot create creep: ' + canCreate);
       return;
     }
 
-    logger('Spawning new ' + creepSchema.role + '.');
+    (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
     var creepName = spawn1.createCreep(creepSchema.body, undefined, { role: creepSchema.role });
-    logger('Clearing queue');
-    memory.clearQueue();
+    (0, _logger2.default)('Clearing queue');
+    _memory2.default.clearQueue();
   }
 };
 
@@ -411,9 +420,13 @@ module.exports = actions;
 "use strict";
 
 
-module.exports = function logger(message) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = logger;
+function logger(message) {
   console.log(Game.time + ': ' + message);
-};
+}
 
 /***/ })
 /******/ ]);

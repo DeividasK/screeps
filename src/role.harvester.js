@@ -1,6 +1,7 @@
-const actions = require('actions');
+// @flow
+import actions from 'actions';
 
-function moveToEnergySource(creep) {
+function moveToEnergySource(creep: Creep) {
     const sources = creep.room.find(FIND_SOURCES, {
         filter: (source) => source.energy > 0
     });
@@ -19,9 +20,8 @@ function hasCapacity(structure) {
     return structure.energy < structure.energyCapacity;
 }
 
-var roleHarvester = {
-  /** @param {Creep} creep **/
-  run: function(creep) {
+export default {
+  run: function(creep: Creep) {
     if (creep.ticksToLive < 300) {
         return actions.moveToSpawn(creep);
     }
@@ -41,5 +41,3 @@ var roleHarvester = {
     return actions.moveToSpawn(creep);
   }
 };
-
-module.exports = roleHarvester;

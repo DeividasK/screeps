@@ -1,8 +1,8 @@
+// @flow
 const actions = require('actions');
 
 const upgrader = {
-	/** @param {Creep} creep **/
-	run: function(creep) {
+	run: function(creep: Creep) {
 		if(creep.memory.upgrading && creep.carry.energy == 0) {
 			creep.memory.upgrading = false;
 	  }

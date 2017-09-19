@@ -1,5 +1,6 @@
+// @flow
 module.exports = {
-  addToQueue: (creepSchema) => {
+  addToQueue: (creepSchema: CreepSchema) => {
     Memory.queue = Memory.queue.concat(creepSchema)
     return Memory.queue.slice();
   },

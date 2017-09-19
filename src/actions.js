@@ -1,10 +1,11 @@
-const spawn1 = Game.spawns['Spawn1'];
-
+// @flow
 const actions = {
-  moveToSpawn: function moveToSpawn(creep) {
+  moveToSpawn: function moveToSpawn(creep: Creep) {
+    const spawn1 = Game.spawns['Spawn1'];
     return creep.moveTo(spawn1);
   },
-  withdrawEnergy: function withdrawEnergy(creep) {
+  withdrawEnergy: function withdrawEnergy(creep: Creep) {
+    const spawn1 = Game.spawns['Spawn1'];
     const withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
 
     switch(withdrawalStatus) {

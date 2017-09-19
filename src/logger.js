@@ -1,3 +1,4 @@
-module.exports = function logger(message) {
+// @flow
+export default function logger(message: string) {
   console.log(Game.time + ': ' + message)
 }
