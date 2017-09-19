@@ -159,7 +159,7 @@ var smallCarrier = [WORK, CARRY, CARRY, CARRY, MOVE];
 function loop() {
     _memory2.default.flushIfNecessary();
 
-    _mainControls2.default.maintain('harvester', 8, smallCarrier);
+    _mainControls2.default.maintain('harvester', 5, smallCarrier);
     _mainControls2.default.maintain('upgrader', 2, smallestBody);
     _mainControls2.default.maintain('builder', 1, smallestBody);
 
