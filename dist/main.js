@@ -146,7 +146,7 @@ var _memory = __webpack_require__(1);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _mainControls = __webpack_require__(7);
+var _mainControls = __webpack_require__(8);
 
 var _mainControls2 = _interopRequireDefault(_mainControls);
 
@@ -183,13 +183,18 @@ exports.loop = loop;
 "use strict";
 
 
-var roles = {
-    harvester: __webpack_require__(4),
-    upgrader: __webpack_require__(5),
-    builder: __webpack_require__(6)
-};
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = init;
 
-module.exports = function init() {
+var _roles = __webpack_require__(4);
+
+var roles = _interopRequireWildcard(_roles);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function init() {
     for (var creepName in Game.creeps) {
         var creep = Game.creeps[creepName];
         var role = roles[creep.memory.role];
@@ -200,10 +205,72 @@ module.exports = function init() {
             console.log('Creep memory role ', creep.memory.role, ' is undefined');
         }
     }
-};
+}
+;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.upgrader = exports.harvester = exports.builder = undefined;
+
+var _builder = __webpack_require__(5);
+
+var _builder2 = _interopRequireDefault(_builder);
+
+var _harvester = __webpack_require__(6);
+
+var _harvester2 = _interopRequireDefault(_harvester);
+
+var _upgrader = __webpack_require__(7);
+
+var _upgrader2 = _interopRequireDefault(_upgrader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.builder = _builder2.default;
+exports.harvester = _harvester2.default;
+exports.upgrader = _upgrader2.default;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var actions = __webpack_require__(0);
+
+var builder = {
+	run: function run(creep) {
+		if (creep.memory.canWork && creep.carry.energy === 0) {
+			creep.memory.canWork = false;
+		}
+
+		if (!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
+			creep.memory.canWork = true;
+		}
+
+		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+
+		if (creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
+			return creep.moveTo(constructionSites[0]);
+		}
+
+		return actions.withdrawEnergy(creep);
+	}
+};
+
+module.exports = builder;
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -266,7 +333,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -297,38 +364,7 @@ var upgrader = {
 module.exports = upgrader;
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var actions = __webpack_require__(0);
-
-var builder = {
-	run: function run(creep) {
-		if (creep.memory.canWork && creep.carry.energy === 0) {
-			creep.memory.canWork = false;
-		}
-
-		if (!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
-			creep.memory.canWork = true;
-		}
-
-		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-
-		if (creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
-			return creep.moveTo(constructionSites[0]);
-		}
-
-		return actions.withdrawEnergy(creep);
-	}
-};
-
-module.exports = builder;
-
-/***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -338,7 +374,7 @@ var _memory = __webpack_require__(1);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(8);
+var _logger = __webpack_require__(9);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -414,7 +450,7 @@ var actions = {
 module.exports = actions;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -1,11 +1,7 @@
 // @flow
-const roles = {
-    harvester: require('role.harvester'),
-    upgrader: require('role.upgrader'),
-    builder: require('role.builder'),
-};
+import * as roles from './roles';
 
-module.exports = function init() {
+export default function init() {
     for(const creepName in Game.creeps) {
         const creep = Game.creeps[creepName];
         const role = roles[creep.memory.role]
