@@ -379,21 +379,29 @@ var _logger = __webpack_require__(9);
 
 var _logger2 = _interopRequireDefault(_logger);
 
+var _lodash = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"lodash\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function hasSameBody(body1, body2) {
+  return _lodash2.default.isEqual(_lodash2.default.map(body1, 'type'), body2);
+}
+
 
 var actions = {
   maintain: function maintain(creepRole, creepCount, creepBody) {
     var spawn1 = Game.spawns['Spawn1'];
 
-    // $FlowFixMe
-    var creepsByRole = _.filter(Game.creeps, function (creep) {
-      return creep.memory.role === creepRole && _.pluck(creep.body, 'type') === creepBody;
+    var creepsByRole = _lodash2.default.filter(Game.creeps, function (creep) {
+      return creep.memory.role === creepRole && hasSameBody(creep.body, creepBody);
     });
 
-    for (var creepName in creepsByRole) {
-      if (creepsByRole.length <= creepCount) {
-        spawn1.renewCreep(creepsByRole[creepName]);
-      }
+    if (creepsByRole.length <= creepCount) {
+      _lodash2.default.forEach(creepsByRole, function renewCreep(creep) {
+        spawn1.renewCreep(creep);
+      });
     }
 
     // Return if queue is not empty

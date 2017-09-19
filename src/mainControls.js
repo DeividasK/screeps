@@ -1,22 +1,22 @@
 // @flow
 import memory from 'memory';
 import logger from 'logger';
+import _ from 'lodash';
 
 function hasSameBody(body1, body2) {
-  return _.isEqual(_.pluck(body1, 'type'), body2));
+  return _.isEqual(_.map(body1, 'type'), body2);
 }
 
 const actions = {
   maintain: function maintain(creepRole: string, creepCount: number, creepBody: Array<string>) {
     const spawn1 = Game.spawns['Spawn1'];
 
-    // $FlowFixMe
     const creepsByRole = _.filter(Game.creeps, (creep) => creep.memory.role === creepRole && hasSameBody(creep.body, creepBody));
 
-    for (const creepName in creepsByRole) {
-      if (creepsByRole.length <= creepCount) {
-        spawn1.renewCreep(creepsByRole[creepName]);
-      }
+    if (creepsByRole.length <= creepCount) {
+      _.forEach(creepsByRole, function renewCreep(creep) {
+          spawn1.renewCreep(creep);
+      });
     }
 
     // Return if queue is not empty
