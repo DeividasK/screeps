@@ -258,8 +258,16 @@ var builder = {
 			creep.memory.canWork = true;
 		}
 
-		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+		// Try to repair first
+		var repairSites = creep.room.find(FIND_MY_STRUCTURES, { filter: function filter(structure) {
+				return structure.hits < structure.hitsMax / 10;
+			} });
+		if (creep.memory.canWork && creep.build(repairSites[0]) == ERR_NOT_IN_RANGE) {
+			return creep.moveTo(repairSites[0]);
+		}
 
+		// Look for construction sites
+		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
 		if (creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
 			return creep.moveTo(constructionSites[0]);
 		}
