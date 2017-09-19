@@ -319,7 +319,7 @@ function hasCapacity(structure) {
 
 exports.default = {
     run: function run(creep) {
-        if (creep.ticksToLive < 300) {
+        if (creep.ticksToLive < 50) {
             return _actions2.default.moveToSpawn(creep);
         }
 
