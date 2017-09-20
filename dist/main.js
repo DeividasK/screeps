@@ -389,7 +389,6 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.run = undefined;
 
 var _actions = __webpack_require__(0);
 
@@ -416,7 +415,7 @@ function run(creep) {
 	}
 }
 
-exports.run = run;
+exports.default = { run: run };
 
 /***/ }),
 /* 9 */

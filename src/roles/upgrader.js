@@ -17,4 +17,4 @@ function run(creep: Creep) {
 	}
 }
 
-export { run }
+export default { run }
