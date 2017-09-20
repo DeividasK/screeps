@@ -387,18 +387,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function storeEnergy(creep) {
-  var targetsWithCapacity = creep.room.find(FIND_STRUCTURES, {
+  var targetWithCapacity = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
     filter: function filter(target) {
       return structure.canStoreEnergy(target) && structure.hasCapacity(target);
     }
   });
 
-  if (targetsWithCapacity.length === 0) {
+  if (targetWithCapacity === null) {
     return (0, _moveToSpawn2.default)(creep);
   }
 
-  if (creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-    return creep.moveTo(targetsWithCapacity[0]);
+  if (creep.transfer(targetWithCapacity, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+    return creep.moveTo(targetWithCapacity);
   }
 }
 
