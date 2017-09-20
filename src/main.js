@@ -12,7 +12,7 @@ function loop() {
 
     mainControls.maintain('harvester', 6, smallWorker);
     mainControls.maintain('upgrader', 4, smallWorker);
-    mainControls.maintain('builder', 1, smallestBody);
+    mainControls.maintain('builder', 2, smallWorker);
 
     mainControls.processQueue();
 

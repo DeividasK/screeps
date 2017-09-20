@@ -220,7 +220,7 @@ function loop() {
 
     _mainControls2.default.maintain('harvester', 6, smallWorker);
     _mainControls2.default.maintain('upgrader', 4, smallWorker);
-    _mainControls2.default.maintain('builder', 1, smallestBody);
+    _mainControls2.default.maintain('builder', 2, smallWorker);
 
     _mainControls2.default.processQueue();
 
@@ -435,7 +435,7 @@ function run(creep) {
 	(0, _updateWorkStatus2.default)(creep);
 
 	if (!creep.memory.hasEnergy) {
-		return _actions2.default.withdrawEnergy(creep);
+		return _actions2.default.harvestEnergy(creep);
 	}
 
 	status = creep.upgradeController(creep.room.controller);
