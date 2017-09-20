@@ -36,6 +36,7 @@ declare type RoomPosition = {
   x: number,
   y: number,
   roomName: string,
+  findClosestByPath: (type: number, opts?: { filter?: () => boolean, algorithm?: () => boolean }) => any | null,
 };
 
 declare type RoomObject = {

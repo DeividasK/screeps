@@ -349,16 +349,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = harvestEnergy;
 function harvestEnergy(creep) {
-    var sources = creep.room.find(FIND_SOURCES, {
+    var source = creep.pos.findClosestByPath(FIND_SOURCES, {
         filter: function filter(source) {
-            return source.energy > 0;
+            return source !== undefined && source.energy > 0;
         }
     });
 
-    if (sources.length === 0) return;
+    if (source === null) return;
 
-    if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0]);
+    if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(source);
     }
 }
 
