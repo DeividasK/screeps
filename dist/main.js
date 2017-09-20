@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,63 +71,48 @@ module.exports =
 "use strict";
 
 
-var _structure = __webpack_require__(7);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var structure = _interopRequireWildcard(_structure);
+var _harvestEnergy = __webpack_require__(8);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _harvestEnergy2 = _interopRequireDefault(_harvestEnergy);
 
-var actions = {
-  storeEnergy: function storeEnergy(creep) {
-    var targetsWithCapacity = creep.room.find(FIND_STRUCTURES, {
-      filter: function filter(target) {
-        return structure.canStoreEnergy(target) && structure.hasCapacity(target);
-      }
-    });
+var _storeEnergy = __webpack_require__(9);
 
-    if (targetsWithCapacity.length === 0) {
-      return actions.moveToSpawn(creep);
-    }
+var _storeEnergy2 = _interopRequireDefault(_storeEnergy);
 
-    if (creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-      return creep.moveTo(targetsWithCapacity[0]);
-    }
-  },
-  harvestEnergy: function harvestEnergy(creep) {
-    var sources = creep.room.find(FIND_SOURCES, {
-      filter: function filter(source) {
-        return source.energy > 0;
-      }
-    });
+var _withdrawEnergy = __webpack_require__(11);
 
-    if (sources.length === 0) return;
+var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
-    if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-      creep.moveTo(sources[0]);
-    }
-  },
-  moveToSpawn: function moveToSpawn(creep) {
-    var spawn1 = Game.spawns['Spawn1'];
-    return creep.moveTo(spawn1);
-  },
-  withdrawEnergy: function withdrawEnergy(creep) {
-    var spawn1 = Game.spawns['Spawn1'];
-    var withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
+var _moveToSpawn = __webpack_require__(1);
 
-    switch (withdrawalStatus) {
-      case ERR_NOT_IN_RANGE:
-        return actions.moveToSpawn(creep);
-      case ERR_NOT_ENOUGH_RESOURCES:
-        return creep.memory.role = 'harvester';
-    }
-  }
-};
+var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = actions;
+exports.default = { harvestEnergy: _harvestEnergy2.default, storeEnergy: _storeEnergy2.default, withdrawEnergy: _withdrawEnergy2.default, moveToSpawn: _moveToSpawn2.default };
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = moveToSpawn;
+function moveToSpawn(creep) {
+  var spawn1 = Game.spawns['Spawn1'];
+  return creep.moveTo(spawn1);
+}
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -150,7 +135,7 @@ function updateWorkStatus(creep) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -186,7 +171,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -197,15 +182,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loop = undefined;
 
-var _role = __webpack_require__(4);
+var _role = __webpack_require__(5);
 
 var _role2 = _interopRequireDefault(_role);
 
-var _memory = __webpack_require__(2);
+var _memory = __webpack_require__(3);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _mainControls = __webpack_require__(10);
+var _mainControls = __webpack_require__(14);
 
 var _mainControls2 = _interopRequireDefault(_mainControls);
 
@@ -237,7 +222,7 @@ exports.loop = loop;
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -248,7 +233,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _roles = __webpack_require__(5);
+var _roles = __webpack_require__(6);
 
 var roles = _interopRequireWildcard(_roles);
 
@@ -269,7 +254,7 @@ function init() {
 ;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -280,15 +265,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrader = exports.harvester = exports.builder = undefined;
 
-var _builder = __webpack_require__(6);
+var _builder = __webpack_require__(7);
 
 var _builder2 = _interopRequireDefault(_builder);
 
-var _harvester = __webpack_require__(8);
+var _harvester = __webpack_require__(12);
 
 var _harvester2 = _interopRequireDefault(_harvester);
 
-var _upgrader = __webpack_require__(9);
+var _upgrader = __webpack_require__(13);
 
 var _upgrader2 = _interopRequireDefault(_upgrader);
 
@@ -299,7 +284,7 @@ exports.harvester = _harvester2.default;
 exports.upgrader = _upgrader2.default;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -309,7 +294,7 @@ var _actions = __webpack_require__(0);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(1);
+var _updateWorkStatus = __webpack_require__(2);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -353,7 +338,72 @@ var builder = {
 module.exports = builder;
 
 /***/ }),
-/* 7 */
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = harvestEnergy;
+function harvestEnergy(creep) {
+    var sources = creep.room.find(FIND_SOURCES, {
+        filter: function filter(source) {
+            return source.energy > 0;
+        }
+    });
+
+    if (sources.length === 0) return;
+
+    if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(sources[0]);
+    }
+}
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = storeEnergy;
+
+var _structure = __webpack_require__(10);
+
+var structure = _interopRequireWildcard(_structure);
+
+var _moveToSpawn = __webpack_require__(1);
+
+var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function storeEnergy(creep) {
+  var targetsWithCapacity = creep.room.find(FIND_STRUCTURES, {
+    filter: function filter(target) {
+      return structure.canStoreEnergy(target) && structure.hasCapacity(target);
+    }
+  });
+
+  if (targetsWithCapacity.length === 0) {
+    return (0, _moveToSpawn2.default)(creep);
+  }
+
+  if (creep.transfer(targetsWithCapacity[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+    return creep.moveTo(targetsWithCapacity[0]);
+  }
+}
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,7 +423,37 @@ function hasCapacity(structure) {
 }
 
 /***/ }),
-/* 8 */
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = withdrawEnergy;
+
+var _moveToSpawn = __webpack_require__(1);
+
+var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function withdrawEnergy(creep) {
+  var spawn1 = Game.spawns['Spawn1'];
+  var withdrawalStatus = creep.withdraw(spawn1, RESOURCE_ENERGY);
+
+  switch (withdrawalStatus) {
+    case ERR_NOT_IN_RANGE:
+      return (0, _moveToSpawn2.default)(creep);
+    case ERR_NOT_ENOUGH_RESOURCES:
+      return creep.memory.role = 'harvester';
+  }
+}
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -387,7 +467,7 @@ var _actions = __webpack_require__(0);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(1);
+var _updateWorkStatus = __webpack_require__(2);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -410,7 +490,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -424,7 +504,7 @@ var _actions = __webpack_require__(0);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(1);
+var _updateWorkStatus = __webpack_require__(2);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -448,21 +528,21 @@ function run(creep) {
 exports.default = { run: run };
 
 /***/ }),
-/* 10 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _memory = __webpack_require__(2);
+var _memory = __webpack_require__(3);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(11);
+var _logger = __webpack_require__(15);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _lodash = __webpack_require__(12);
+var _lodash = __webpack_require__(16);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -539,7 +619,7 @@ var actions = {
 module.exports = actions;
 
 /***/ }),
-/* 11 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -554,7 +634,7 @@ function logger(message) {
 }
 
 /***/ }),
-/* 12 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("lodash");
