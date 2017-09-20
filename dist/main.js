@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -98,6 +98,29 @@ module.exports = actions;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = updateWorkStatus;
+function updateWorkStatus(creep) {
+  if (creep.memory.canWork && creep.carry.energy === 0) {
+    creep.memory.canWork = false;
+  }
+
+  if (!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
+    creep.memory.canWork = true;
+  }
+
+  return creep.memory.canWork;
+}
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 module.exports = {
   addToQueue: function addToQueue(creepSchema) {
     Memory.queue = Memory.queue.concat(creepSchema);
@@ -128,7 +151,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -139,15 +162,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loop = undefined;
 
-var _role = __webpack_require__(3);
+var _role = __webpack_require__(4);
 
 var _role2 = _interopRequireDefault(_role);
 
-var _memory = __webpack_require__(1);
+var _memory = __webpack_require__(2);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _mainControls = __webpack_require__(8);
+var _mainControls = __webpack_require__(9);
 
 var _mainControls2 = _interopRequireDefault(_mainControls);
 
@@ -178,7 +201,7 @@ exports.loop = loop;
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -189,7 +212,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _roles = __webpack_require__(4);
+var _roles = __webpack_require__(5);
 
 var roles = _interopRequireWildcard(_roles);
 
@@ -210,7 +233,7 @@ function init() {
 ;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -221,15 +244,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrader = exports.harvester = exports.builder = undefined;
 
-var _builder = __webpack_require__(5);
+var _builder = __webpack_require__(6);
 
 var _builder2 = _interopRequireDefault(_builder);
 
-var _harvester = __webpack_require__(6);
+var _harvester = __webpack_require__(7);
 
 var _harvester2 = _interopRequireDefault(_harvester);
 
-var _upgrader = __webpack_require__(7);
+var _upgrader = __webpack_require__(8);
 
 var _upgrader2 = _interopRequireDefault(_upgrader);
 
@@ -240,28 +263,29 @@ exports.harvester = _harvester2.default;
 exports.upgrader = _upgrader2.default;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var actions = __webpack_require__(0);
+var _actions = __webpack_require__(0);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _updateWorkStatus = __webpack_require__(1);
+
+var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var builder = {
 	run: function run(creep) {
 		var status = void 0;
+		var canWork = (0, _updateWorkStatus2.default)(creep);
 
-		if (creep.memory.canWork && creep.carry.energy === 0) {
-			creep.memory.canWork = false;
-		}
-
-		if (!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
-			creep.memory.canWork = true;
-		}
-
-		if (!creep.memory.canWork) {
-			return actions.withdrawEnergy(creep);
+		if (!canWork) {
+			return _actions2.default.withdrawEnergy(creep);
 		}
 
 		// Try to repair first
@@ -293,7 +317,7 @@ var builder = {
 module.exports = builder;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -356,52 +380,57 @@ exports.default = {
 };
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var actions = __webpack_require__(0);
-
-var upgrader = {
-	run: function run(creep) {
-		if (creep.memory.upgrading && creep.carry.energy == 0) {
-			creep.memory.upgrading = false;
-		}
-
-		if (!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-			creep.memory.upgrading = true;
-		}
-
-		if (creep.memory.upgrading) {
-			if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-				return creep.moveTo(creep.room.controller);
-			}
-		}
-
-		return actions.withdrawEnergy(creep);
-	}
-};
-
-module.exports = upgrader;
-
-/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _memory = __webpack_require__(1);
+var _actions = __webpack_require__(0);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _updateWorkStatus = __webpack_require__(1);
+
+var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var upgrader = {
+	run: function run(creep) {
+		var status = void 0;
+		var canWork = (0, _updateWorkStatus2.default)(creep);
+
+		if (!canWork) {
+			return _actions2.default.withdrawEnergy(creep);
+		}
+
+		status = creep.upgradeController(creep.room.controller);
+
+		if (status === ERR_NOT_IN_RANGE) {
+			return creep.moveTo(creep.room.controller);
+		}
+	}
+};
+
+module.exports = upgrader;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _memory = __webpack_require__(2);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(9);
+var _logger = __webpack_require__(10);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _lodash = __webpack_require__(10);
+var _lodash = __webpack_require__(11);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -478,7 +507,7 @@ var actions = {
 module.exports = actions;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -493,7 +522,7 @@ function logger(message) {
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("lodash");

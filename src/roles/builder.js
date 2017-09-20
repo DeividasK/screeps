@@ -1,19 +1,13 @@
 // @flow
-const actions = require('actions');
+import actions from '../actions';
+import updateWorkStatus from '../utils/updateWorkStatus';
 
 var builder = {
 	run: function(creep: Creep) {
 		let status;
+		let canWork = updateWorkStatus(creep);
 
-		if(creep.memory.canWork && creep.carry.energy === 0) {
-			creep.memory.canWork = false;
-	  }
-
-	  if(!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
-		  creep.memory.canWork = true;
-	  }
-
-		if (!creep.memory.canWork) {
+		if (!canWork) {
 			return actions.withdrawEnergy(creep);
 		}
 

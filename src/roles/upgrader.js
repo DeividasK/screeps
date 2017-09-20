@@ -1,23 +1,21 @@
 // @flow
-const actions = require('actions');
+import actions from '../actions';
+import updateWorkStatus from '../utils/updateWorkStatus';
 
 const upgrader = {
 	run: function(creep: Creep) {
-		if(creep.memory.upgrading && creep.carry.energy == 0) {
-			creep.memory.upgrading = false;
-	  }
+		let status;
+		let canWork = updateWorkStatus(creep);
 
-	  if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-		  creep.memory.upgrading = true;
-	  }
-
-	  if(creep.memory.upgrading) {
-			if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-				return creep.moveTo(creep.room.controller);
-			}
+		if (!canWork) {
+			return actions.withdrawEnergy(creep);
 		}
 
-		return actions.withdrawEnergy(creep);
+		status = creep.upgradeController(creep.room.controller);
+
+		if(status === ERR_NOT_IN_RANGE) {
+			return creep.moveTo(creep.room.controller);
+		}
   }
 };
 
