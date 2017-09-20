@@ -92,9 +92,10 @@ declare type Creep = RoomObject & {
   getActiveBodyParts: (type: string) => number,
   harvest: (target: Source | Mineral) => number,
   moveTo: (target: RoomObject, opts?: { reusePath?: number }) => number,
-  withdraw: (target: Structure, resourceType: string, amount?: number) => number,
+  repair: (target: Structure) => number,
   transfer: (target: Creep | Structure, resourceType: string, amount?: number) => number,
   upgradeController: (target: StructureController) => number,
+  withdraw: (target: Structure, resourceType: string, amount?: number) => number,
 };
 
 declare type NewSpawn = {

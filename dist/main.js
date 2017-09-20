@@ -171,9 +171,9 @@ function loop() {
 exports.loop = loop;
 
 // Goals
-// - Add typescript
-// - Update all syntax
-// - Folders
+// x Add flow
+// x Update all syntax
+// x Folders
 // - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
@@ -250,6 +250,8 @@ var actions = __webpack_require__(0);
 
 var builder = {
 	run: function run(creep) {
+		var status = void 0;
+
 		if (creep.memory.canWork && creep.carry.energy === 0) {
 			creep.memory.canWork = false;
 		}
@@ -258,21 +260,33 @@ var builder = {
 			creep.memory.canWork = true;
 		}
 
+		if (!creep.memory.canWork) {
+			return actions.withdrawEnergy(creep);
+		}
+
 		// Try to repair first
 		var repairSites = creep.room.find(FIND_MY_STRUCTURES, { filter: function filter(structure) {
-				return structure.hits < structure.hitsMax / 10;
+				return structure.hits < structure.hitsMax / 3;
 			} });
-		if (creep.memory.canWork && creep.build(repairSites[0]) == ERR_NOT_IN_RANGE) {
-			return creep.moveTo(repairSites[0]);
+
+		if (repairSites.length > 0) {
+			status = creep.repair(repairSites[0]);
+
+			if (status === ERR_NOT_IN_RANGE) {
+				return creep.moveTo(repairSites[0]);
+			}
 		}
 
 		// Look for construction sites
 		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-		if (creep.memory.canWork && creep.build(constructionSites[0]) == ERR_NOT_IN_RANGE) {
-			return creep.moveTo(constructionSites[0]);
-		}
 
-		return actions.withdrawEnergy(creep);
+		if (constructionSites.length > 0) {
+			status = creep.build(constructionSites[0]);
+
+			if (status === ERR_NOT_IN_RANGE) {
+				return creep.moveTo(constructionSites[0]);
+			}
+		}
 	}
 };
 

@@ -21,8 +21,8 @@ function loop() {
 export { loop };
 
 // Goals
-// - Add typescript
-// - Update all syntax
-// - Folders
+// x Add flow
+// x Update all syntax
+// x Folders
 // - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
