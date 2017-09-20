@@ -5,9 +5,9 @@ import updateWorkStatus from '../utils/updateWorkStatus';
 var builder = {
 	run: function(creep: Creep) {
 		let status;
-		let canWork = updateWorkStatus(creep);
+		updateWorkStatus(creep);
 
-		if (!canWork) {
+		if (!creep.memory.canWork) {
 			return actions.withdrawEnergy(creep);
 		}
 

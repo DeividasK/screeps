@@ -282,9 +282,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var builder = {
 	run: function run(creep) {
 		var status = void 0;
-		var canWork = (0, _updateWorkStatus2.default)(creep);
+		(0, _updateWorkStatus2.default)(creep);
 
-		if (!canWork) {
+		if (!creep.memory.canWork) {
 			return _actions2.default.withdrawEnergy(creep);
 		}
 
@@ -386,6 +386,11 @@ exports.default = {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.run = undefined;
+
 var _actions = __webpack_require__(0);
 
 var _actions2 = _interopRequireDefault(_actions);
@@ -396,24 +401,22 @@ var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var upgrader = {
-	run: function run(creep) {
-		var status = void 0;
-		var canWork = (0, _updateWorkStatus2.default)(creep);
+function run(creep) {
+	var status = void 0;
+	(0, _updateWorkStatus2.default)(creep);
 
-		if (!canWork) {
-			return _actions2.default.withdrawEnergy(creep);
-		}
-
-		status = creep.upgradeController(creep.room.controller);
-
-		if (status === ERR_NOT_IN_RANGE) {
-			return creep.moveTo(creep.room.controller);
-		}
+	if (!creep.memory.canWork) {
+		return _actions2.default.withdrawEnergy(creep);
 	}
-};
 
-module.exports = upgrader;
+	status = creep.upgradeController(creep.room.controller);
+
+	if (status === ERR_NOT_IN_RANGE) {
+		return creep.moveTo(creep.room.controller);
+	}
+}
+
+exports.run = run;
 
 /***/ }),
 /* 9 */
