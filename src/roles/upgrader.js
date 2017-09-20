@@ -6,7 +6,7 @@ function run(creep: Creep) {
 	let status;
 	updateWorkStatus(creep);
 
-	if (!creep.memory.canWork) {
+	if (!creep.memory.hasEnergy) {
 		return actions.withdrawEnergy(creep);
 	}
 

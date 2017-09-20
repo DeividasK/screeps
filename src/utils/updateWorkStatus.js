@@ -1,12 +1,12 @@
 // @flow
 export default function updateWorkStatus(creep: Creep) {
-  if(creep.memory.canWork && creep.carry.energy === 0) {
-    creep.memory.canWork = false;
+  if(creep.memory.hasEnergy && creep.carry.energy === 0) {
+    creep.memory.hasEnergy = false;
   }
 
-  if(!creep.memory.canWork && creep.carry.energy === creep.carryCapacity) {
-    creep.memory.canWork = true;
+  if(!creep.memory.hasEnergy && creep.carry.energy === creep.carryCapacity) {
+    creep.memory.hasEnergy = true;
   }
 
-  return creep.memory.canWork;
+  return creep.memory.hasEnergy;
 }
