@@ -213,12 +213,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var smallestBody = [WORK, CARRY, MOVE];
 var smallCarrier = [WORK, CARRY, CARRY, CARRY, MOVE];
+var smallWorker = [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE];
 
 function loop() {
     _memory2.default.flushIfNecessary();
 
-    _mainControls2.default.maintain('harvester', 5, smallCarrier);
-    _mainControls2.default.maintain('upgrader', 2, smallestBody);
+    _mainControls2.default.maintain('harvester', 6, smallWorker);
+    _mainControls2.default.maintain('upgrader', 4, smallWorker);
     _mainControls2.default.maintain('builder', 1, smallestBody);
 
     _mainControls2.default.processQueue();
