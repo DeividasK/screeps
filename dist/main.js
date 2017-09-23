@@ -66,6 +66,12 @@ module.exports =
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87,7 +93,7 @@ var _withdrawEnergy = __webpack_require__(14);
 
 var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
-var _moveToSpawn = __webpack_require__(1);
+var _moveToSpawn = __webpack_require__(2);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -96,7 +102,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = { harvestEnergy: _harvestEnergy2.default, storeEnergy: _storeEnergy2.default, withdrawEnergy: _withdrawEnergy2.default, moveToSpawn: _moveToSpawn2.default };
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -112,7 +118,7 @@ function moveToSpawn(creep) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -135,7 +141,7 @@ function updateWorkStatus(creep) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -145,7 +151,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assignBody = __webpack_require__(18);
+var _assignBody = __webpack_require__(17);
 
 Object.defineProperty(exports, 'assignBody', {
   enumerable: true,
@@ -154,7 +160,7 @@ Object.defineProperty(exports, 'assignBody', {
   }
 });
 
-var _getNextCreepSchema = __webpack_require__(19);
+var _getNextCreepSchema = __webpack_require__(18);
 
 Object.defineProperty(exports, 'getNextCreepSchema', {
   enumerable: true,
@@ -163,11 +169,14 @@ Object.defineProperty(exports, 'getNextCreepSchema', {
   }
 });
 
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
+var _processQueue = __webpack_require__(19);
 
-module.exports = require("lodash");
+Object.defineProperty(exports, 'processQueue', {
+  enumerable: true,
+  get: function get() {
+    return _processQueue.processQueue;
+  }
+});
 
 /***/ }),
 /* 5 */
@@ -176,9 +185,16 @@ module.exports = require("lodash");
 "use strict";
 
 
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 module.exports = {
   addToQueue: function addToQueue(creepSchema, memory) {
-    return memory.queue.concat(creepSchema);
+    memory.queue = memory.queue.concat(creepSchema);
+    return memory.queue;
   },
   getQueue: function getQueue(memory) {
     return memory.queue.slice();
@@ -193,7 +209,7 @@ module.exports = {
     }
 
     // $FlowFixMe
-    if (_.values(Game.creeps).length === _.values(memory.creeps).length) {
+    if (_lodash2.default.values(Game.creeps).length === _lodash2.default.values(memory.creeps).length) {
       return;
     }
 
@@ -240,11 +256,7 @@ var _memory = __webpack_require__(5);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _mainControls = __webpack_require__(17);
-
-var _mainControls2 = _interopRequireDefault(_mainControls);
-
-var _actions = __webpack_require__(3);
+var _actions = __webpack_require__(4);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -256,12 +268,10 @@ function loop() {
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema, Memory);
   }
-
-  _mainControls2.default.processQueue();
+  (0, _actions.processQueue)(Memory, Game.spawns['Spawn1']);
 
   (0, _role2.default)(Game);
 }
-
 exports.loop = loop;
 
 // Goals
@@ -338,11 +348,11 @@ exports.upgrader = _upgrader2.default;
 "use strict";
 
 
-var _actions = __webpack_require__(0);
+var _actions = __webpack_require__(1);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(2);
+var _updateWorkStatus = __webpack_require__(3);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -426,7 +436,7 @@ var _structure = __webpack_require__(13);
 
 var structure = _interopRequireWildcard(_structure);
 
-var _moveToSpawn = __webpack_require__(1);
+var _moveToSpawn = __webpack_require__(2);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -482,7 +492,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = withdrawEnergy;
 
-var _moveToSpawn = __webpack_require__(1);
+var _moveToSpawn = __webpack_require__(2);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -511,11 +521,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(0);
+var _actions = __webpack_require__(1);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(2);
+var _updateWorkStatus = __webpack_require__(3);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -548,11 +558,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _actions = __webpack_require__(0);
+var _actions = __webpack_require__(1);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(2);
+var _updateWorkStatus = __webpack_require__(3);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -582,66 +592,6 @@ exports.default = { run: run };
 "use strict";
 
 
-var _memory = __webpack_require__(5);
-
-var _memory2 = _interopRequireDefault(_memory);
-
-var _logger = __webpack_require__(6);
-
-var _logger2 = _interopRequireDefault(_logger);
-
-var _actions = __webpack_require__(3);
-
-var _lodash = __webpack_require__(4);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var actions = {
-  processQueue: function processQueue() {
-    var spawn1 = Game.spawns['Spawn1'];
-    var queue = _memory2.default.getQueue(Memory);
-    if (queue.length === 0) {
-      (0, _logger2.default)('Queue is empty.');
-      return;
-    }
-
-    if (spawn1.spawning !== null) {
-      (0, _logger2.default)('Still spawning ' + spawn1.spawning.name + '. Time remaining ' + spawn1.spawning.remainingTime + '.');
-      (0, _logger2.default)('Current queue: ' + JSON.stringify(queue) + '.');
-      return;
-    } else {
-      (0, _logger2.default)('Nothing is being spawned.');
-    }
-
-    var creepSchema = queue[0];
-
-    var canCreate = spawn1.canCreateCreep(creepSchema.body);
-
-    if (canCreate !== OK) {
-      (0, _logger2.default)('Cannot create creep: ' + canCreate);
-      return;
-    }
-
-    (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
-    var creepName = spawn1.createCreep(creepSchema.body, undefined, {
-      role: creepSchema.role
-    });
-    (0, _logger2.default)('Clearing queue');
-    _memory2.default.clearQueue();
-  }
-};
-
-module.exports = actions;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -650,7 +600,7 @@ exports.calculateBodyCost = calculateBodyCost;
 exports.findBiggestCreatableBody = findBiggestCreatableBody;
 exports.assignBody = assignBody;
 
-var _lodash = __webpack_require__(4);
+var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -678,7 +628,7 @@ function assignBody(spawn) {
 }
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -690,7 +640,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.findNextCreepRole = findNextCreepRole;
 exports.getNextCreepSchema = getNextCreepSchema;
 
-var _lodash = __webpack_require__(4);
+var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -698,7 +648,7 @@ var _logger = __webpack_require__(6);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _2 = __webpack_require__(3);
+var _2 = __webpack_require__(4);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -768,6 +718,59 @@ function getNextCreepSchema(memory, spawn) {
 //
 //   memory.addToQueue({ role: creepRole, body: creepBody });
 // },
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.processQueue = processQueue;
+
+var _memory = __webpack_require__(5);
+
+var _memory2 = _interopRequireDefault(_memory);
+
+var _logger = __webpack_require__(6);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+var _actions = __webpack_require__(4);
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function processQueue(memory, spawn) {
+  var queue = _memory2.default.getQueue(memory);
+  if (queue.length === 0) {
+    (0, _logger2.default)('Queue is empty.');
+    return;
+  }
+
+  var creepSchema = queue[0];
+
+  var canCreate = spawn.canCreateCreep(creepSchema.body);
+
+  if (canCreate !== OK) {
+    (0, _logger2.default)('Cannot create creep: ' + canCreate);
+    return;
+  }
+
+  (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
+  var creepName = spawn.createCreep(creepSchema.body, undefined, {
+    role: creepSchema.role
+  });
+
+  (0, _logger2.default)('Clearing queue');
+  _memory2.default.clearQueue();
+}
 
 /***/ })
 /******/ ]);

@@ -1,10 +1,13 @@
+import _ from 'lodash';
+
 // @flow
 module.exports = {
   addToQueue: function addToQueue(
     creepSchema: CreepSchema,
     memory: MemoryObject,
   ): Array<CreepSchema> {
-    return memory.queue.concat(creepSchema);
+    memory.queue = memory.queue.concat(creepSchema);
+    return memory.queue;
   },
   getQueue: function getQueue(memory: MemoryObject): Array<CreepSchema> {
     return memory.queue.slice();

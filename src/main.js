@@ -1,19 +1,20 @@
 // @flow
 import initRoles from 'role.init';
 import memoryHandler from 'memory';
-import mainControls from 'mainControls';
-import { getNextCreepSchema } from 'structures/actions';
+import { getNextCreepSchema, processQueue } from 'structures/actions';
 
 function loop() {
   memoryHandler.update(Memory);
 
-  const nextCreepSchema = getNextCreepSchema(Memory, Game.spawns['Spawn1']);
+  const nextCreepSchema: CreepSchema = getNextCreepSchema(
+    Memory,
+    Game.spawns['Spawn1'],
+  );
 
   if (nextCreepSchema) {
     memoryHandler.addToQueue(nextCreepSchema, Memory);
   }
-
-  mainControls.processQueue();
+  processQueue(Memory, Game.spawns['Spawn1']);
 
   initRoles(Game);
 }
