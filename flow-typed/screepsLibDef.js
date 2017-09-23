@@ -161,16 +161,6 @@ declare type CreepSchema = {
   body: Array<BodyPartType>,
 };
 
-declare var Memory: {
-  creeps: {
-    [name: string]: any,
-  },
-  queue: Array<CreepSchema>,
-  roles: {
-    [string]: number,
-  },
-};
-
 declare var OK: number;
 // ERR_NOT_OWNER: -1,
 // ERR_NO_PATH: -2,

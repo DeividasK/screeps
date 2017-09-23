@@ -2,13 +2,16 @@
 import initRoles from 'role.init';
 import memoryHandler from 'memory';
 import mainControls from 'mainControls';
+import { getNextCreepBody } from 'structures/actions';
 
 function loop() {
   memoryHandler.flushIfNecessary();
 
-  mainControls.maintain('harvester');
-  mainControls.maintain('upgrader');
-  mainControls.maintain('builder');
+  const nextCreepSchema = getNextCreepBody(Memory, Game.spawns['Spawn1']);
+
+  if (nextCreepSchema) {
+    memoryHandler.addToQueue(nextCreepSchema);
+  }
 
   mainControls.processQueue();
 
