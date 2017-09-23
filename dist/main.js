@@ -177,9 +177,8 @@ module.exports = require("lodash");
 
 
 module.exports = {
-  addToQueue: function addToQueue(creepSchema) {
-    Memory.queue = Memory.queue.concat(creepSchema);
-    return Memory.queue.slice();
+  addToQueue: function addToQueue(creepSchema, memory) {
+    return memory.queue.concat(creepSchema);
   },
   getQueue: function getQueue(memory) {
     if (!Array.isArray(memory.queue)) {
@@ -254,7 +253,7 @@ function loop() {
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
   if (nextCreepSchema) {
-    _memory2.default.addToQueue(nextCreepSchema);
+    _memory2.default.addToQueue(nextCreepSchema, Memory);
   }
 
   _mainControls2.default.processQueue();

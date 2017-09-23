@@ -10,7 +10,7 @@ function loop() {
   const nextCreepSchema = getNextCreepSchema(Memory, Game.spawns['Spawn1']);
 
   if (nextCreepSchema) {
-    memoryHandler.addToQueue(nextCreepSchema);
+    memoryHandler.addToQueue(nextCreepSchema, Memory);
   }
 
   mainControls.processQueue();
