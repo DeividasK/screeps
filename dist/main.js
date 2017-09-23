@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -75,15 +75,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _harvestEnergy = __webpack_require__(8);
+var _harvestEnergy = __webpack_require__(9);
 
 var _harvestEnergy2 = _interopRequireDefault(_harvestEnergy);
 
-var _storeEnergy = __webpack_require__(9);
+var _storeEnergy = __webpack_require__(10);
 
 var _storeEnergy2 = _interopRequireDefault(_storeEnergy);
 
-var _withdrawEnergy = __webpack_require__(11);
+var _withdrawEnergy = __webpack_require__(12);
 
 var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
@@ -172,17 +172,23 @@ module.exports = {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.loop = undefined;
 
-var _role = __webpack_require__(5);
+var _role = __webpack_require__(6);
 
 var _role2 = _interopRequireDefault(_role);
 
@@ -190,39 +196,35 @@ var _memory = __webpack_require__(3);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _mainControls = __webpack_require__(14);
+var _mainControls = __webpack_require__(15);
 
 var _mainControls2 = _interopRequireDefault(_mainControls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var smallestBody = [WORK, CARRY, MOVE];
-var smallCarrier = [WORK, CARRY, CARRY, CARRY, MOVE];
-var smallWorker = [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE];
-
 function loop() {
-    _memory2.default.flushIfNecessary();
+  _memory2.default.flushIfNecessary();
 
-    _mainControls2.default.maintain('harvester', 6, smallWorker);
-    _mainControls2.default.maintain('upgrader', 4, smallWorker);
-    _mainControls2.default.maintain('builder', 2, smallWorker);
+  _mainControls2.default.maintain('harvester');
+  _mainControls2.default.maintain('upgrader');
+  _mainControls2.default.maintain('builder');
 
-    _mainControls2.default.processQueue();
+  _mainControls2.default.processQueue();
 
-    (0, _role2.default)();
+  (0, _role2.default)();
 }
-
 exports.loop = loop;
 
 // Goals
 // x Add flow
 // x Update all syntax
 // x Folders
+// - Withdraw from the nearest storage
 // - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -233,7 +235,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _roles = __webpack_require__(6);
+var _roles = __webpack_require__(7);
 
 var roles = _interopRequireWildcard(_roles);
 
@@ -254,7 +256,7 @@ function init() {
 ;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -265,15 +267,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrader = exports.harvester = exports.builder = undefined;
 
-var _builder = __webpack_require__(7);
+var _builder = __webpack_require__(8);
 
 var _builder2 = _interopRequireDefault(_builder);
 
-var _harvester = __webpack_require__(12);
+var _harvester = __webpack_require__(13);
 
 var _harvester2 = _interopRequireDefault(_harvester);
 
-var _upgrader = __webpack_require__(13);
+var _upgrader = __webpack_require__(14);
 
 var _upgrader2 = _interopRequireDefault(_upgrader);
 
@@ -284,7 +286,7 @@ exports.harvester = _harvester2.default;
 exports.upgrader = _upgrader2.default;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -338,7 +340,7 @@ var builder = {
 module.exports = builder;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -363,7 +365,7 @@ function harvestEnergy(creep) {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -374,7 +376,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = storeEnergy;
 
-var _structure = __webpack_require__(10);
+var _structure = __webpack_require__(11);
 
 var structure = _interopRequireWildcard(_structure);
 
@@ -403,7 +405,7 @@ function storeEnergy(creep) {
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -423,7 +425,7 @@ function hasCapacity(structure) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -453,7 +455,7 @@ function withdrawEnergy(creep) {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -490,7 +492,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -528,7 +530,7 @@ function run(creep) {
 exports.default = { run: run };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -538,11 +540,13 @@ var _memory = __webpack_require__(3);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(15);
+var _logger = __webpack_require__(16);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _lodash = __webpack_require__(16);
+var _actions = __webpack_require__(17);
+
+var _lodash = __webpack_require__(4);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -552,10 +556,11 @@ function hasSameBody(body1, body2) {
   return _lodash2.default.isEqual(_lodash2.default.map(body1, 'type'), body2);
 }
 
-
 var actions = {
-  maintain: function maintain(creepRole, creepCount, creepBody) {
+  maintain: function maintain(creepRole) {
     var spawn1 = Game.spawns['Spawn1'];
+    var creepBody = (0, _actions.assignBody)(spawn1);
+    var creepCount = Memory.roles[creepRole];
 
     var creepsByRole = _lodash2.default.filter(Game.creeps, function (creep) {
       return creep.memory.role === creepRole && hasSameBody(creep.body, creepBody);
@@ -610,7 +615,9 @@ var actions = {
     }
 
     (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
-    var creepName = spawn1.createCreep(creepSchema.body, undefined, { role: creepSchema.role });
+    var creepName = spawn1.createCreep(creepSchema.body, undefined, {
+      role: creepSchema.role
+    });
     (0, _logger2.default)('Clearing queue');
     _memory2.default.clearQueue();
   }
@@ -619,7 +626,7 @@ var actions = {
 module.exports = actions;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -634,10 +641,48 @@ function logger(message) {
 }
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports) {
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = require("lodash");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.creepBodies = undefined;
+exports.calculateBodyCost = calculateBodyCost;
+exports.findBiggestCreatableBody = findBiggestCreatableBody;
+exports.assignBody = assignBody;
+
+var _lodash = __webpack_require__(4);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// type CreepRole = 'harvester' | 'builder' | 'upgrader';
+
+// Build cost / weight (empty) / weight (loaded)
+var creepBodies = exports.creepBodies = [[WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 2 / 6
+[WORK, CARRY, CARRY, CARRY, MOVE], // 300 / 1 / 4
+[WORK, CARRY, MOVE]];
+function calculateBodyCost(bodyPartsArray) {
+  return _lodash2.default.reduce(bodyPartsArray, function (sum, bodyPart) {
+    return sum + BODYPART_COST[bodyPart];
+  }, 0);
+}
+
+function findBiggestCreatableBody(availableEnergyCapacity) {
+  // $FlowFixMe
+  return _lodash2.default.find(creepBodies, function (bodyPartsArray) {
+    return calculateBodyCost(bodyPartsArray) < availableEnergyCapacity;
+  });
+}
+
+function assignBody(spawn) {
+  return findBiggestCreatableBody(spawn.room.energyCapacityAvailable);
+}
 
 /***/ })
 /******/ ]);

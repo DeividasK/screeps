@@ -19,8 +19,11 @@ declare type Room = {
   // storage: StructureStorage,
   // terminal: StructureTerminal,
   // visual: RoomVisual,
-  find: (type: number, opts?: { filter: string | (object: any) => boolean }) => Array<any>,
-}
+  find: (
+    type: number,
+    opts?: { filter: string | ((object: any) => boolean) },
+  ) => Array<any>,
+};
 
 declare type Structure = RoomObject & {
   hits: number,
@@ -36,7 +39,10 @@ declare type RoomPosition = {
   x: number,
   y: number,
   roomName: string,
-  findClosestByPath: (type: number, opts?: { filter?: () => boolean, algorithm?: () => boolean }) => any | null,
+  findClosestByPath: (
+    type: number,
+    opts?: { filter?: () => boolean, algorithm?: () => boolean },
+  ) => any | null,
 };
 
 declare type RoomObject = {
@@ -46,9 +52,19 @@ declare type RoomObject = {
 
 declare type BodyPart = {
   boost: string,
-  type: string,
+  type: BodyPartType,
   hits: number,
 };
+
+declare type BodyPartType =
+  | 'move'
+  | 'work'
+  | 'carry'
+  | 'attack'
+  | 'ranged_attack'
+  | 'tough'
+  | 'heal'
+  | 'claim';
 
 declare type Source = RoomObject & {
   energy: number,
@@ -63,7 +79,7 @@ declare type Mineral = RoomObject & {
   mineralType: string,
   id: string,
   ticksToRegeneration: number,
-}
+};
 
 declare type Creep = RoomObject & {
   body: Array<BodyPart>,
@@ -94,49 +110,65 @@ declare type Creep = RoomObject & {
   harvest: (target: Source | Mineral) => number,
   moveTo: (target: RoomObject, opts?: { reusePath?: number }) => number,
   repair: (target: Structure) => number,
-  transfer: (target: Creep | Structure, resourceType: string, amount?: number) => number,
+  transfer: (
+    target: Creep | Structure,
+    resourceType: string,
+    amount?: number,
+  ) => number,
   upgradeController: (target: StructureController) => number,
-  withdraw: (target: Structure, resourceType: string, amount?: number) => number,
+  withdraw: (
+    target: Structure,
+    resourceType: string,
+    amount?: number,
+  ) => number,
 };
 
 declare type NewSpawn = {
   name: string,
   needTime: number,
   remainingTime: number,
-}
-
-declare type Spawn = RoomObject & Structure & {
-  energy: number,
-  energyCapacity: number,
-  memory: any,
-  name: string,
-  spawning: NewSpawn | null,
-  canCreateCreep: (body: Array<string>, name?: string) => string,
-  createCreep: (body: Array<string>, name?: string, memory?: any) => string,
-  recycleCreep: (target: Creep) => string,
-  renewCreep: (target: Creep) => string,
 };
+
+declare type StructureSpawn = RoomObject &
+  Structure & {
+    energy: number,
+    energyCapacity: number,
+    memory: any,
+    name: string,
+    spawning: NewSpawn | null,
+    canCreateCreep: (body: Array<BodyPartType>, name?: string) => string,
+    createCreep: (
+      body: Array<BodyPartType>,
+      name?: string,
+      memory?: any,
+    ) => string,
+    recycleCreep: (target: Creep) => string,
+    renewCreep: (target: Creep) => string,
+  };
 
 declare class Game {
   static creeps: {
     [string]: Creep,
-  };
+  },
   static spawns: {
-    [string]: Spawn
-  };
-  static time: number;
-};
+    [string]: StructureSpawn,
+  },
+  static time: number,
+}
 
 declare type CreepSchema = {
   role: string,
-  body: Array<string>,
+  body: Array<BodyPartType>,
 };
 
 declare var Memory: {
   creeps: {
-    [name: string]: any
+    [name: string]: any,
   },
-  queue: Array<CreepSchema>
+  queue: Array<CreepSchema>,
+  roles: {
+    [string]: number,
+  },
 };
 
 declare var OK: number;
@@ -215,25 +247,25 @@ declare var FIND_NUKES: number;
 //
 // OBSTACLE_OBJECT_TYPES: ["spawn", "creep", "wall", "source", "constructedWall", "extension", "link", "storage", "tower", "observer", "powerSpawn", "powerBank", "lab", "terminal","nuker"],
 //
-declare var MOVE: string;
-declare var WORK: string;
-declare var CARRY: string;
-declare var ATTACK: string;
-declare var RANGED_ATTACK: string;
-declare var TOUGH: string;
-declare var HEAL: string;
-declare var CLAIM: string;
-//
-// BODYPART_COST: {
-//    "move": 50,
-//    "work": 100,
-//    "attack": 80,
-//    "carry": 50,
-//    "heal": 250,
-//    "ranged_attack": 150,
-//    "tough": 10,
-//    "claim": 600
-// },
+const MOVE = 'move';
+const WORK = 'work';
+const CARRY = 'carry';
+const ATTACK = 'attack';
+const RANGED_ATTACK = 'ranged_attack';
+const TOUGH = 'tough';
+const HEAL = 'heal';
+const CLAIM = 'claim';
+
+const BODYPART_COST = {
+  move: 50,
+  work: 100,
+  attack: 80,
+  carry: 50,
+  heal: 250,
+  ranged_attack: 150,
+  tough: 10,
+  claim: 600,
+};
 //
 // // WORLD_WIDTH and WORLD_HEIGHT constants are deprecated, please use Game.map.getWorldSize() instead
 // WORLD_WIDTH: 202,
@@ -782,6 +814,7 @@ declare var RESOURCE_ENERGY: string;
 //
 // INVADERS_ENERGY_GOAL: 100000,
 //
+// type CreepRole = 'harvester' | 'builder' | 'upgrader';
 // SYSTEM_USERNAME: 'Screeps',
 //
 // SIGN_NOVICE_AREA: 'A new Novice Area is being planned somewhere in this sector. Please make sure all important rooms are reserved.',

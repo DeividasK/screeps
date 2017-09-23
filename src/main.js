@@ -1,22 +1,18 @@
 // @flow
-const smallestBody = [WORK,CARRY,MOVE];
-const smallCarrier = [WORK,CARRY,CARRY,CARRY,MOVE];
-const smallWorker = [WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE];
-
 import initRoles from 'role.init';
 import memoryHandler from 'memory';
 import mainControls from 'mainControls';
 
 function loop() {
-    memoryHandler.flushIfNecessary();
+  memoryHandler.flushIfNecessary();
 
-    mainControls.maintain('harvester', 6, smallWorker);
-    mainControls.maintain('upgrader', 4, smallWorker);
-    mainControls.maintain('builder', 2, smallWorker);
+  mainControls.maintain('harvester');
+  mainControls.maintain('upgrader');
+  mainControls.maintain('builder');
 
-    mainControls.processQueue();
+  mainControls.processQueue();
 
-    initRoles();
+  initRoles();
 }
 
 export { loop };
@@ -25,5 +21,6 @@ export { loop };
 // x Add flow
 // x Update all syntax
 // x Folders
+// - Withdraw from the nearest storage
 // - Tests
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available

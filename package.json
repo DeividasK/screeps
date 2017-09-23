@@ -9,14 +9,34 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-es2017": "^6.24.1",
     "babel-preset-flow": "^6.23.0",
     "clean-webpack-plugin": "^0.1.16",
     "flow-bin": "^0.54.1",
+    "jest": "^21.1.0",
+    "prettier": "^1.7.0",
+    "prettier-eslint": "^8.1.1",
     "webpack": "^3.6.0"
   },
+  "babel": {
+    "presets": ["es2017", "flow", "env"]
+  },
   "scripts": {
-    "build": "flow && webpack --config internals/webpack.config.js"
-  }
+    "build": "yarn webpack --config internals/webpack.config.js",
+    "types": "yarn flow",
+    "test": "yarn jest",
+    "test:watch": "yarn jest --watch",
+    "ship": "yarn flow && yarn test && yarn build"
+  },
+  "jest": {
+    "moduleDirectories": ["node_modules", "src"],
+    "setupTestFrameworkScriptFile": "<rootDir>/internals/tests/setup.js",
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    }
+  },
+  "dependencies": {}
 }
