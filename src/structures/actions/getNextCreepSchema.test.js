@@ -31,14 +31,10 @@ describe('findNextCreepRole', () => {
       },
       creeps: {
         Creep1: {
-          memory: {
-            role: 'harvester',
-          },
+          role: 'harvester',
         },
         Creep2: {
-          memory: {
-            role: 'builder',
-          },
+          role: 'builder',
         },
       },
     };

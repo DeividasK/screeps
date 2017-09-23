@@ -708,7 +708,7 @@ function findNextCreepRole(roles, memory) {
   return _lodash2.default.find(roles, function (role) {
     var requiredRoleCount = memory.roles[role];
     var existingCreepsByRole = _lodash2.default.filter(memory.creeps, function (creep) {
-      return creep.memory.role === role;
+      return creep.role === role;
     });
 
     return requiredRoleCount > existingCreepsByRole.length;

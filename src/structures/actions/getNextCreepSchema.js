@@ -12,7 +12,7 @@ export function findNextCreepRole(
     const requiredRoleCount = memory.roles[role];
     const existingCreepsByRole: Array<Creep> = _.filter(
       memory.creeps,
-      creep => creep.memory.role === role,
+      creep => creep.role === role,
     );
 
     return requiredRoleCount > existingCreepsByRole.length;
