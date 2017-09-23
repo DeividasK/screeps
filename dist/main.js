@@ -191,13 +191,13 @@ module.exports = {
     return Memory.queue.slice();
   },
   update: function update(memory) {
+    if (!memory.queue) {
+      memory.queue = [];
+    }
+
     // $FlowFixMe
     if (_.values(Game.creeps).length === _.values(memory.creeps).length) {
       return;
-    }
-
-    if (!memory.queue) {
-      memory.queue = [];
     }
 
     for (var creepName in memory.creeps) {
