@@ -7,7 +7,7 @@ import _ from 'lodash';
 const actions = {
   processQueue: function processQueue() {
     const spawn1 = Game.spawns['Spawn1'];
-    const queue = memory.getQueue();
+    const queue = memory.getQueue(Memory);
     if (queue.length === 0) {
       logger('Queue is empty.');
       return;

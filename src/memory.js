@@ -4,11 +4,11 @@ module.exports = {
     Memory.queue = Memory.queue.concat(creepSchema);
     return Memory.queue.slice();
   },
-  getQueue: () => {
-    if (!Array.isArray(Memory.queue)) {
-      Memory.queue = [];
+  getQueue: (memory: MemoryObject) => {
+    if (!Array.isArray(memory.queue)) {
+      memory.queue = [];
     }
-    return Memory.queue.slice();
+    return memory.queue.slice();
   },
   clearQueue: function clearQueue() {
     Memory.queue = [];

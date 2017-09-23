@@ -181,11 +181,11 @@ module.exports = {
     Memory.queue = Memory.queue.concat(creepSchema);
     return Memory.queue.slice();
   },
-  getQueue: function getQueue() {
-    if (!Array.isArray(Memory.queue)) {
-      Memory.queue = [];
+  getQueue: function getQueue(memory) {
+    if (!Array.isArray(memory.queue)) {
+      memory.queue = [];
     }
-    return Memory.queue.slice();
+    return memory.queue.slice();
   },
   clearQueue: function clearQueue() {
     Memory.queue = [];
@@ -602,7 +602,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var actions = {
   processQueue: function processQueue() {
     var spawn1 = Game.spawns['Spawn1'];
-    var queue = _memory2.default.getQueue();
+    var queue = _memory2.default.getQueue(Memory);
     if (queue.length === 0) {
       (0, _logger2.default)('Queue is empty.');
       return;
