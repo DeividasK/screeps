@@ -1,16 +1,12 @@
 // @flow
 import _ from 'lodash';
 
-// type CreepRole = 'harvester' | 'builder' | 'upgrader';
-
 // Build cost / weight (empty) / weight (loaded)
 export const creepBodies = [
   [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 2 / 6
   [WORK, CARRY, CARRY, CARRY, MOVE], // 300 / 1 / 4
   [WORK, CARRY, MOVE], // 200 / 1 / 2
 ];
-
-type BodyParts = Array<BodyPartType>;
 
 export function calculateBodyCost(bodyPartsArray: BodyParts): number {
   return _.reduce(

@@ -650,6 +650,26 @@ function logger(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _assignBody = __webpack_require__(18);
+
+Object.defineProperty(exports, 'assignBody', {
+  enumerable: true,
+  get: function get() {
+    return _assignBody.assignBody;
+  }
+});
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.creepBodies = undefined;
 exports.calculateBodyCost = calculateBodyCost;
 exports.findBiggestCreatableBody = findBiggestCreatableBody;
@@ -660,8 +680,6 @@ var _lodash = __webpack_require__(4);
 var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// type CreepRole = 'harvester' | 'builder' | 'upgrader';
 
 // Build cost / weight (empty) / weight (loaded)
 var creepBodies = exports.creepBodies = [[WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 2 / 6

@@ -2,7 +2,7 @@ import {
   findBiggestCreatableBody,
   creepBodies,
   calculateBodyCost,
-} from './actions';
+} from './assignBody';
 
 describe('calculateBodyCost', () => {
   it('should return the energy cost of the body parts array', () => {

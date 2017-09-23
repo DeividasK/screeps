@@ -1,0 +1,1 @@
+export { assignBody } from './assignBody';
