@@ -5,7 +5,7 @@ import mainControls from 'mainControls';
 import { getNextCreepSchema } from 'structures/actions';
 
 function loop() {
-  memoryHandler.flushIfNecessary();
+  memoryHandler.update(Memory);
 
   const nextCreepSchema = getNextCreepSchema(Memory, Game.spawns['Spawn1']);
 

@@ -13,15 +13,19 @@ module.exports = {
     Memory.queue = [];
     return Memory.queue.slice();
   },
-  flushIfNecessary: function() {
+  update: function(memory: MemoryObject) {
     // $FlowFixMe
-    if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
+    if (_.values(Game.creeps).length === _.values(memory.creeps).length) {
       return;
     }
 
-    for (const creepName in Memory.creeps) {
+    if (!memory.queue) {
+      memory.queue = [];
+    }
+
+    for (const creepName in memory.creeps) {
       if (Game.creeps[creepName] === undefined) {
-        delete Memory.creeps[creepName];
+        delete memory.creeps[creepName];
       }
     }
   },

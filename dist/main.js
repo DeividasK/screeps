@@ -190,15 +190,19 @@ module.exports = {
     Memory.queue = [];
     return Memory.queue.slice();
   },
-  flushIfNecessary: function flushIfNecessary() {
+  update: function update(memory) {
     // $FlowFixMe
-    if (_.values(Game.creeps).length === _.values(Memory.creeps).length) {
+    if (_.values(Game.creeps).length === _.values(memory.creeps).length) {
       return;
     }
 
-    for (var creepName in Memory.creeps) {
+    if (!memory.queue) {
+      memory.queue = [];
+    }
+
+    for (var creepName in memory.creeps) {
       if (Game.creeps[creepName] === undefined) {
-        delete Memory.creeps[creepName];
+        delete memory.creeps[creepName];
       }
     }
   }
@@ -248,7 +252,7 @@ var _actions = __webpack_require__(3);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function loop() {
-  _memory2.default.flushIfNecessary();
+  _memory2.default.update(Memory);
 
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
