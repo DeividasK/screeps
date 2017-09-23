@@ -251,7 +251,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function loop() {
   _memory2.default.flushIfNecessary();
 
-  var nextCreepSchema = (0, _actions.getNextCreepBody)(Memory, Game.spawns['Spawn1']);
+  var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema);
@@ -265,11 +265,9 @@ function loop() {
 exports.loop = loop;
 
 // Goals
-// x Add flow
-// x Update all syntax
-// x Folders
-// - Withdraw from the nearest storage
-// - Tests
+// - Update upgrader role to harvest instead of withdrawing
+// - Automatically add extension construction sites
+// - Updae builder role to harvest instead of withdrawing
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),

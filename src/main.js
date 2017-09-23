@@ -2,12 +2,12 @@
 import initRoles from 'role.init';
 import memoryHandler from 'memory';
 import mainControls from 'mainControls';
-import { getNextCreepBody } from 'structures/actions';
+import { getNextCreepSchema } from 'structures/actions';
 
 function loop() {
   memoryHandler.flushIfNecessary();
 
-  const nextCreepSchema = getNextCreepBody(Memory, Game.spawns['Spawn1']);
+  const nextCreepSchema = getNextCreepSchema(Memory, Game.spawns['Spawn1']);
 
   if (nextCreepSchema) {
     memoryHandler.addToQueue(nextCreepSchema);
@@ -21,9 +21,7 @@ function loop() {
 export { loop };
 
 // Goals
-// x Add flow
-// x Update all syntax
-// x Folders
-// - Withdraw from the nearest storage
-// - Tests
+// - Update upgrader role to harvest instead of withdrawing
+// - Automatically add extension construction sites
+// - Updae builder role to harvest instead of withdrawing
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
