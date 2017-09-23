@@ -146,20 +146,17 @@ declare type StructureSpawn = RoomObject &
     renewCreep: (target: Creep) => string,
   };
 
-declare class Game {
-  static creeps: {
+declare type GameObject = {
+  creeps: {
     [string]: Creep,
   },
-  static spawns: {
+  spawns: {
     [string]: StructureSpawn,
   },
-  static time: number,
-}
-
-declare type CreepSchema = {
-  role: string,
-  body: Array<BodyPartType>,
+  time: number,
 };
+
+declare var Game: GameObject;
 
 declare var OK: number;
 // ERR_NOT_OWNER: -1,

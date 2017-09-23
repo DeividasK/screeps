@@ -1,12 +1,12 @@
 // @flow
 module.exports = {
-  addToQueue: (creepSchema: CreepSchema, memory: MemoryObject) => {
+  addToQueue: function addToQueue(
+    creepSchema: CreepSchema,
+    memory: MemoryObject,
+  ): Array<CreepSchema> {
     return memory.queue.concat(creepSchema);
   },
-  getQueue: (memory: MemoryObject) => {
-    if (!Array.isArray(memory.queue)) {
-      memory.queue = [];
-    }
+  getQueue: function getQueue(memory: MemoryObject): Array<CreepSchema> {
     return memory.queue.slice();
   },
   clearQueue: function clearQueue() {

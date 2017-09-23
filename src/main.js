@@ -15,7 +15,7 @@ function loop() {
 
   mainControls.processQueue();
 
-  initRoles(Memory);
+  initRoles(Game);
 }
 
 export { loop };
