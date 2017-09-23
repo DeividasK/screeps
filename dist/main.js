@@ -262,7 +262,7 @@ function loop() {
 
   _mainControls2.default.processQueue();
 
-  (0, _role2.default)();
+  (0, _role2.default)(Memory);
 }
 
 exports.loop = loop;
@@ -281,7 +281,7 @@ exports.loop = loop;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.default = init;
 
@@ -291,19 +291,18 @@ var roles = _interopRequireWildcard(_roles);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function init() {
-    for (var creepName in Game.creeps) {
-        var creep = Game.creeps[creepName];
-        var role = roles[creep.memory.role];
+function init(memory) {
+  for (var creepName in memory.creeps) {
+    var creep = memory.creeps[creepName];
+    var role = roles[creep.role];
 
-        if (role !== undefined) {
-            role.run(creep);
-        } else {
-            console.log('Creep memory role ', creep.memory.role, ' is undefined');
-        }
+    if (role !== undefined) {
+      role.run(creep);
+    } else {
+      console.log('Creep memory role ', creep.role, ' is undefined');
     }
+  }
 }
-;
 
 /***/ }),
 /* 9 */
