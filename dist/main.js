@@ -178,6 +178,15 @@ Object.defineProperty(exports, 'processQueue', {
   }
 });
 
+var _canBuild = __webpack_require__(20);
+
+Object.defineProperty(exports, 'canBuild', {
+  enumerable: true,
+  get: function get() {
+    return _canBuild.canBuild;
+  }
+});
+
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -258,12 +267,35 @@ var _memory2 = _interopRequireDefault(_memory);
 
 var _actions = __webpack_require__(4);
 
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function loop() {
   _memory2.default.update(Memory);
 
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
+
+  var rooms = _lodash2.default.values(Game.rooms);
+  var room = rooms[0];
+
+  var availableAmountForStructureType = (0, _actions.canBuild)(room, STRUCTURE_EXTENSION);
+
+  /*
+   // Find empty space to build on
+  const spawns = room.find(FIND_MY_STRUCTURES, {     filter: { structureType: STRUCTURE_SPAWN }   });
+  const spawn = spawns[0];
+  const top = spawn.pos.y - 5;
+  const bottom = spawn.pos.y + 5;
+  const left = spawn.pos.x - 5;
+  const right = spawn.pos.x + 5;
+   const area: { top: number, left: number, right: number, bottom: number} = createArea(spawn.pos, 10);
+   const areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, ..., asArray = true)
+   for each item in area check check surounding area (3 x 3 total) and see if more than 3 terrain squares are available
+  if yes, build a construction site for spawn
+    */
 
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema, Memory);
@@ -272,6 +304,7 @@ function loop() {
 
   (0, _role2.default)(Game);
 }
+
 exports.loop = loop;
 
 // Goals
@@ -768,6 +801,48 @@ function processQueue(memory, spawn) {
 
   (0, _logger2.default)('Clearing queue');
   _memory2.default.clearQueue();
+}
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.canBuild = canBuild;
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function canBuild(room, structureType) {
+  var controllerLevel = room.controller.level;
+  var allowedAmountForStructureTypes = CONTROLLER_STRUCTURES[structureType][controllerLevel];
+
+  if (allowedAmountForStructureTypes === 0) {
+    return;
+  }
+
+  var existingExtensions = room.find(FIND_MY_STRUCTURES, {
+    filter: { structureType: structureType }
+  });
+  if (existingExtensions.length === allowedAmountForStructureTypes) {
+    return;
+  }
+
+  var constructedExtensions = room.find(FIND_MY_CONSTRUCTION_SITES, {
+    filter: { structureType: structureType }
+  });
+
+  var availableAmountForStructureType = allowedAmountForStructureTypes - existingExtensions.length - constructedExtensions.length;
+
+  return availableAmountForStructureType;
 }
 
 /***/ })

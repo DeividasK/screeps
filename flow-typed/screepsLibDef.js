@@ -8,7 +8,10 @@ declare type ConstructionSite = RoomObject & {
   remove: () => number,
 };
 
-declare type StructureController = RoomObject & Structure;
+declare type StructureController = RoomObject &
+  Structure & {
+    level: number,
+  };
 
 declare type Room = {
   controller: StructureController,
@@ -21,7 +24,7 @@ declare type Room = {
   // visual: RoomVisual,
   find: (
     type: number,
-    opts?: { filter: string | ((object: any) => boolean) },
+    opts?: { filter: {} | string | ((object: any) => boolean) },
   ) => Array<any>,
 };
 
@@ -154,6 +157,9 @@ declare type GameObject = {
     [string]: StructureSpawn,
   },
   time: number,
+  rooms: {
+    [string]: Room,
+  },
 };
 
 declare var Game: GameObject;
@@ -314,25 +320,26 @@ const BODYPART_COST = {
 // STORAGE_CAPACITY: 1000000,
 // STORAGE_HITS: 10000,
 //
-declare var STRUCTURE_SPAWN: string;
-declare var STRUCTURE_EXTENSION: string;
-declare var STRUCTURE_ROAD: string;
-declare var STRUCTURE_WALL: string;
-declare var STRUCTURE_RAMPART: string;
-declare var STRUCTURE_KEEPER_LAIR: string;
-declare var STRUCTURE_PORTAL: string;
-declare var STRUCTURE_CONTROLLER: string;
-declare var STRUCTURE_LINK: string;
-declare var STRUCTURE_STORAGE: string;
-declare var STRUCTURE_TOWER: string;
-declare var STRUCTURE_OBSERVER: string;
-declare var STRUCTURE_POWER_BANK: string;
-declare var STRUCTURE_POWER_SPAWN: string;
-declare var STRUCTURE_EXTRACTOR: string;
-declare var STRUCTURE_LAB: string;
-declare var STRUCTURE_TERMINAL: string;
-declare var STRUCTURE_CONTAINER: string;
-declare var STRUCTURE_NUKER: string;
+const STRUCTURE_SPAWN = 'spawn';
+const STRUCTURE_EXTENSION = 'extension';
+const STRUCTURE_ROAD = 'road';
+const STRUCTURE_WALL = 'constructedWall';
+const STRUCTURE_RAMPART = 'rampart';
+const STRUCTURE_KEEPER_LAIR = 'keeperLair';
+const STRUCTURE_PORTAL = 'portal';
+const STRUCTURE_CONTROLLER = 'controller';
+const STRUCTURE_LINK = 'link';
+const STRUCTURE_STORAGE = 'storage';
+const STRUCTURE_TOWER = 'tower';
+const STRUCTURE_OBSERVER = 'observer';
+const STRUCTURE_POWER_BANK = 'powerBank';
+const STRUCTURE_POWER_SPAWN = 'powerSpawn';
+const STRUCTURE_EXTRACTOR = 'extractor';
+const STRUCTURE_LAB = 'lab';
+const STRUCTURE_TERMINAL = 'terminal';
+const STRUCTURE_CONTAINER = 'container';
+const STRUCTURE_NUKER = 'nuker';
+
 //
 // CONSTRUCTION_COST: {
 //    "spawn": 15000,
@@ -354,23 +361,90 @@ declare var STRUCTURE_NUKER: string;
 // CONSTRUCTION_COST_ROAD_SWAMP_RATIO: 5,
 //
 // CONTROLLER_LEVELS: {1: 200, 2: 45000, 3: 135000, 4: 405000, 5: 1215000, 6: 3645000, 7: 10935000},
-// CONTROLLER_STRUCTURES: {
-//    "spawn": {0: 0, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 2, 8: 3},
-//    "extension": {0: 0, 1: 0, 2: 5, 3: 10, 4: 20, 5: 30, 6: 40, 7: 50, 8: 60},
-//    "link": {1: 0, 2: 0, 3: 0, 4: 0, 5: 2, 6: 3, 7: 4, 8: 6},
-//    "road": {0: 2500, 1: 2500, 2: 2500, 3: 2500, 4: 2500, 5: 2500, 6: 2500, 7: 2500, 8: 2500},
-//    "constructedWall": {1: 0, 2: 2500, 3: 2500, 4: 2500, 5: 2500, 6: 2500, 7: 2500, 8: 2500},
-//    "rampart": {1: 0, 2: 2500, 3: 2500, 4: 2500, 5: 2500, 6: 2500, 7: 2500, 8: 2500},
-//    "storage": {1: 0, 2: 0, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1},
-//    "tower": {1: 0, 2: 0, 3: 1, 4: 1, 5: 2, 6: 2, 7: 3, 8: 6},
-//    "observer": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 1},
-//    "powerSpawn": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 1},
-//    "extractor": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1, 8: 1},
-//    "terminal": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 1, 7: 1, 8: 1},
-//    "lab": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 3, 7: 6, 8: 10},
-//    "container": {0: 5, 1: 5, 2: 5, 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5},
-//    "nuker": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 1}
-// },
+const CONTROLLER_STRUCTURES = {
+  spawn: {
+    '0': 0,
+    '1': 1,
+    '2': 1,
+    '3': 1,
+    '4': 1,
+    '5': 1,
+    '6': 1,
+    '7': 2,
+    '8': 3,
+  },
+  extension: {
+    '0': 0,
+    '1': 0,
+    '2': 5,
+    '3': 10,
+    '4': 20,
+    '5': 30,
+    '6': 40,
+    '7': 50,
+    '8': 60,
+  },
+  link: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 2, '6': 3, '7': 4, '8': 6 },
+  road: {
+    '0': 2500,
+    '1': 2500,
+    '2': 2500,
+    '3': 2500,
+    '4': 2500,
+    '5': 2500,
+    '6': 2500,
+    '7': 2500,
+    '8': 2500,
+  },
+  constructedWall: {
+    '1': 0,
+    '2': 2500,
+    '3': 2500,
+    '4': 2500,
+    '5': 2500,
+    '6': 2500,
+    '7': 2500,
+    '8': 2500,
+  },
+  rampart: {
+    '1': 0,
+    '2': 2500,
+    '3': 2500,
+    '4': 2500,
+    '5': 2500,
+    '6': 2500,
+    '7': 2500,
+    '8': 2500,
+  },
+  storage: { '1': 0, '2': 0, '3': 0, '4': 1, '5': 1, '6': 1, '7': 1, '8': 1 },
+  tower: { '1': 0, '2': 0, '3': 1, '4': 1, '5': 2, '6': 2, '7': 3, '8': '6' },
+  observer: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 1 },
+  powerSpawn: {
+    '1': 0,
+    '2': 0,
+    '3': 0,
+    '4': 0,
+    '5': 0,
+    '6': 0,
+    '7': 0,
+    '8': 1,
+  },
+  extractor: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 1, '7': 1, '8': 1 },
+  terminal: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 1, '7': 1, '8': 1 },
+  lab: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 3, '7': '6', '8': 10 },
+  container: {
+    '0': 5,
+    '1': 5,
+    '2': 5,
+    '3': 5,
+    '4': 5,
+    '5': 5,
+    '6': 5,
+    '7': 5,
+    '8': 5,
+  },
+  nuker: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 1 },
+};
 // CONTROLLER_DOWNGRADE: {1: 20000, 2: 5000, 3: 10000, 4: 20000, 5: 40000, 6: 60000, 7: 100000, 8: 150000},
 // CONTROLLER_CLAIM_DOWNGRADE: 0.2,
 // CONTROLLER_RESERVE: 1,

@@ -1,5 +1,6 @@
 declare type BodyParts = Array<BodyPartType>;
 declare type CreepRole = 'harvester' | 'upgrader' | 'builder';
+declare type StructureType = $Keys<typeof CONTROLLER_STRUCTURES>;
 
 declare type CreepSchema = {
   role: CreepRole,

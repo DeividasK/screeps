@@ -2,19 +2,27 @@ import { loop } from './main';
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {
-    it('should be added to memory', () => {
-      global.Game = {
-        spawns: {
-          Spawn1: {
-            spawning: null,
-            room: {
-              energyCapacityAvailable: 300,
-            },
-            canCreateCreep: jest.fn(() => true),
+    global.Game = {
+      rooms: {
+        W7S56: {
+          controller: {
+            level: 3,
           },
+          find: jest.fn(() => []),
         },
-      };
+      },
+      spawns: {
+        Spawn1: {
+          spawning: null,
+          room: {
+            energyCapacityAvailable: 300,
+          },
+          canCreateCreep: jest.fn(() => true),
+        },
+      },
+    };
 
+    it('should be added to memory', () => {
       global.Memory = {
         roles: {
           harvester: 1,
