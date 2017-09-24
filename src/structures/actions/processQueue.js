@@ -7,7 +7,6 @@ import _ from 'lodash';
 export function processQueue(memory: MemoryObject, spawn: StructureSpawn) {
   const queue = memoryHandler.getQueue(memory);
   if (queue.length === 0) {
-    logger('Queue is empty.');
     return;
   }
 

@@ -40,7 +40,6 @@ export function getNextCreepSchema(
   const nextCreepRole = findNextCreepRole(roles, memory);
 
   if (!nextCreepRole) {
-    logger('No creeps are required.');
     return;
   }
 

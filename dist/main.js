@@ -679,7 +679,6 @@ function getNextCreepSchema(memory, spawn) {
   var nextCreepRole = findNextCreepRole(roles, memory);
 
   if (!nextCreepRole) {
-    (0, _logger2.default)('No creeps are required.');
     return;
   }
 
@@ -750,7 +749,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function processQueue(memory, spawn) {
   var queue = _memory2.default.getQueue(memory);
   if (queue.length === 0) {
-    (0, _logger2.default)('Queue is empty.');
     return;
   }
 
