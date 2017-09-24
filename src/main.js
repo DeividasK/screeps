@@ -1,7 +1,12 @@
 // @flow
 import initRoles from 'role.init';
 import memoryHandler from 'memory';
-import { getNextCreepSchema, processQueue, canBuild } from 'structures/actions';
+import {
+  getNextCreepSchema,
+  processQueue,
+  canBuild,
+  createArea,
+} from 'structures/actions';
 import _ from 'lodash';
 
 function loop() {
@@ -20,19 +25,28 @@ function loop() {
     STRUCTURE_EXTENSION,
   );
 
+  const spawns = room.find(FIND_MY_STRUCTURES, {
+    filter: { structureType: STRUCTURE_SPAWN },
+  });
+  const spawn = spawns[0];
+
+  const area: AreaDimensions = createArea(spawn.pos, 10);
+
+  const areaArray = room.lookForAtArea(
+    LOOK_TERRAIN,
+    area.top,
+    area.left,
+    area.bottom,
+    area.right,
+    true,
+  );
+
+  // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_STRUCTURES, 43, 30, 45, 32, true))
+  // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_TERRAIN, 43, 30, 45, 32, true))
+
   /*
 
   // Find empty space to build on
-  const spawns = room.find(FIND_MY_STRUCTURES, {     filter: { structureType: STRUCTURE_SPAWN }   });
-  const spawn = spawns[0];
-  const top = spawn.pos.y - 5;
-  const bottom = spawn.pos.y + 5;
-  const left = spawn.pos.x - 5;
-  const right = spawn.pos.x + 5;
-
-  const area: { top: number, left: number, right: number, bottom: number} = createArea(spawn.pos, 10);
-
-  const areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, ..., asArray = true)
 
   for each item in area check check surounding area (3 x 3 total) and see if more than 3 terrain squares are available
   if yes, build a construction site for spawn

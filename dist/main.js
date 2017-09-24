@@ -187,6 +187,15 @@ Object.defineProperty(exports, 'canBuild', {
   }
 });
 
+var _createArea = __webpack_require__(21);
+
+Object.defineProperty(exports, 'createArea', {
+  enumerable: true,
+  get: function get() {
+    return _createArea.createArea;
+  }
+});
+
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -283,16 +292,20 @@ function loop() {
 
   var availableAmountForStructureType = (0, _actions.canBuild)(room, STRUCTURE_EXTENSION);
 
+  var spawns = room.find(FIND_MY_STRUCTURES, {
+    filter: { structureType: STRUCTURE_SPAWN }
+  });
+  var spawn = spawns[0];
+
+  var area = (0, _actions.createArea)(spawn.pos, 10);
+
+  var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
+
+  // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_STRUCTURES, 43, 30, 45, 32, true))
+  // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_TERRAIN, 43, 30, 45, 32, true))
+
   /*
    // Find empty space to build on
-  const spawns = room.find(FIND_MY_STRUCTURES, {     filter: { structureType: STRUCTURE_SPAWN }   });
-  const spawn = spawns[0];
-  const top = spawn.pos.y - 5;
-  const bottom = spawn.pos.y + 5;
-  const left = spawn.pos.x - 5;
-  const right = spawn.pos.x + 5;
-   const area: { top: number, left: number, right: number, bottom: number} = createArea(spawn.pos, 10);
-   const areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, ..., asArray = true)
    for each item in area check check surounding area (3 x 3 total) and see if more than 3 terrain squares are available
   if yes, build a construction site for spawn
     */
@@ -843,6 +856,34 @@ function canBuild(room, structureType) {
   var availableAmountForStructureType = allowedAmountForStructureTypes - existingExtensions.length - constructedExtensions.length;
 
   return availableAmountForStructureType;
+}
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createArea = createArea;
+function createArea(centerPosition, radius) {
+  var top = centerPosition.y - radius;
+  var bottom = centerPosition.y + radius;
+  var left = centerPosition.x - radius;
+  var right = centerPosition.x + radius;
+
+  var min = 0;
+  var max = 50;
+
+  return {
+    top: top >= min ? top : min,
+    bottom: bottom <= max ? bottom : max,
+    left: left >= min ? left : min,
+    right: right <= max ? right : max
+  };
 }
 
 /***/ })

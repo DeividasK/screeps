@@ -26,6 +26,14 @@ declare type Room = {
     type: number,
     opts?: { filter: {} | string | ((object: any) => boolean) },
   ) => Array<any>,
+  lookForAtArea: (
+    type: string,
+    top: number,
+    left: number,
+    bottom: number,
+    right: number,
+    asArray?: boolean,
+  ) => {} | Array<Structure> | Array<any>,
 };
 
 declare type Structure = RoomObject & {
@@ -206,37 +214,37 @@ declare var FIND_MY_CONSTRUCTION_SITES: number;
 declare var FIND_HOSTILE_CONSTRUCTION_SITES: number;
 declare var FIND_MINERALS: number;
 declare var FIND_NUKES: number;
-//
-// TOP: 1,
-// TOP_RIGHT: 2,
-// RIGHT: 3,
-// BOTTOM_RIGHT: 4,
-// BOTTOM: 5,
-// BOTTOM_LEFT: 6,
-// LEFT: 7,
-// TOP_LEFT: 8,
-//
-// COLOR_RED: 1,
-// COLOR_PURPLE: 2,
-// COLOR_BLUE: 3,
-// COLOR_CYAN: 4,
-// COLOR_GREEN: 5,
-// COLOR_YELLOW: 6,
-// COLOR_ORANGE: 7,
-// COLOR_BROWN: 8,
-// COLOR_GREY: 9,
-// COLOR_WHITE: 10,
-//
-// LOOK_CREEPS: "creep",
-// LOOK_ENERGY: "energy",
-// LOOK_RESOURCES: "resource",
-// LOOK_SOURCES: "source",
-// LOOK_MINERALS: "mineral",
-// LOOK_STRUCTURES: "structure",
-// LOOK_FLAGS: "flag",
-// LOOK_CONSTRUCTION_SITES: "constructionSite",
-// LOOK_NUKES: "nuke",
-// LOOK_TERRAIN: "terrain",
+
+const TOP = 1;
+const TOP_RIGHT = 2;
+const RIGHT = 3;
+const BOTTOM_RIGHT = 4;
+const BOTTOM = 5;
+const BOTTOM_LEFT = 6;
+const LEFT = 7;
+const TOP_LEFT = 8;
+
+const COLOR_RED = 1;
+const COLOR_PURPLE = 2;
+const COLOR_BLUE = 3;
+const COLOR_CYAN = 4;
+const COLOR_GREEN = 5;
+const COLOR_YELLOW = 6;
+const COLOR_ORANGE = 7;
+const COLOR_BROWN = 8;
+const COLOR_GREY = 9;
+const COLOR_WHITE = 10;
+
+const LOOK_CREEPS = 'creep';
+const LOOK_ENERGY = 'energy';
+const LOOK_RESOURCES = 'resource';
+const LOOK_SOURCES = 'source';
+const LOOK_MINERALS = 'mineral';
+const LOOK_STRUCTURES = 'structure';
+const LOOK_FLAGS = 'flag';
+const LOOK_CONSTRUCTION_SITES = 'constructionSite';
+const LOOK_NUKES = 'nuke';
+const LOOK_TERRAIN = 'terrain';
 //
 // OBSTACLE_OBJECT_TYPES: ["spawn", "creep", "wall", "source", "constructedWall", "extension", "link", "storage", "tower", "observer", "powerSpawn", "powerBank", "lab", "terminal","nuker"],
 //

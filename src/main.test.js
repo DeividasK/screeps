@@ -2,23 +2,30 @@ import { loop } from './main';
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {
+    const Spawn1 = {
+      spawning: null,
+      room: {
+        energyCapacityAvailable: 300,
+      },
+      pos: {
+        x: 5,
+        y: 5,
+      },
+      canCreateCreep: jest.fn(() => true),
+    };
+
     global.Game = {
       rooms: {
         W7S56: {
           controller: {
             level: 3,
           },
-          find: jest.fn(() => []),
+          find: jest.fn(() => [Spawn1]),
+          lookForAtArea: jest.fn(),
         },
       },
       spawns: {
-        Spawn1: {
-          spawning: null,
-          room: {
-            energyCapacityAvailable: 300,
-          },
-          canCreateCreep: jest.fn(() => true),
-        },
+        Spawn1,
       },
     };
 

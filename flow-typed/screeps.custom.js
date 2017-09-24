@@ -7,6 +7,13 @@ declare type CreepSchema = {
   body: Array<BodyPartType>,
 };
 
+declare type AreaDimensions = {
+  top: number,
+  left: number,
+  bottom: number,
+  right: number,
+};
+
 declare type MemoryObject = {
   creeps: {
     [name: string]: any,
