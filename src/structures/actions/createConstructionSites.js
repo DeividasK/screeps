@@ -38,15 +38,24 @@ export function createConstructionSites(type: StructureType, game: GameObject) {
     true,
   );
 
-  logger('Area array is ' + JSON.stringify(areaArray));
-
   const suitableArea = _.find(areaArray, roomPosition =>
     canBuildOn(room, roomPosition),
   );
 
+  if (suitableArea === undefined) {
+    logger(
+      'Suitable area was not found in area array: ' + JSON.stringify(areaArray),
+    );
+    return;
+  }
+
   logger('Suitable area ' + JSON.stringify(suitableArea));
 
-  const status = room.createConstructionSite(suitableArea, type);
+  const status = room.createConstructionSite(
+    suitableArea.x,
+    suitableArea.y,
+    type,
+  );
 
   logger('Status: ' + status);
 }

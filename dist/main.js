@@ -990,15 +990,18 @@ function createConstructionSites(type, game) {
 
   var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
 
-  (0, _logger2.default)('Area array is ' + JSON.stringify(areaArray));
-
   var suitableArea = _lodash2.default.find(areaArray, function (roomPosition) {
     return (0, _2.canBuildOn)(room, roomPosition);
   });
 
+  if (suitableArea === undefined) {
+    (0, _logger2.default)('Suitable area was not found in area array: ' + JSON.stringify(areaArray));
+    return;
+  }
+
   (0, _logger2.default)('Suitable area ' + JSON.stringify(suitableArea));
 
-  var status = room.createConstructionSite(suitableArea, type);
+  var status = room.createConstructionSite(suitableArea.x, suitableArea.y, type);
 
   (0, _logger2.default)('Status: ' + status);
 }
