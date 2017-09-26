@@ -14,6 +14,24 @@ export function canBuildOn(
   */
   const maxObstacles = 3;
 
+  const structuresInPosition: Array<any> = room.lookForAt(
+    LOOK_STRUCTURES,
+    pos.x,
+    pos.y,
+  );
+  const constructionSiteInPosition: Array<any> = room.lookForAt(
+    LOOK_CONSTRUCTION_SITES,
+    pos.x,
+    pos.y,
+  );
+
+  if (
+    structuresInPosition.length !== 0 ||
+    constructionSiteInPosition.length !== 0
+  ) {
+    return false;
+  }
+
   const areaDimensions: AreaDimensions = createArea(pos, 1);
   // $FlowFixMe
   const structuresInArea: Array<Structure> = room.lookForAtArea(

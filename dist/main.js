@@ -921,6 +921,13 @@ function canBuildOn(room, pos) {
   */
   var maxObstacles = 3;
 
+  var structuresInPosition = room.lookForAt(LOOK_STRUCTURES, pos.x, pos.y);
+  var constructionSiteInPosition = room.lookForAt(LOOK_CONSTRUCTION_SITES, pos.x, pos.y);
+
+  if (structuresInPosition.length !== 0 || constructionSiteInPosition.length !== 0) {
+    return false;
+  }
+
   var areaDimensions = (0, _createArea.createArea)(pos, 1);
   // $FlowFixMe
   var structuresInArea = room.lookForAtArea(LOOK_STRUCTURES, areaDimensions.top, areaDimensions.left, areaDimensions.bottom, areaDimensions.right, true);

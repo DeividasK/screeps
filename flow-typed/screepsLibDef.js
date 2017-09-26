@@ -32,6 +32,7 @@ declare type Room = {
     pos?: RoomPosition,
     structureType: $Keys<typeof CONTROLLER_STRUCTURES>,
   ) => string,
+  lookForAt: (type: string, x: number, y: number) => Array<any>,
   lookForAtArea: (
     type: string,
     top: number,

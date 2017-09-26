@@ -41,19 +41,43 @@ describe('canBuildOn', () => {
     },
   ];
 
+  it('should return false if structure is found in that position', () => {
+    const fakeStructuresArray = structuresArray.concat(structuresArray);
+
+    const fakeRoom = {
+      lookForAt: jest.fn(() => structuresArray.slice(0, 1)),
+    };
+
+    const roomPosition = { x: 0, y: 0 };
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
+  });
+
+  it('should return false if construction site is found in that position', () => {
+    const fakeStructuresArray = structuresArray.concat(structuresArray);
+
+    const fakeRoom = {
+      lookForAt: jest.fn(() => constructionSitesArray),
+    };
+
+    const roomPosition = { x: 0, y: 0 };
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
+  });
+
   it('should return false if the area has more than 3 structures ', () => {
     const fakeStructuresArray = structuresArray.concat(structuresArray);
 
     const fakeRoom = {
+      lookForAt: jest.fn(() => []),
       lookForAtArea: jest.fn(() => fakeStructuresArray),
     };
 
-    const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
+    const roomPosition = { x: 0, y: 0 };
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
   it('should return false if area has more than 3 structures and/or construction sites', () => {
     const fakeRoom = {
+      lookForAt: jest.fn(() => []),
       lookForAtArea: jest.fn(type => {
         switch (type) {
           case LOOK_STRUCTURES:
@@ -64,7 +88,7 @@ describe('canBuildOn', () => {
       }),
     };
 
-    const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
+    const roomPosition = { x: 0, y: 0 };
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
@@ -81,6 +105,7 @@ describe('canBuildOn', () => {
       { type: 'terrain', terrain: 'plain', x: 32, y: 43 },
     ];
     const fakeRoom = {
+      lookForAt: jest.fn(() => []),
       lookForAtArea: jest.fn(type => {
         switch (type) {
           case LOOK_STRUCTURES:
@@ -92,7 +117,7 @@ describe('canBuildOn', () => {
         }
       }),
     };
-    const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
+    const roomPosition = { x: 0, y: 0 };
 
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
@@ -110,6 +135,7 @@ describe('canBuildOn', () => {
       { type: 'terrain', terrain: 'plain', x: 32, y: 43 },
     ];
     const fakeRoom = {
+      lookForAt: jest.fn(() => []),
       lookForAtArea: jest.fn(type => {
         switch (type) {
           case LOOK_STRUCTURES:
@@ -121,7 +147,7 @@ describe('canBuildOn', () => {
         }
       }),
     };
-    const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
+    const roomPosition = { x: 0, y: 0 };
 
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(true);
   });
