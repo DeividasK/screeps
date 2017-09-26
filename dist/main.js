@@ -847,6 +847,12 @@ function processQueue(memory, spawn) {
     return;
   }
 
+  if (creepSchema.role === undefined) {
+    (0, _logger2.default)('Creep role is undefined in ' + JSON.stringify(creepSchema) + '.');
+    _memory2.default.clearQueue();
+    return;
+  }
+
   (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
   var creepName = spawn.createCreep(creepSchema.body, undefined, {
     role: creepSchema.role

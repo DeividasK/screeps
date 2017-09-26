@@ -19,6 +19,12 @@ export function processQueue(memory: MemoryObject, spawn: StructureSpawn) {
     return;
   }
 
+  if (creepSchema.role === undefined) {
+    logger('Creep role is undefined in ' + JSON.stringify(creepSchema) + '.');
+    memoryHandler.clearQueue();
+    return;
+  }
+
   logger('Spawning new ' + creepSchema.role + '.');
   const creepName = spawn.createCreep(creepSchema.body, undefined, {
     role: creepSchema.role,
