@@ -10,7 +10,6 @@ export function createConstructionSites(type: StructureType, game: GameObject) {
   const availableAmountForStructureType: ?number = canBuild(room, type);
 
   if (!availableAmountForStructureType) {
-    logger('No available for ' + type);
     return false;
   }
   logger(
@@ -20,15 +19,9 @@ export function createConstructionSites(type: StructureType, game: GameObject) {
   const spawns = room.find(FIND_MY_STRUCTURES, {
     filter: { structureType: STRUCTURE_SPAWN },
   });
-  logger('Spawns are ' + JSON.stringify(spawns));
 
   const spawn = spawns[0];
-  logger('Spawn is ' + JSON.stringify(spawn));
-
   const area: AreaDimensions = createArea(spawn.pos, 10);
-
-  logger('Area is ' + JSON.stringify(area));
-
   const areaArray = room.lookForAtArea(
     LOOK_TERRAIN,
     area.top,

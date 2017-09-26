@@ -985,7 +985,6 @@ function createConstructionSites(type, game) {
   var availableAmountForStructureType = (0, _2.canBuild)(room, type);
 
   if (!availableAmountForStructureType) {
-    (0, _logger2.default)('No available for ' + type);
     return false;
   }
   (0, _logger2.default)('Available amount for ' + type + ' is ' + availableAmountForStructureType);
@@ -993,15 +992,9 @@ function createConstructionSites(type, game) {
   var spawns = room.find(FIND_MY_STRUCTURES, {
     filter: { structureType: STRUCTURE_SPAWN }
   });
-  (0, _logger2.default)('Spawns are ' + JSON.stringify(spawns));
 
   var spawn = spawns[0];
-  (0, _logger2.default)('Spawn is ' + JSON.stringify(spawn));
-
   var area = (0, _2.createArea)(spawn.pos, 10);
-
-  (0, _logger2.default)('Area is ' + JSON.stringify(area));
-
   var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
 
   var suitableArea = _lodash2.default.find(areaArray, function (roomPosition) {
