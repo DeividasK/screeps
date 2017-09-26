@@ -1,4 +1,7 @@
 import { getNextCreepSchema, findNextCreepRole } from './getNextCreepSchema';
+jest.mock('./assignBody', () => ({
+  assignBody: jest.fn(() => ['mockedBody']),
+}));
 
 describe('findNextCreepRole', () => {
   it('should return a role where existing creeps count is smaller than required creeps count', () => {
@@ -94,7 +97,7 @@ describe('getNextCreepSchema', () => {
     };
     expect(getNextCreepSchema(fakeMemory, fakeSpawn)).toEqual({
       role: 'harvester',
-      body: [WORK, CARRY, MOVE],
+      body: ['mockedBody'],
     });
   });
 });

@@ -35,4 +35,6 @@ export { loop };
 // Goals
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
-// - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
+// - Creep repair
+// - Automatically create body size (with primary parts)
+// - Automatically build roads

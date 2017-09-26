@@ -1,6 +1,9 @@
 import { loop } from './main';
 jest.mock('structures/actions/createConstructionSites');
 jest.mock('structures/actions/updateCreepCount');
+jest.mock('structures/actions/assignBody', () => ({
+  assignBody: jest.fn(() => ['mockedBody']),
+}));
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {
@@ -45,7 +48,7 @@ describe('Main', () => {
 
     it('should contain the first creep schema to produce', () => {
       expect(Memory).toMatchObject({
-        queue: [{ role: 'harvester', body: [WORK, CARRY, MOVE] }],
+        queue: [{ role: 'harvester', body: ['mockedBody'] }],
       });
     });
   });

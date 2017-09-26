@@ -366,7 +366,9 @@ exports.loop = loop;
 // Goals
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
-// - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
+// - Creep repair
+// - Automatically create body size (with primary parts)
+// - Automatically build roads
 
 /***/ }),
 /* 9 */
@@ -695,8 +697,10 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Build cost / weight (empty) / weight (loaded)
-var creepBodies = exports.creepBodies = [[WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 2 / 6
-[WORK, CARRY, CARRY, CARRY, MOVE], // 300 / 1 / 4
+var creepBodies = exports.creepBodies = [[WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], // 1400 / 1 / 2(1.5)
+[WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], // 800 / 1 / 2
+[WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 1 / 3
+[WORK, WORK, CARRY, MOVE], // 300 / 2 / 3
 [WORK, CARRY, MOVE]];
 function calculateBodyCost(bodyPartsArray) {
   return _lodash2.default.reduce(bodyPartsArray, function (sum, bodyPart) {
@@ -707,7 +711,7 @@ function calculateBodyCost(bodyPartsArray) {
 function findBiggestCreatableBody(availableEnergyCapacity) {
   // $FlowFixMe
   return _lodash2.default.find(creepBodies, function (bodyPartsArray) {
-    return calculateBodyCost(bodyPartsArray) < availableEnergyCapacity;
+    return calculateBodyCost(bodyPartsArray) <= availableEnergyCapacity;
   });
 }
 

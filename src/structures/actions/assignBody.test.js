@@ -29,7 +29,7 @@ describe('findBiggestCreatableBody', () => {
   });
 
   it('should return the smallest body if energy is minimal', () => {
-    expect(findBiggestCreatableBody(300)).toBe(
+    expect(findBiggestCreatableBody(200)).toBe(
       creepBodies[creepBodies.length - 1],
     );
   });

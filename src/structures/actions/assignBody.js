@@ -46,7 +46,7 @@ export function findBiggestCreatableBody(
 ): BodyParts {
   // $FlowFixMe
   return _.find(creepBodies, function(bodyPartsArray: BodyParts): boolean {
-    return calculateBodyCost(bodyPartsArray) < availableEnergyCapacity;
+    return calculateBodyCost(bodyPartsArray) <= availableEnergyCapacity;
   });
 }
 
