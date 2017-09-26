@@ -364,6 +364,7 @@ function loop() {
 exports.loop = loop;
 
 // Goals
+// - Automatically adjust harvesters count
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
 // - Creep repair
@@ -449,38 +450,40 @@ var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var builder = {
-	run: function run(creep) {
-		var status = void 0;
-		(0, _updateWorkStatus2.default)(creep);
+  run: function run(creep) {
+    var status = void 0;
+    (0, _updateWorkStatus2.default)(creep);
 
-		if (!creep.memory.hasEnergy) {
-			return _actions2.default.withdrawEnergy(creep);
-		}
+    if (!creep.memory.hasEnergy) {
+      return _actions2.default.harvestEnergy(creep);
+    }
 
-		// Try to repair first
-		var repairSites = creep.room.find(FIND_MY_STRUCTURES, { filter: function filter(structure) {
-				return structure.hits < structure.hitsMax / 3;
-			} });
+    // Try to repair first
+    var repairSites = creep.room.find(FIND_MY_STRUCTURES, {
+      filter: function filter(structure) {
+        return structure.hits < structure.hitsMax / 3;
+      }
+    });
 
-		if (repairSites.length > 0) {
-			status = creep.repair(repairSites[0]);
+    if (repairSites.length > 0) {
+      status = creep.repair(repairSites[0]);
 
-			if (status === ERR_NOT_IN_RANGE) {
-				return creep.moveTo(repairSites[0]);
-			}
-		}
+      if (status === ERR_NOT_IN_RANGE) {
+        return creep.moveTo(repairSites[0]);
+      }
+    }
 
-		// Look for construction sites
-		var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+    // Look for construction sites
+    var constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
 
-		if (constructionSites.length > 0) {
-			status = creep.build(constructionSites[0]);
+    if (constructionSites.length > 0) {
+      status = creep.build(constructionSites[0]);
 
-			if (status === ERR_NOT_IN_RANGE) {
-				return creep.moveTo(constructionSites[0]);
-			}
-		}
-	}
+      if (status === ERR_NOT_IN_RANGE) {
+        return creep.moveTo(constructionSites[0]);
+      }
+    }
+  }
 };
 
 module.exports = builder;
@@ -645,7 +648,7 @@ exports.default = {
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _actions = __webpack_require__(3);
@@ -659,18 +662,18 @@ var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function run(creep) {
-	var status = void 0;
-	(0, _updateWorkStatus2.default)(creep);
+  var status = void 0;
+  (0, _updateWorkStatus2.default)(creep);
 
-	if (!creep.memory.hasEnergy) {
-		return _actions2.default.withdrawEnergy(creep);
-	}
+  if (!creep.memory.hasEnergy) {
+    return _actions2.default.withdrawEnergy(creep);
+  }
 
-	status = creep.upgradeController(creep.room.controller);
+  status = creep.upgradeController(creep.room.controller);
 
-	if (status === ERR_NOT_IN_RANGE) {
-		return creep.moveTo(creep.room.controller);
-	}
+  if (status === ERR_NOT_IN_RANGE) {
+    return creep.moveTo(creep.room.controller);
+  }
 }
 
 exports.default = { run: run };

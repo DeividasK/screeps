@@ -33,6 +33,7 @@ function loop() {
 export { loop };
 
 // Goals
+// - Automatically adjust harvesters count
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
 // - Creep repair

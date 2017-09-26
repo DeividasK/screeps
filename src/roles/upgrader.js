@@ -3,18 +3,18 @@ import actions from '../actions';
 import updateWorkStatus from '../utils/updateWorkStatus';
 
 function run(creep: Creep) {
-	let status;
-	updateWorkStatus(creep);
+  let status;
+  updateWorkStatus(creep);
 
-	if (!creep.memory.hasEnergy) {
-		return actions.withdrawEnergy(creep);
-	}
+  if (!creep.memory.hasEnergy) {
+    return actions.withdrawEnergy(creep);
+  }
 
-	status = creep.upgradeController(creep.room.controller);
+  status = creep.upgradeController(creep.room.controller);
 
-	if(status === ERR_NOT_IN_RANGE) {
-		return creep.moveTo(creep.room.controller);
-	}
+  if (status === ERR_NOT_IN_RANGE) {
+    return creep.moveTo(creep.room.controller);
+  }
 }
 
-export default { run }
+export default { run };
