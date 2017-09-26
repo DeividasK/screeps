@@ -29,6 +29,20 @@ export function canBuildOn(
     return false;
   }
 
+  // $FlowFixMe
+  const constructionSitesInArea: Array<Structure> = room.lookForAtArea(
+    LOOK_CONSTRUCTION_SITES,
+    areaDimensions.top,
+    areaDimensions.left,
+    areaDimensions.bottom,
+    areaDimensions.right,
+    true,
+  );
+
+  if (constructionSitesInArea.length + structuresInArea.length > maxObstacles) {
+    return false;
+  }
+
   const terrainInArea = room.lookForAtArea(
     LOOK_TERRAIN,
     areaDimensions.top,
@@ -38,7 +52,10 @@ export function canBuildOn(
     true,
   );
   const wallsInArea = _.filter(terrainInArea, { terrain: 'wall' });
-  const obstaclesInArea = structuresInArea.length + wallsInArea.length;
+  const obstaclesInArea =
+    structuresInArea.length +
+    constructionSitesInArea.length +
+    wallsInArea.length;
 
   if (obstaclesInArea > maxObstacles) {
     return false;

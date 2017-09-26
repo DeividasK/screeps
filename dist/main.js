@@ -929,9 +929,16 @@ function canBuildOn(room, pos) {
     return false;
   }
 
+  // $FlowFixMe
+  var constructionSitesInArea = room.lookForAtArea(LOOK_CONSTRUCTION_SITES, areaDimensions.top, areaDimensions.left, areaDimensions.bottom, areaDimensions.right, true);
+
+  if (constructionSitesInArea.length + structuresInArea.length > maxObstacles) {
+    return false;
+  }
+
   var terrainInArea = room.lookForAtArea(LOOK_TERRAIN, areaDimensions.top, areaDimensions.left, areaDimensions.bottom, areaDimensions.right, true);
   var wallsInArea = _lodash2.default.filter(terrainInArea, { terrain: 'wall' });
-  var obstaclesInArea = structuresInArea.length + wallsInArea.length;
+  var obstaclesInArea = structuresInArea.length + constructionSitesInArea.length + wallsInArea.length;
 
   if (obstaclesInArea > maxObstacles) {
     return false;
@@ -1003,7 +1010,9 @@ function createConstructionSites(type, game) {
 
   var status = room.createConstructionSite(suitableArea.x, suitableArea.y, type);
 
-  (0, _logger2.default)('Status: ' + status);
+  if (status !== OK) {
+    (0, _logger2.default)('Status: ' + status);
+  }
 }
 
 /***/ })

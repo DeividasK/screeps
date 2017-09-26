@@ -57,5 +57,7 @@ export function createConstructionSites(type: StructureType, game: GameObject) {
     type,
   );
 
-  logger('Status: ' + status);
+  if (status !== OK) {
+    logger('Status: ' + status);
+  }
 }
