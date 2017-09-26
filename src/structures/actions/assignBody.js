@@ -3,8 +3,31 @@ import _ from 'lodash';
 
 // Build cost / weight (empty) / weight (loaded)
 export const creepBodies = [
-  [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 2 / 6
-  [WORK, CARRY, CARRY, CARRY, MOVE], // 300 / 1 / 4
+  [
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    WORK,
+    CARRY,
+    CARRY,
+    CARRY,
+    CARRY,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+    MOVE,
+  ], // 1400 / 1 / 2(1.5)
+  [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], // 800 / 1 / 2
+  [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 1 / 3
+  [WORK, WORK, CARRY, MOVE], // 300 / 2 / 3
   [WORK, CARRY, MOVE], // 200 / 1 / 2
 ];
 
