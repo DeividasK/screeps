@@ -221,6 +221,21 @@ function updateWorkStatus(creep) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = logger;
+function logger(message) {
+  console.log(Game.time + ': ' + message);
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -256,21 +271,6 @@ module.exports = {
     }
   }
 };
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = logger;
-function logger(message) {
-  console.log(Game.time + ': ' + message);
-}
 
 /***/ }),
 /* 7 */
@@ -316,7 +316,7 @@ var _role = __webpack_require__(9);
 
 var _role2 = _interopRequireDefault(_role);
 
-var _memory = __webpack_require__(5);
+var _memory = __webpack_require__(6);
 
 var _memory2 = _interopRequireDefault(_memory);
 
@@ -724,7 +724,7 @@ var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _logger = __webpack_require__(6);
+var _logger = __webpack_require__(5);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -810,11 +810,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.processQueue = processQueue;
 
-var _memory = __webpack_require__(5);
+var _memory = __webpack_require__(6);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(6);
+var _logger = __webpack_require__(5);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -956,6 +956,10 @@ var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _logger = __webpack_require__(5);
+
+var _logger2 = _interopRequireDefault(_logger);
+
 var _2 = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -967,23 +971,36 @@ function createConstructionSites(type, game) {
   var availableAmountForStructureType = (0, _2.canBuild)(room, type);
 
   if (!availableAmountForStructureType) {
+    (0, _logger2.default)('No available for ' + type);
     return false;
   }
+  (0, _logger2.default)('Available amount for ' + type + ' is ' + availableAmountForStructureType);
 
   var spawns = room.find(FIND_MY_STRUCTURES, {
     filter: { structureType: STRUCTURE_SPAWN }
   });
+  (0, _logger2.default)('Spawns are ' + JSON.stringify(spawns));
+
   var spawn = spawns[0];
+  (0, _logger2.default)('Spawn is ' + JSON.stringify(spawn));
 
   var area = (0, _2.createArea)(spawn.pos, 10);
 
+  (0, _logger2.default)('Area is ' + JSON.stringify(area));
+
   var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
+
+  (0, _logger2.default)('Area array is ' + JSON.stringify(areaArray));
 
   var suitableArea = _lodash2.default.find(areaArray, function (roomPosition) {
     return (0, _2.canBuildOn)(room, roomPosition);
   });
 
-  return room.createConstructionSite(suitableArea, type);
+  (0, _logger2.default)('Suitable area ' + JSON.stringify(suitableArea));
+
+  var status = room.createConstructionSite(suitableArea, type);
+
+  (0, _logger2.default)('Status: ' + status);
 }
 
 /***/ })
