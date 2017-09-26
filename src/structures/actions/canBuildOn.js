@@ -12,7 +12,7 @@ export function canBuildOn(
     x x x
     ^ - should be false
   */
-  const maxObstacles = 3;
+  const maxObstacles = 2;
 
   const structuresInPosition: Array<any> = room.lookForAt(
     LOOK_STRUCTURES,

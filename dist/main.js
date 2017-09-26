@@ -1089,7 +1089,7 @@ function canBuildOn(room, pos) {
     x x x
     ^ - should be false
   */
-  var maxObstacles = 3;
+  var maxObstacles = 2;
 
   var structuresInPosition = room.lookForAt(LOOK_STRUCTURES, pos.x, pos.y);
   var constructionSiteInPosition = room.lookForAt(LOOK_CONSTRUCTION_SITES, pos.x, pos.y);

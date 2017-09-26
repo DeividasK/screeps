@@ -166,11 +166,7 @@ describe('canBuildOn', () => {
     ];
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookAtArea: jest.fn(() => [
-        ...structuresArray,
-        ...constructionSitesArray,
-        ...terrainArray,
-      ]),
+      lookAtArea: jest.fn(() => [...structuresArray, ...terrainArray]),
     };
     const roomPosition = { x: 0, y: 0 };
 
