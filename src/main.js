@@ -5,11 +5,14 @@ import {
   getNextCreepSchema,
   processQueue,
   createConstructionSites,
+  updateCreepCount,
 } from 'structures/actions';
 import _ from 'lodash';
 
 function loop() {
   memoryHandler.update(Memory);
+
+  updateCreepCount(Memory, Game.spawns['Spawn1']);
 
   const nextCreepSchema: CreepSchema = getNextCreepSchema(
     Memory,

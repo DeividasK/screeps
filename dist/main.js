@@ -346,6 +346,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function loop() {
   _memory2.default.update(Memory);
 
+  (0, _actions.updateCreepCount)(Memory, Game.spawns['Spawn1']);
+
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
   (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);

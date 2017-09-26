@@ -1,5 +1,6 @@
 import { loop } from './main';
 jest.mock('structures/actions/createConstructionSites');
+jest.mock('structures/actions/updateCreepCount');
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {
