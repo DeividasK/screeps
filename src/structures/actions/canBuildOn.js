@@ -2,9 +2,9 @@
 import _ from 'lodash';
 import { createArea } from './createArea';
 
-export default function canBuildOn(
-  pos: RoomPosition,
-  game: GameObject,
+export function canBuildOn(
+  room: Room,
+  pos: { x: number, y: number, structure: {} },
 ): boolean {
   /*
     . x .
@@ -13,8 +13,6 @@ export default function canBuildOn(
     ^ - should be false
   */
   const maxObstacles = 3;
-
-  const room = game.rooms[pos.roomName];
 
   const areaDimensions: AreaDimensions = createArea(pos, 1);
   // $FlowFixMe

@@ -4,8 +4,7 @@ import memoryHandler from 'memory';
 import {
   getNextCreepSchema,
   processQueue,
-  canBuild,
-  createArea,
+  createConstructionSites,
 } from 'structures/actions';
 import _ from 'lodash';
 
@@ -17,29 +16,7 @@ function loop() {
     Game.spawns['Spawn1'],
   );
 
-  const rooms = _.values(Game.rooms);
-  const room = rooms[0];
-
-  const availableAmountForStructureType: ?number = canBuild(
-    room,
-    STRUCTURE_EXTENSION,
-  );
-
-  const spawns = room.find(FIND_MY_STRUCTURES, {
-    filter: { structureType: STRUCTURE_SPAWN },
-  });
-  const spawn = spawns[0];
-
-  const area: AreaDimensions = createArea(spawn.pos, 10);
-
-  const areaArray = room.lookForAtArea(
-    LOOK_TERRAIN,
-    area.top,
-    area.left,
-    area.bottom,
-    area.right,
-    true,
-  );
+  createConstructionSites(STRUCTURE_EXTENSION, Game);
 
   // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_STRUCTURES, 43, 30, 45, 32, true))
   // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_TERRAIN, 43, 30, 45, 32, true))

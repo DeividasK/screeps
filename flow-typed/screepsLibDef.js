@@ -26,6 +26,12 @@ declare type Room = {
     type: number,
     opts?: { filter: {} | string | ((object: any) => boolean) },
   ) => Array<any>,
+  createConstructionSite: (
+    x?: number,
+    y?: number,
+    pos?: RoomPosition,
+    structureType: $Keys<typeof CONTROLLER_STRUCTURES>,
+  ) => string,
   lookForAtArea: (
     type: string,
     top: number,

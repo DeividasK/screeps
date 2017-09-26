@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -81,19 +81,93 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _harvestEnergy = __webpack_require__(11);
+var _assignBody = __webpack_require__(18);
+
+Object.defineProperty(exports, 'assignBody', {
+  enumerable: true,
+  get: function get() {
+    return _assignBody.assignBody;
+  }
+});
+
+var _getNextCreepSchema = __webpack_require__(19);
+
+Object.defineProperty(exports, 'getNextCreepSchema', {
+  enumerable: true,
+  get: function get() {
+    return _getNextCreepSchema.getNextCreepSchema;
+  }
+});
+
+var _processQueue = __webpack_require__(20);
+
+Object.defineProperty(exports, 'processQueue', {
+  enumerable: true,
+  get: function get() {
+    return _processQueue.processQueue;
+  }
+});
+
+var _canBuild = __webpack_require__(21);
+
+Object.defineProperty(exports, 'canBuild', {
+  enumerable: true,
+  get: function get() {
+    return _canBuild.canBuild;
+  }
+});
+
+var _canBuildOn = __webpack_require__(22);
+
+Object.defineProperty(exports, 'canBuildOn', {
+  enumerable: true,
+  get: function get() {
+    return _canBuildOn.canBuildOn;
+  }
+});
+
+var _createArea = __webpack_require__(7);
+
+Object.defineProperty(exports, 'createArea', {
+  enumerable: true,
+  get: function get() {
+    return _createArea.createArea;
+  }
+});
+
+var _createConstructionSites = __webpack_require__(23);
+
+Object.defineProperty(exports, 'createConstructionSites', {
+  enumerable: true,
+  get: function get() {
+    return _createConstructionSites.createConstructionSites;
+  }
+});
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _harvestEnergy = __webpack_require__(12);
 
 var _harvestEnergy2 = _interopRequireDefault(_harvestEnergy);
 
-var _storeEnergy = __webpack_require__(12);
+var _storeEnergy = __webpack_require__(13);
 
 var _storeEnergy2 = _interopRequireDefault(_storeEnergy);
 
-var _withdrawEnergy = __webpack_require__(14);
+var _withdrawEnergy = __webpack_require__(15);
 
 var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
-var _moveToSpawn = __webpack_require__(2);
+var _moveToSpawn = __webpack_require__(3);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -102,7 +176,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = { harvestEnergy: _harvestEnergy2.default, storeEnergy: _storeEnergy2.default, withdrawEnergy: _withdrawEnergy2.default, moveToSpawn: _moveToSpawn2.default };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -118,7 +192,7 @@ function moveToSpawn(creep) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -139,62 +213,6 @@ function updateWorkStatus(creep) {
 
   return creep.memory.hasEnergy;
 }
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _assignBody = __webpack_require__(17);
-
-Object.defineProperty(exports, 'assignBody', {
-  enumerable: true,
-  get: function get() {
-    return _assignBody.assignBody;
-  }
-});
-
-var _getNextCreepSchema = __webpack_require__(18);
-
-Object.defineProperty(exports, 'getNextCreepSchema', {
-  enumerable: true,
-  get: function get() {
-    return _getNextCreepSchema.getNextCreepSchema;
-  }
-});
-
-var _processQueue = __webpack_require__(19);
-
-Object.defineProperty(exports, 'processQueue', {
-  enumerable: true,
-  get: function get() {
-    return _processQueue.processQueue;
-  }
-});
-
-var _canBuild = __webpack_require__(20);
-
-Object.defineProperty(exports, 'canBuild', {
-  enumerable: true,
-  get: function get() {
-    return _canBuild.canBuild;
-  }
-});
-
-var _createArea = __webpack_require__(21);
-
-Object.defineProperty(exports, 'createArea', {
-  enumerable: true,
-  get: function get() {
-    return _createArea.createArea;
-  }
-});
 
 /***/ }),
 /* 5 */
@@ -264,9 +282,37 @@ function logger(message) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.createArea = createArea;
+function createArea(centerPosition, radius) {
+  var top = centerPosition.y - radius;
+  var bottom = centerPosition.y + radius;
+  var left = centerPosition.x - radius;
+  var right = centerPosition.x + radius;
+
+  var min = 0;
+  var max = 50;
+
+  return {
+    top: top >= min ? top : min,
+    bottom: bottom <= max ? bottom : max,
+    left: left >= min ? left : min,
+    right: right <= max ? right : max
+  };
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.loop = undefined;
 
-var _role = __webpack_require__(8);
+var _role = __webpack_require__(9);
 
 var _role2 = _interopRequireDefault(_role);
 
@@ -274,7 +320,7 @@ var _memory = __webpack_require__(5);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(1);
 
 var _lodash = __webpack_require__(0);
 
@@ -287,19 +333,7 @@ function loop() {
 
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
-  var rooms = _lodash2.default.values(Game.rooms);
-  var room = rooms[0];
-
-  var availableAmountForStructureType = (0, _actions.canBuild)(room, STRUCTURE_EXTENSION);
-
-  var spawns = room.find(FIND_MY_STRUCTURES, {
-    filter: { structureType: STRUCTURE_SPAWN }
-  });
-  var spawn = spawns[0];
-
-  var area = (0, _actions.createArea)(spawn.pos, 10);
-
-  var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
+  (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);
 
   // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_STRUCTURES, 43, 30, 45, 32, true))
   // JSON.stringify(_.values(Game.rooms)[0].lookForAtArea(LOOK_TERRAIN, 43, 30, 45, 32, true))
@@ -327,7 +361,7 @@ exports.loop = loop;
 // - Automatically change harvester / upgrader / builder roles when visiting spawn based on the amount of energy available
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -338,7 +372,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _roles = __webpack_require__(9);
+var _roles = __webpack_require__(10);
 
 var roles = _interopRequireWildcard(_roles);
 
@@ -358,7 +392,7 @@ function init(game) {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -369,15 +403,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrader = exports.harvester = exports.builder = undefined;
 
-var _builder = __webpack_require__(10);
+var _builder = __webpack_require__(11);
 
 var _builder2 = _interopRequireDefault(_builder);
 
-var _harvester = __webpack_require__(15);
+var _harvester = __webpack_require__(16);
 
 var _harvester2 = _interopRequireDefault(_harvester);
 
-var _upgrader = __webpack_require__(16);
+var _upgrader = __webpack_require__(17);
 
 var _upgrader2 = _interopRequireDefault(_upgrader);
 
@@ -388,17 +422,17 @@ exports.harvester = _harvester2.default;
 exports.upgrader = _upgrader2.default;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _actions = __webpack_require__(1);
+var _actions = __webpack_require__(2);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(3);
+var _updateWorkStatus = __webpack_require__(4);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -442,7 +476,7 @@ var builder = {
 module.exports = builder;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -467,7 +501,7 @@ function harvestEnergy(creep) {
 }
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -478,11 +512,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = storeEnergy;
 
-var _structure = __webpack_require__(13);
+var _structure = __webpack_require__(14);
 
 var structure = _interopRequireWildcard(_structure);
 
-var _moveToSpawn = __webpack_require__(2);
+var _moveToSpawn = __webpack_require__(3);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -507,7 +541,7 @@ function storeEnergy(creep) {
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -527,7 +561,7 @@ function hasCapacity(structure) {
 }
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -538,7 +572,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = withdrawEnergy;
 
-var _moveToSpawn = __webpack_require__(2);
+var _moveToSpawn = __webpack_require__(3);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -557,7 +591,7 @@ function withdrawEnergy(creep) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -567,11 +601,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(1);
+var _actions = __webpack_require__(2);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(3);
+var _updateWorkStatus = __webpack_require__(4);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -594,7 +628,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -604,11 +638,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _actions = __webpack_require__(1);
+var _actions = __webpack_require__(2);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(3);
+var _updateWorkStatus = __webpack_require__(4);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -632,7 +666,7 @@ function run(creep) {
 exports.default = { run: run };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -674,7 +708,7 @@ function assignBody(spawn) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -694,7 +728,7 @@ var _logger = __webpack_require__(6);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _2 = __webpack_require__(4);
+var _2 = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -765,7 +799,7 @@ function getNextCreepSchema(memory, spawn) {
 // },
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -784,7 +818,7 @@ var _logger = __webpack_require__(6);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _actions = __webpack_require__(4);
+var _actions = __webpack_require__(1);
 
 var _lodash = __webpack_require__(0);
 
@@ -817,7 +851,7 @@ function processQueue(memory, spawn) {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -859,7 +893,7 @@ function canBuild(room, structureType) {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -868,22 +902,88 @@ function canBuild(room, structureType) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createArea = createArea;
-function createArea(centerPosition, radius) {
-  var top = centerPosition.y - radius;
-  var bottom = centerPosition.y + radius;
-  var left = centerPosition.x - radius;
-  var right = centerPosition.x + radius;
+exports.canBuildOn = canBuildOn;
 
-  var min = 0;
-  var max = 50;
+var _lodash = __webpack_require__(0);
 
-  return {
-    top: top >= min ? top : min,
-    bottom: bottom <= max ? bottom : max,
-    left: left >= min ? left : min,
-    right: right <= max ? right : max
-  };
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _createArea = __webpack_require__(7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function canBuildOn(room, pos) {
+  /*
+    . x .
+    . o .
+    x x x
+    ^ - should be false
+  */
+  var maxObstacles = 3;
+
+  var areaDimensions = (0, _createArea.createArea)(pos, 1);
+  // $FlowFixMe
+  var structuresInArea = room.lookForAtArea(LOOK_STRUCTURES, areaDimensions.top, areaDimensions.left, areaDimensions.bottom, areaDimensions.right, true);
+
+  if (structuresInArea.length > maxObstacles) {
+    return false;
+  }
+
+  var terrainInArea = room.lookForAtArea(LOOK_TERRAIN, areaDimensions.top, areaDimensions.left, areaDimensions.bottom, areaDimensions.right, true);
+  var wallsInArea = _lodash2.default.filter(terrainInArea, { terrain: 'wall' });
+  var obstaclesInArea = structuresInArea.length + wallsInArea.length;
+
+  if (obstaclesInArea > maxObstacles) {
+    return false;
+  }
+
+  return true;
+}
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createConstructionSites = createConstructionSites;
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _2 = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createConstructionSites(type, game) {
+  var rooms = _lodash2.default.values(game.rooms);
+  var room = rooms[0];
+
+  var availableAmountForStructureType = (0, _2.canBuild)(room, type);
+
+  if (!availableAmountForStructureType) {
+    return false;
+  }
+
+  var spawns = room.find(FIND_MY_STRUCTURES, {
+    filter: { structureType: STRUCTURE_SPAWN }
+  });
+  var spawn = spawns[0];
+
+  var area = (0, _2.createArea)(spawn.pos, 10);
+
+  var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
+
+  var suitableArea = _lodash2.default.find(areaArray, function (roomPosition) {
+    return (0, _2.canBuildOn)(room, roomPosition);
+  });
+
+  return room.createConstructionSite(suitableArea, type);
 }
 
 /***/ })

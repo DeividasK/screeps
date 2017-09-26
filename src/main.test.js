@@ -1,4 +1,5 @@
 import { loop } from './main';
+jest.mock('structures/actions/createConstructionSites');
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {

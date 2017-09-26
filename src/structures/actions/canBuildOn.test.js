@@ -1,4 +1,4 @@
-import canBuildOn from './canBuildOn';
+import { canBuildOn } from './canBuildOn';
 
 describe('canBuildOn', () => {
   const structuresArray = [
@@ -21,16 +21,12 @@ describe('canBuildOn', () => {
   it('should return false if the area has more than 3 structures ', () => {
     const fakeStructuresArray = structuresArray.concat(structuresArray);
 
-    const fakeGame = {
-      rooms: {
-        W7S56: {
-          lookForAtArea: jest.fn(() => fakeStructuresArray),
-        },
-      },
+    const fakeRoom = {
+      lookForAtArea: jest.fn(() => fakeStructuresArray),
     };
 
     const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
-    expect(canBuildOn(roomPosition, fakeGame)).toEqual(false);
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
   it('should return false if area has more than 3 obstacles', () => {
@@ -45,21 +41,17 @@ describe('canBuildOn', () => {
       { type: 'terrain', terrain: 'plain', x: 31, y: 43 },
       { type: 'terrain', terrain: 'plain', x: 32, y: 43 },
     ];
-    const fakeGame = {
-      rooms: {
-        W7S56: {
-          lookForAtArea: jest.fn(type => {
-            if (type === LOOK_STRUCTURES) {
-              return structuresArray;
-            }
-            return terrainArray;
-          }),
-        },
-      },
+    const fakeRoom = {
+      lookForAtArea: jest.fn(type => {
+        if (type === LOOK_STRUCTURES) {
+          return structuresArray;
+        }
+        return terrainArray;
+      }),
     };
     const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
 
-    expect(canBuildOn(roomPosition, fakeGame)).toEqual(false);
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
   it('should return true if area has 3 or less obstacles', () => {
@@ -74,20 +66,16 @@ describe('canBuildOn', () => {
       { type: 'terrain', terrain: 'plain', x: 31, y: 43 },
       { type: 'terrain', terrain: 'plain', x: 32, y: 43 },
     ];
-    const fakeGame = {
-      rooms: {
-        W7S56: {
-          lookForAtArea: jest.fn(type => {
-            if (type === LOOK_STRUCTURES) {
-              return structuresArray;
-            }
-            return terrainArray;
-          }),
-        },
-      },
+    const fakeRoom = {
+      lookForAtArea: jest.fn(type => {
+        if (type === LOOK_STRUCTURES) {
+          return structuresArray;
+        }
+        return terrainArray;
+      }),
     };
     const roomPosition = { x: 0, y: 0, roomName: 'W7S56' };
 
-    expect(canBuildOn(roomPosition, fakeGame)).toEqual(true);
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(true);
   });
 });

@@ -10,18 +10,20 @@ export function canBuild(room: Room, structureType: StructureType): ?number {
     return;
   }
 
-  const existingExtensions = room.find(FIND_MY_STRUCTURES, {
+  const existingExtensions: Array<any> = room.find(FIND_MY_STRUCTURES, {
     filter: { structureType },
   });
   if (existingExtensions.length === allowedAmountForStructureTypes) {
     return;
   }
 
-  const constructedExtensions = room.find(FIND_MY_CONSTRUCTION_SITES, {
+  const constructedExtensions: Array<
+    any,
+  > = room.find(FIND_MY_CONSTRUCTION_SITES, {
     filter: { structureType },
   });
 
-  const availableAmountForStructureType =
+  const availableAmountForStructureType: number =
     allowedAmountForStructureTypes -
     existingExtensions.length -
     constructedExtensions.length;
