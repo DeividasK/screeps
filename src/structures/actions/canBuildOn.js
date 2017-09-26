@@ -33,9 +33,11 @@ export function canBuildOn(
   }
 
   const areaDimensions: AreaDimensions = createArea(pos, 1);
-  // $FlowFixMe
-  const structuresInArea: Array<Structure> = room.lookForAtArea(
-    LOOK_STRUCTURES,
+
+  const objectsAtArea: Array<{
+    type: string,
+    [string]: mixed,
+  }> = room.lookAtArea(
     areaDimensions.top,
     areaDimensions.left,
     areaDimensions.bottom,
@@ -43,39 +45,29 @@ export function canBuildOn(
     true,
   );
 
-  if (structuresInArea.length > maxObstacles) {
+  const hardObstaclesAtArea: Array<{
+    type: string,
+    [string]: mixed,
+  }> = _.filter(objectsAtArea, object => {
+    return object.type === LOOK_SOURCES || object.type === LOOK_MINERALS;
+  });
+
+  if (hardObstaclesAtArea.length > 0) {
     return false;
   }
 
-  // $FlowFixMe
-  const constructionSitesInArea: Array<Structure> = room.lookForAtArea(
-    LOOK_CONSTRUCTION_SITES,
-    areaDimensions.top,
-    areaDimensions.left,
-    areaDimensions.bottom,
-    areaDimensions.right,
-    true,
-  );
+  const softObstaclesAtArea: Array<{
+    type: string,
+    [string]: mixed,
+  }> = _.filter(objectsAtArea, object => {
+    return (
+      object.type === LOOK_CONSTRUCTION_SITES ||
+      object.type === LOOK_STRUCTURES ||
+      (object.type === LOOK_TERRAIN && object[LOOK_TERRAIN] === 'wall')
+    );
+  });
 
-  if (constructionSitesInArea.length + structuresInArea.length > maxObstacles) {
-    return false;
-  }
-
-  const terrainInArea = room.lookForAtArea(
-    LOOK_TERRAIN,
-    areaDimensions.top,
-    areaDimensions.left,
-    areaDimensions.bottom,
-    areaDimensions.right,
-    true,
-  );
-  const wallsInArea = _.filter(terrainInArea, { terrain: 'wall' });
-  const obstaclesInArea =
-    structuresInArea.length +
-    constructionSitesInArea.length +
-    wallsInArea.length;
-
-  if (obstaclesInArea > maxObstacles) {
+  if (softObstaclesAtArea.length > maxObstacles) {
     return false;
   }
 

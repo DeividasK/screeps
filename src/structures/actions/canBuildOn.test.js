@@ -5,6 +5,7 @@ describe('canBuildOn', () => {
     {
       x: 31,
       y: 44,
+      type: 'structure',
       structure: {
         structureType: 'spawn',
       },
@@ -12,6 +13,7 @@ describe('canBuildOn', () => {
     {
       x: 31,
       y: 44,
+      type: 'structure',
       structure: {
         structureType: 'extension',
       },
@@ -63,12 +65,50 @@ describe('canBuildOn', () => {
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
+  it('should return false if the area has at least 1 energy source ', () => {
+    const hardObstaclesArray = [
+      {
+        x: 28,
+        y: 35,
+        type: 'source',
+        source: {},
+      },
+    ];
+
+    const fakeRoom = {
+      lookForAt: jest.fn(() => []),
+      lookAtArea: jest.fn(() => hardObstaclesArray),
+    };
+
+    const roomPosition = { x: 0, y: 0 };
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
+  });
+
+  it('should return false if the area has at least 1 mineral ', () => {
+    const hardObstaclesArray = [
+      {
+        x: 28,
+        y: 35,
+        type: 'mineral',
+        mineral: {},
+      },
+    ];
+
+    const fakeRoom = {
+      lookForAt: jest.fn(() => []),
+      lookAtArea: jest.fn(() => hardObstaclesArray),
+    };
+
+    const roomPosition = { x: 0, y: 0 };
+    expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
+  });
+
   it('should return false if the area has more than 3 structures ', () => {
     const fakeStructuresArray = structuresArray.concat(structuresArray);
 
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookForAtArea: jest.fn(() => fakeStructuresArray),
+      lookAtArea: jest.fn(() => fakeStructuresArray),
     };
 
     const roomPosition = { x: 0, y: 0 };
@@ -78,14 +118,9 @@ describe('canBuildOn', () => {
   it('should return false if area has more than 3 structures and/or construction sites', () => {
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookForAtArea: jest.fn(type => {
-        switch (type) {
-          case LOOK_STRUCTURES:
-            return structuresArray;
-          case LOOK_CONSTRUCTION_SITES:
-            return constructionSitesArray.concat(constructionSitesArray);
-        }
-      }),
+      lookAtArea: jest.fn(() =>
+        structuresArray.concat(constructionSitesArray, constructionSitesArray),
+      ),
     };
 
     const roomPosition = { x: 0, y: 0 };
@@ -106,16 +141,11 @@ describe('canBuildOn', () => {
     ];
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookForAtArea: jest.fn(type => {
-        switch (type) {
-          case LOOK_STRUCTURES:
-            return structuresArray;
-          case LOOK_CONSTRUCTION_SITES:
-            return constructionSitesArray;
-          default:
-            return terrainArray;
-        }
-      }),
+      lookAtArea: jest.fn(() => [
+        ...structuresArray,
+        ...constructionSitesArray,
+        ...terrainArray,
+      ]),
     };
     const roomPosition = { x: 0, y: 0 };
 
@@ -136,16 +166,11 @@ describe('canBuildOn', () => {
     ];
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookForAtArea: jest.fn(type => {
-        switch (type) {
-          case LOOK_STRUCTURES:
-            return structuresArray;
-          case LOOK_CONSTRUCTION_SITES:
-            return constructionSitesArray;
-          default:
-            return terrainArray;
-        }
-      }),
+      lookAtArea: jest.fn(() => [
+        ...structuresArray,
+        ...constructionSitesArray,
+        ...terrainArray,
+      ]),
     };
     const roomPosition = { x: 0, y: 0 };
 
