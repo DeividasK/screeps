@@ -5,3 +5,4 @@ export { canBuild } from './canBuild';
 export { canBuildOn } from './canBuildOn';
 export { createArea } from './createArea';
 export { createConstructionSites } from './createConstructionSites';
+export { updateCreepCount } from './updateCreepCount';

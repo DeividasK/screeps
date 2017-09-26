@@ -21,6 +21,12 @@ module.exports = {
       memory.queue = [];
     }
 
+    if (memory.roles === undefined) {
+      memory.roles = {
+        builder: 0,
+      };
+    }
+
     // $FlowFixMe
     if (_.values(Game.creeps).length === _.values(memory.creeps).length) {
       return;

@@ -144,8 +144,32 @@ Object.defineProperty(exports, 'createConstructionSites', {
   }
 });
 
+var _updateCreepCount = __webpack_require__(24);
+
+Object.defineProperty(exports, 'updateCreepCount', {
+  enumerable: true,
+  get: function get() {
+    return _updateCreepCount.updateCreepCount;
+  }
+});
+
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = logger;
+function logger(message) {
+  console.log(Game.time + ': ' + message);
+}
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -167,7 +191,7 @@ var _withdrawEnergy = __webpack_require__(15);
 
 var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
-var _moveToSpawn = __webpack_require__(3);
+var _moveToSpawn = __webpack_require__(4);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -176,7 +200,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = { harvestEnergy: _harvestEnergy2.default, storeEnergy: _storeEnergy2.default, withdrawEnergy: _withdrawEnergy2.default, moveToSpawn: _moveToSpawn2.default };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +216,7 @@ function moveToSpawn(creep) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -212,21 +236,6 @@ function updateWorkStatus(creep) {
   }
 
   return creep.memory.hasEnergy;
-}
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = logger;
-function logger(message) {
-  console.log(Game.time + ': ' + message);
 }
 
 /***/ }),
@@ -257,6 +266,12 @@ module.exports = {
   update: function update(memory) {
     if (!memory.queue) {
       memory.queue = [];
+    }
+
+    if (memory.roles === undefined) {
+      memory.roles = {
+        builder: 0
+      };
     }
 
     // $FlowFixMe
@@ -419,11 +434,11 @@ exports.upgrader = _upgrader2.default;
 "use strict";
 
 
-var _actions = __webpack_require__(2);
+var _actions = __webpack_require__(3);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(4);
+var _updateWorkStatus = __webpack_require__(5);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -507,7 +522,7 @@ var _structure = __webpack_require__(14);
 
 var structure = _interopRequireWildcard(_structure);
 
-var _moveToSpawn = __webpack_require__(3);
+var _moveToSpawn = __webpack_require__(4);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -563,7 +578,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = withdrawEnergy;
 
-var _moveToSpawn = __webpack_require__(3);
+var _moveToSpawn = __webpack_require__(4);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
@@ -592,11 +607,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _actions = __webpack_require__(2);
+var _actions = __webpack_require__(3);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(4);
+var _updateWorkStatus = __webpack_require__(5);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -629,11 +644,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _actions = __webpack_require__(2);
+var _actions = __webpack_require__(3);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _updateWorkStatus = __webpack_require__(4);
+var _updateWorkStatus = __webpack_require__(5);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
 
@@ -715,7 +730,7 @@ var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _logger = __webpack_require__(5);
+var _logger = __webpack_require__(2);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -805,7 +820,7 @@ var _memory = __webpack_require__(6);
 
 var _memory2 = _interopRequireDefault(_memory);
 
-var _logger = __webpack_require__(5);
+var _logger = __webpack_require__(2);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -958,7 +973,7 @@ var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _logger = __webpack_require__(5);
+var _logger = __webpack_require__(2);
 
 var _logger2 = _interopRequireDefault(_logger);
 
@@ -1000,6 +1015,42 @@ function createConstructionSites(type, game) {
 
   if (status !== OK) {
     (0, _logger2.default)('Status: ' + status);
+  }
+}
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateCreepCount = updateCreepCount;
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _logger = __webpack_require__(2);
+
+var _logger2 = _interopRequireDefault(_logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function updateCreepCount(memory, spawn) {
+  var constructionSites = spawn.room.find(FIND_CONSTRUCTION_SITES);
+
+  if (memory.roles.builder < 1 && constructionSites.length > 0) {
+    memory.roles.builder = 1;
+    (0, _logger2.default)('0 builders. Found construction sites. Creating a builder.');
+  }
+
+  if (memory.roles.builder > 0 && constructionSites.length === 0) {
+    memory.roles.builder = 0;
+    (0, _logger2.default)('Found builders. 0 construction sites. Removing builders.');
   }
 }
 
