@@ -26,7 +26,7 @@ export const creepBodies = [
     MOVE,
   ], // 1400 / 1 / 2(1.5)
   [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], // 800 / 1 / 2
-  [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE], // 500 / 1 / 3
+  [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], // 550 / 1 / 2(1.7)
   [WORK, WORK, CARRY, MOVE], // 300 / 2 / 3
   [WORK, CARRY, MOVE], // 200 / 1 / 2
 ];
