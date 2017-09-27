@@ -26,9 +26,13 @@ export function processQueue(memory: MemoryObject, spawn: StructureSpawn) {
   }
 
   logger('Spawning new ' + creepSchema.role + '.');
-  const creepName = spawn.createCreep(creepSchema.body, undefined, {
-    role: creepSchema.role,
-  });
+  const creepName = spawn.createCreep(
+    creepSchema.body,
+    creepSchema.role + ' ' + Date.now(),
+    {
+      role: creepSchema.role,
+    },
+  );
 
   logger('Clearing queue');
   memoryHandler.clearQueue();

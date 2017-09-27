@@ -874,7 +874,7 @@ function processQueue(memory, spawn) {
   }
 
   (0, _logger2.default)('Spawning new ' + creepSchema.role + '.');
-  var creepName = spawn.createCreep(creepSchema.body, undefined, {
+  var creepName = spawn.createCreep(creepSchema.body, creepSchema.role + ' ' + Date.now(), {
     role: creepSchema.role
   });
 
