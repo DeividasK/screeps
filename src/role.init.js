@@ -16,12 +16,7 @@ export default function init(game: GameObject) {
       return;
     }
 
-    const sharedActionTaken = sharedActions(creep);
-
-    if (sharedActionTaken) {
-      continue;
-    }
-
+    sharedActions(creep);
     role.run(creep);
   }
 }

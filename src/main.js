@@ -33,7 +33,6 @@ function loop() {
 export { loop };
 
 // Goals
-// - Creep should move away from an energy source
 // - Automatically adjust harvesters count
 // - Recycle creeps
 // - Update upgrader role to harvest instead of withdrawing
@@ -41,3 +40,4 @@ export { loop };
 // - Creep repair
 // - Automatically create body size (with primary parts)
 // - Automatically build roads
+// - Creep should move away from an energy source
