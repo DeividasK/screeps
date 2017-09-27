@@ -29,6 +29,13 @@ export function getNextCreepSchema(
     return;
   }
 
+  if (memory.queue.length !== 0) {
+    logger(
+      `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
+    );
+    return;
+  }
+
   // $FlowFixMe
   const roles: Array<CreepRole> = _.keys(memory.roles);
 

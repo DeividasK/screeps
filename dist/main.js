@@ -342,8 +342,8 @@ exports.loop = loop;
 
 // Goals
 // - Creep should move away from an energy source
-// - Recycle creeps
 // - Automatically adjust harvesters count
+// - Recycle creeps
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
 // - Creep repair
@@ -793,6 +793,11 @@ function findNextCreepRole(roles, memory) {
 function getNextCreepSchema(memory, spawn) {
   if (spawn.spawning !== null) {
     (0, _logger2.default)('Still spawning. Ticks remaining ' + spawn.spawning.remainingTime + '.');
+    return;
+  }
+
+  if (memory.queue.length !== 0) {
+    (0, _logger2.default)('Queue is not empty. Currently in queue: ' + JSON.stringify(memory.queue));
     return;
   }
 
