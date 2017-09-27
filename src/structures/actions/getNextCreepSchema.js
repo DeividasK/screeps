@@ -10,6 +10,7 @@ export function findNextCreepRole(
   // $FlowFixMe
   return _.find(roles, function(role: CreepRole): boolean {
     const requiredRoleCount = memory.roles[role];
+
     const existingCreepsByRole: Array<Creep> = _.filter(
       memory.creeps,
       creep => creep.role === role,
@@ -43,7 +44,7 @@ export function getNextCreepSchema(
     return;
   }
 
-  return { role: nextCreepRole, body: assignBody(spawn) };
+  return { role: nextCreepRole, body: assignBody(spawn, nextCreepRole) };
 }
 
 // function maintain(creepRole: string) {
@@ -52,29 +53,4 @@ export function getNextCreepSchema(
 //       spawn1.renewCreep(creep);
 //     });
 //   }
-//
-//   // Return if queue is not empty
-//   if (memory.getQueue().length > 0) {
-//     logger(creepRole + ' role check - queue is not empty.');
-//     return;
-//   }
-//
-//   const additionalCreepsRequired = creepCount - creepsByRole.length;
-//
-//   // Return if required creep amount is reached or exceeded
-//   logger(
-//     'Currently ' +
-//       creepsByRole.length +
-//       ' creeps with ' +
-//       creepRole +
-//       ' role and ' +
-//       JSON.stringify(creepBody) +
-//       ' body.',
-//   );
-//   if (additionalCreepsRequired <= 0) {
-//     logger(creepRole + ' role check - no more creeps is required.');
-//     return;
-//   }
-//
-//   memory.addToQueue({ role: creepRole, body: creepBody });
 // },

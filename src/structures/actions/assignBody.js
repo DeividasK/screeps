@@ -50,6 +50,23 @@ export function findBiggestCreatableBody(
   });
 }
 
-export function assignBody(spawn: StructureSpawn): BodyParts {
-  return findBiggestCreatableBody(spawn.room.energyCapacityAvailable);
+export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
+  let availableEnergy;
+
+  if (role === 'harvester') {
+    const energyInExtensions = spawn.room.energyAvailable - spawn.energy;
+    availableEnergy = energyInExtensions + spawn.energyCapacity;
+  } else {
+    availableEnergy = spawn.room.energyCapacityAvailable;
+  }
+
+  return availableEnergy;
+}
+
+export function assignBody(spawn: StructureSpawn, role: CreepRole): BodyParts {
+  const availableEnergy = getAvailableEnergy(spawn, role);
+
+  const body = findBiggestCreatableBody(availableEnergy);
+
+  return body;
 }

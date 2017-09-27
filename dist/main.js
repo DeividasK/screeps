@@ -364,6 +364,8 @@ function loop() {
 exports.loop = loop;
 
 // Goals
+// - Spawn from less energy if no harvesters and spawn is at full capacity
+// - Add global creep actions
 // - Automatically adjust harvesters count
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
@@ -496,21 +498,25 @@ module.exports = builder;
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.default = harvestEnergy;
 function harvestEnergy(creep) {
-    var source = creep.pos.findClosestByPath(FIND_SOURCES, {
-        filter: function filter(source) {
-            return source !== undefined && source.energy > 0;
-        }
-    });
-
-    if (source === null) return;
-
-    if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(source);
+  var source = creep.pos.findClosestByPath(FIND_SOURCES, {
+    filter: function filter(source) {
+      return source !== undefined && source.energy > 0;
     }
+  });
+
+  if (source === null) return;
+
+  var harvestStatus = creep.harvest(source);
+
+  if (harvestStatus === OK) {
+    return;
+  }
+
+  var moveStatus = creep.moveTo(source);
 }
 
 /***/ }),
@@ -691,6 +697,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.creepBodies = undefined;
 exports.calculateBodyCost = calculateBodyCost;
 exports.findBiggestCreatableBody = findBiggestCreatableBody;
+exports.getAvailableEnergy = getAvailableEnergy;
 exports.assignBody = assignBody;
 
 var _lodash = __webpack_require__(0);
@@ -718,8 +725,25 @@ function findBiggestCreatableBody(availableEnergyCapacity) {
   });
 }
 
-function assignBody(spawn) {
-  return findBiggestCreatableBody(spawn.room.energyCapacityAvailable);
+function getAvailableEnergy(spawn, role) {
+  var availableEnergy = void 0;
+
+  if (role === 'harvester') {
+    var energyInExtensions = spawn.room.energyAvailable - spawn.energy;
+    availableEnergy = energyInExtensions + spawn.energyCapacity;
+  } else {
+    availableEnergy = spawn.room.energyCapacityAvailable;
+  }
+
+  return availableEnergy;
+}
+
+function assignBody(spawn, role) {
+  var availableEnergy = getAvailableEnergy(spawn, role);
+
+  var body = findBiggestCreatableBody(availableEnergy);
+
+  return body;
 }
 
 /***/ }),
@@ -751,6 +775,7 @@ function findNextCreepRole(roles, memory) {
   // $FlowFixMe
   return _lodash2.default.find(roles, function (role) {
     var requiredRoleCount = memory.roles[role];
+
     var existingCreepsByRole = _lodash2.default.filter(memory.creeps, function (creep) {
       return creep.role === role;
     });
@@ -777,7 +802,7 @@ function getNextCreepSchema(memory, spawn) {
     return;
   }
 
-  return { role: nextCreepRole, body: (0, _2.assignBody)(spawn) };
+  return { role: nextCreepRole, body: (0, _2.assignBody)(spawn, nextCreepRole) };
 }
 
 // function maintain(creepRole: string) {
@@ -786,31 +811,6 @@ function getNextCreepSchema(memory, spawn) {
 //       spawn1.renewCreep(creep);
 //     });
 //   }
-//
-//   // Return if queue is not empty
-//   if (memory.getQueue().length > 0) {
-//     logger(creepRole + ' role check - queue is not empty.');
-//     return;
-//   }
-//
-//   const additionalCreepsRequired = creepCount - creepsByRole.length;
-//
-//   // Return if required creep amount is reached or exceeded
-//   logger(
-//     'Currently ' +
-//       creepsByRole.length +
-//       ' creeps with ' +
-//       creepRole +
-//       ' role and ' +
-//       JSON.stringify(creepBody) +
-//       ' body.',
-//   );
-//   if (additionalCreepsRequired <= 0) {
-//     logger(creepRole + ' role check - no more creeps is required.');
-//     return;
-//   }
-//
-//   memory.addToQueue({ role: creepRole, body: creepBody });
 // },
 
 /***/ }),

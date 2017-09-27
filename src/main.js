@@ -33,6 +33,8 @@ function loop() {
 export { loop };
 
 // Goals
+// - Spawn from less energy if no harvesters and spawn is at full capacity
+// - Add global creep actions
 // - Automatically adjust harvesters count
 // - Update upgrader role to harvest instead of withdrawing
 // - Updae builder role to harvest instead of withdrawing
