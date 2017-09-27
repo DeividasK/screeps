@@ -16,7 +16,11 @@ export default function init(game: GameObject) {
       return;
     }
 
-    sharedActions(creep);
+    if (sharedActions(creep)) {
+      game.spawns['Spawn1'].renewCreep(creep);
+      continue;
+    }
+
     role.run(creep);
   }
 }
