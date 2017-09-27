@@ -387,9 +387,9 @@ function init(game) {
 
     var sharedActionTaken = (0, _shared2.default)(creep);
 
-    // if (sharedActionTaken) {
-    //   continue;
-    // }
+    if (sharedActionTaken) {
+      continue;
+    }
 
     role.run(creep);
   }
@@ -637,7 +637,7 @@ function moveAwayFromResources(creep) {
     var objectsAtTargetPosition = creep.room.lookAt(targetPosition.x, targetPosition.y);
 
     var obstacle = _lodash2.default.some(objectsAtTargetPosition, function (object) {
-      return _lodash2.default.includes(OBSTACLE_OBJECT_TYPES, object[object.type]);
+      return _lodash2.default.includes(OBSTACLE_OBJECT_TYPES, object[object.type]) || _lodash2.default.includes(OBSTACLE_OBJECT_TYPES, object.type);
     });
 
     if (obstacle) {

@@ -75,7 +75,10 @@ export default function moveAwayFromResources(creep: Creep): boolean {
     }> = creep.room.lookAt(targetPosition.x, targetPosition.y);
 
     const obstacle = _.some(objectsAtTargetPosition, object => {
-      return _.includes(OBSTACLE_OBJECT_TYPES, object[object.type]);
+      return (
+        _.includes(OBSTACLE_OBJECT_TYPES, object[object.type]) ||
+        _.includes(OBSTACLE_OBJECT_TYPES, object.type)
+      );
     });
 
     if (obstacle) {
