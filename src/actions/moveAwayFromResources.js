@@ -82,6 +82,13 @@ export default function moveAwayFromResources(creep: Creep): boolean {
       continue;
     }
 
+    console.log(
+      'No obstacles in ' +
+        JSON.stringify(targetPosition) +
+        '. Objects at target position: ' +
+        JSON.stringify(objectsAtTargetPosition),
+    );
+
     const moveStatus = creep.move(direction);
 
     if (moveStatus === OK) {

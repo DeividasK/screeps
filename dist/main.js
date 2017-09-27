@@ -387,9 +387,9 @@ function init(game) {
 
     var sharedActionTaken = (0, _shared2.default)(creep);
 
-    if (sharedActionTaken) {
-      continue;
-    }
+    // if (sharedActionTaken) {
+    //   continue;
+    // }
 
     role.run(creep);
   }
@@ -643,6 +643,8 @@ function moveAwayFromResources(creep) {
     if (obstacle) {
       continue;
     }
+
+    console.log('No obstacles in ' + JSON.stringify(targetPosition) + '. Objects at target position: ' + JSON.stringify(objectsAtTargetPosition));
 
     var moveStatus = creep.move(direction);
 
