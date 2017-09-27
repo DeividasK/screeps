@@ -39,10 +39,14 @@ export function findBiggestCreatableBody(
 }
 
 export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
+  const smallestBodyCost = 200;
   let availableEnergy;
 
   if (role === 'harvester') {
-    availableEnergy = spawn.room.energyAvailable;
+    availableEnergy =
+      spawn.room.energyAvailable > smallestBodyCost
+        ? spawn.room.energyAvailable
+        : smallestBodyCost;
   } else {
     availableEnergy = spawn.room.energyCapacityAvailable;
   }

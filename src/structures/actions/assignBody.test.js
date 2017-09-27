@@ -6,16 +6,28 @@ import {
 } from './assignBody';
 
 describe('getAvailableEnergy', () => {
+  it('Role: harvester. Should return smallest body cost if energy is less than that.', () => {
+    const fakeSpawn = {
+      energy: 50,
+      energyCapacity: 300,
+      room: {
+        energyAvailable: 50,
+      },
+    };
+
+    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(200);
+  });
+
   it('Role: harvester. should return max spawn capacity + energy available in extensions', () => {
     const fakeSpawn = {
       energy: 50,
       energyCapacity: 300,
       room: {
-        energyAvailable: 200,
+        energyAvailable: 250,
       },
     };
 
-    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(200);
+    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(250);
   });
 
   it('Role: others. Should return ', () => {

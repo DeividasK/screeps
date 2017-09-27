@@ -847,10 +847,11 @@ function findBiggestCreatableBody(availableEnergyCapacity, template) {
 }
 
 function getAvailableEnergy(spawn, role) {
+  var smallestBodyCost = 200;
   var availableEnergy = void 0;
 
   if (role === 'harvester') {
-    availableEnergy = spawn.room.energyAvailable;
+    availableEnergy = spawn.room.energyAvailable > smallestBodyCost ? spawn.room.energyAvailable : smallestBodyCost;
   } else {
     availableEnergy = spawn.room.energyCapacityAvailable;
   }
