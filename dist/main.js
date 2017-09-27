@@ -126,15 +126,6 @@ Object.defineProperty(exports, 'canBuildOn', {
   }
 });
 
-var _createArea = __webpack_require__(6);
-
-Object.defineProperty(exports, 'createArea', {
-  enumerable: true,
-  get: function get() {
-    return _createArea.createArea;
-  }
-});
-
 var _createConstructionSites = __webpack_require__(24);
 
 Object.defineProperty(exports, 'createConstructionSites', {
@@ -1017,6 +1008,8 @@ var _logger = __webpack_require__(2);
 
 var _logger2 = _interopRequireDefault(_logger);
 
+var _createArea = __webpack_require__(6);
+
 var _2 = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1037,7 +1030,7 @@ function createConstructionSites(type, game) {
   });
 
   var spawn = spawns[0];
-  var area = (0, _2.createArea)(spawn.pos, 10);
+  var area = (0, _createArea.createArea)(spawn.pos, 10);
   var areaArray = room.lookForAtArea(LOOK_TERRAIN, area.top, area.left, area.bottom, area.right, true);
 
   var suitableArea = _lodash2.default.find(areaArray, function (roomPosition) {

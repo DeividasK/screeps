@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import { createArea } from './createArea';
+import { createArea } from 'utils/createArea';
 
 export function canBuildOn(
   room: Room,
