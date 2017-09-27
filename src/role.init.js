@@ -1,4 +1,5 @@
 // @flow
+import sharedActions from './roles/shared';
 import * as roles from './roles';
 
 export default function init(game: GameObject) {
@@ -7,6 +8,7 @@ export default function init(game: GameObject) {
     const role = roles[creep.memory.role];
 
     if (role !== undefined) {
+      sharedActions(creep);
       role.run(creep);
     } else {
       console.log('Creep memory role ', creep.memory.role, ' is undefined');

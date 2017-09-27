@@ -1,5 +1,5 @@
-import builder from './builder';
-import harvester from './harvester';
-import upgrader from './upgrader';
+import * as builder from './builder';
+import * as harvester from './harvester';
+import * as upgrader from './upgrader';
 
 export { builder, harvester, upgrader };

@@ -1,10 +1,8 @@
 // @flow
 import actions from '../actions';
-import updateWorkStatus from '../utils/updateWorkStatus';
 
-function run(creep: Creep) {
+export function run(creep: Creep) {
   let status;
-  updateWorkStatus(creep);
 
   if (!creep.memory.hasEnergy) {
     return actions.harvestEnergy(creep);
@@ -16,5 +14,3 @@ function run(creep: Creep) {
     return creep.moveTo(creep.room.controller);
   }
 }
-
-export default { run };
