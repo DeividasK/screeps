@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -81,7 +81,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assignBody = __webpack_require__(20);
+var _assignBody = __webpack_require__(6);
 
 Object.defineProperty(exports, 'assignBody', {
   enumerable: true,
@@ -90,7 +90,7 @@ Object.defineProperty(exports, 'assignBody', {
   }
 });
 
-var _getNextCreepSchema = __webpack_require__(21);
+var _getNextCreepSchema = __webpack_require__(22);
 
 Object.defineProperty(exports, 'getNextCreepSchema', {
   enumerable: true,
@@ -99,7 +99,7 @@ Object.defineProperty(exports, 'getNextCreepSchema', {
   }
 });
 
-var _processQueue = __webpack_require__(22);
+var _processQueue = __webpack_require__(23);
 
 Object.defineProperty(exports, 'processQueue', {
   enumerable: true,
@@ -108,7 +108,7 @@ Object.defineProperty(exports, 'processQueue', {
   }
 });
 
-var _canBuild = __webpack_require__(23);
+var _canBuild = __webpack_require__(24);
 
 Object.defineProperty(exports, 'canBuild', {
   enumerable: true,
@@ -117,7 +117,7 @@ Object.defineProperty(exports, 'canBuild', {
   }
 });
 
-var _canBuildOn = __webpack_require__(24);
+var _canBuildOn = __webpack_require__(25);
 
 Object.defineProperty(exports, 'canBuildOn', {
   enumerable: true,
@@ -126,7 +126,7 @@ Object.defineProperty(exports, 'canBuildOn', {
   }
 });
 
-var _createConstructionSites = __webpack_require__(25);
+var _createConstructionSites = __webpack_require__(26);
 
 Object.defineProperty(exports, 'createConstructionSites', {
   enumerable: true,
@@ -135,7 +135,7 @@ Object.defineProperty(exports, 'createConstructionSites', {
   }
 });
 
-var _updateCreepCount = __webpack_require__(26);
+var _updateCreepCount = __webpack_require__(27);
 
 Object.defineProperty(exports, 'updateCreepCount', {
   enumerable: true,
@@ -170,15 +170,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _harvestEnergy = __webpack_require__(13);
+var _harvestEnergy = __webpack_require__(15);
 
 var _harvestEnergy2 = _interopRequireDefault(_harvestEnergy);
 
-var _storeEnergy = __webpack_require__(14);
+var _storeEnergy = __webpack_require__(16);
 
 var _storeEnergy2 = _interopRequireDefault(_storeEnergy);
 
-var _withdrawEnergy = __webpack_require__(16);
+var _withdrawEnergy = __webpack_require__(18);
 
 var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
 
@@ -186,7 +186,7 @@ var _moveToSpawn = __webpack_require__(4);
 
 var _moveToSpawn2 = _interopRequireDefault(_moveToSpawn);
 
-var _moveAwayFromResources = __webpack_require__(17);
+var _moveAwayFromResources = __webpack_require__(19);
 
 var _moveAwayFromResources2 = _interopRequireDefault(_moveAwayFromResources);
 
@@ -251,6 +251,77 @@ function createArea(centerPosition, radius) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.calculateBodyCost = calculateBodyCost;
+exports.findBiggestCreatableBody = findBiggestCreatableBody;
+exports.getAvailableEnergy = getAvailableEnergy;
+exports.assignBody = assignBody;
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function calculateBodyCost(bodyPartsArray) {
+  return _lodash2.default.reduce(bodyPartsArray, function (sum, bodyPart) {
+    return sum + BODYPART_COST[bodyPart];
+  }, 0);
+}
+function findBiggestCreatableBody(availableEnergyCapacity) {
+  var template = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [WORK, MOVE, CARRY];
+
+  var body = [];
+  var nextBodyPart = void 0;
+  var templateCopy = template.slice();
+
+  while (true) {
+    if (templateCopy.length === 0) {
+      templateCopy = template.slice();
+    }
+
+    nextBodyPart = templateCopy.shift();
+
+    if (calculateBodyCost(body.concat(nextBodyPart)) > availableEnergyCapacity) {
+      break;
+    }
+
+    body.push(nextBodyPart);
+  }
+
+  return body;
+}
+
+function getAvailableEnergy(spawn, role) {
+  var smallestBodyCost = 200;
+  var availableEnergy = void 0;
+
+  if (role === 'harvester') {
+    availableEnergy = spawn.room.energyAvailable > smallestBodyCost ? spawn.room.energyAvailable : smallestBodyCost;
+  } else {
+    availableEnergy = spawn.room.energyCapacityAvailable;
+  }
+
+  return availableEnergy;
+}
+
+function assignBody(spawn, role) {
+  var availableEnergy = getAvailableEnergy(spawn, role);
+
+  var body = findBiggestCreatableBody(availableEnergy);
+
+  return body;
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -294,7 +365,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -305,11 +376,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loop = undefined;
 
-var _role = __webpack_require__(8);
+var _role = __webpack_require__(9);
 
 var _role2 = _interopRequireDefault(_role);
 
-var _memory = __webpack_require__(6);
+var _memory = __webpack_require__(7);
 
 var _memory2 = _interopRequireDefault(_memory);
 
@@ -352,7 +423,7 @@ exports.loop = loop;
 // - Creep should move away from an energy source
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -363,11 +434,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = init;
 
-var _shared = __webpack_require__(9);
+var _shared = __webpack_require__(10);
 
 var _shared2 = _interopRequireDefault(_shared);
 
-var _roles = __webpack_require__(11);
+var _roles = __webpack_require__(13);
 
 var roles = _interopRequireWildcard(_roles);
 
@@ -391,7 +462,7 @@ function init(game) {
 }
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -402,18 +473,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = sharedActions;
 
-var _updateWorkStatus = __webpack_require__(10);
+var _updateWorkStatus = __webpack_require__(11);
 
 var _updateWorkStatus2 = _interopRequireDefault(_updateWorkStatus);
+
+var _updateRenewalStatus = __webpack_require__(12);
+
+var _updateRenewalStatus2 = _interopRequireDefault(_updateRenewalStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function sharedActions(creep) {
   var hasEnergy = (0, _updateWorkStatus2.default)(creep);
+  (0, _updateRenewalStatus2.default)(creep);
 }
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -436,7 +512,55 @@ function updateWorkStatus(creep) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = updateRenewalStatus;
+
+var _assignBody = __webpack_require__(6);
+
+function updateRenewalStatus(creep) {
+  var renewalThreshold = 50;
+  var renewalStatus = creep.memory.needsRenewal;
+
+  if (renewalStatus === 'never') {
+    return;
+  }
+
+  if (renewalStatus === undefined) {
+    creep.memory.needsRenewal = 'no';
+    return;
+  }
+
+  if (renewalStatus === 'yes' && creep.ticksToLive > 1450) {
+    creep.memory.needsRenewal = 'no';
+    return;
+  }
+
+  // renewalStatus === 'no'
+  if (creep.ticksToLive > renewalThreshold) {
+    return;
+  }
+
+  var biggestCreatableBody = (0, _assignBody.findBiggestCreatableBody)(creep.room.energyCapacityAvailable);
+
+  if (creep.body.length < biggestCreatableBody.length) {
+    creep.memory.needsRenewal = 'never';
+    return;
+  }
+
+  creep.memory.needsRenewal = 'yes';
+  return;
+}
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -447,15 +571,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.upgrader = exports.harvester = exports.builder = undefined;
 
-var _builder = __webpack_require__(12);
+var _builder = __webpack_require__(14);
 
 var builder = _interopRequireWildcard(_builder);
 
-var _harvester = __webpack_require__(18);
+var _harvester = __webpack_require__(20);
 
 var harvester = _interopRequireWildcard(_harvester);
 
-var _upgrader = __webpack_require__(19);
+var _upgrader = __webpack_require__(21);
 
 var upgrader = _interopRequireWildcard(_upgrader);
 
@@ -466,7 +590,7 @@ exports.harvester = harvester;
 exports.upgrader = upgrader;
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -518,7 +642,7 @@ function run(creep) {
 }
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -547,7 +671,7 @@ function harvestEnergy(creep) {
 }
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -558,7 +682,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = storeEnergy;
 
-var _structure = __webpack_require__(15);
+var _structure = __webpack_require__(17);
 
 var structure = _interopRequireWildcard(_structure);
 
@@ -587,7 +711,7 @@ function storeEnergy(creep) {
 }
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -607,7 +731,7 @@ function hasCapacity(structure) {
 }
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -637,7 +761,7 @@ function withdrawEnergy(creep) {
 }
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -726,7 +850,7 @@ function moveAwayFromResources(creep) {
 }
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -752,7 +876,7 @@ function run(creep) {
 }
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -784,76 +908,7 @@ function run(creep) {
 }
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.calculateBodyCost = calculateBodyCost;
-exports.findBiggestCreatableBody = findBiggestCreatableBody;
-exports.getAvailableEnergy = getAvailableEnergy;
-exports.assignBody = assignBody;
-
-var _lodash = __webpack_require__(0);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function calculateBodyCost(bodyPartsArray) {
-  return _lodash2.default.reduce(bodyPartsArray, function (sum, bodyPart) {
-    return sum + BODYPART_COST[bodyPart];
-  }, 0);
-}
-function findBiggestCreatableBody(availableEnergyCapacity, template) {
-  var body = [];
-  var nextBodyPart = void 0;
-  var templateCopy = template.slice();
-
-  while (true) {
-    if (templateCopy.length === 0) {
-      templateCopy = template.slice();
-    }
-
-    nextBodyPart = templateCopy.shift();
-
-    if (calculateBodyCost(body.concat(nextBodyPart)) > availableEnergyCapacity) {
-      break;
-    }
-
-    body.push(nextBodyPart);
-  }
-
-  return body;
-}
-
-function getAvailableEnergy(spawn, role) {
-  var smallestBodyCost = 200;
-  var availableEnergy = void 0;
-
-  if (role === 'harvester') {
-    availableEnergy = spawn.room.energyAvailable > smallestBodyCost ? spawn.room.energyAvailable : smallestBodyCost;
-  } else {
-    availableEnergy = spawn.room.energyCapacityAvailable;
-  }
-
-  return availableEnergy;
-}
-
-function assignBody(spawn, role) {
-  var availableEnergy = getAvailableEnergy(spawn, role);
-
-  var body = findBiggestCreatableBody(availableEnergy, [WORK, MOVE, CARRY]);
-
-  return body;
-}
-
-/***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -930,7 +985,7 @@ function getNextCreepSchema(memory, spawn) {
 // },
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -941,7 +996,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.processQueue = processQueue;
 
-var _memory = __webpack_require__(6);
+var _memory = __webpack_require__(7);
 
 var _memory2 = _interopRequireDefault(_memory);
 
@@ -990,7 +1045,7 @@ function processQueue(memory, spawn) {
 }
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1032,7 +1087,7 @@ function canBuild(room, structureType) {
 }
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1093,7 +1148,7 @@ function canBuildOn(room, pos) {
 }
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1158,7 +1213,7 @@ function createConstructionSites(type, game) {
 }
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

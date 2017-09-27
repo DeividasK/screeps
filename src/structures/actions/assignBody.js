@@ -13,7 +13,7 @@ export function calculateBodyCost(bodyPartsArray: BodyParts): number {
 
 export function findBiggestCreatableBody(
   availableEnergyCapacity: number,
-  template: BodyParts,
+  template: BodyParts = [WORK, MOVE, CARRY],
 ): BodyParts {
   const body: BodyParts = [];
   let nextBodyPart: string;
@@ -57,7 +57,7 @@ export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
 export function assignBody(spawn: StructureSpawn, role: CreepRole): BodyParts {
   const availableEnergy = getAvailableEnergy(spawn, role);
 
-  const body = findBiggestCreatableBody(availableEnergy, [WORK, MOVE, CARRY]);
+  const body = findBiggestCreatableBody(availableEnergy);
 
   return body;
 }

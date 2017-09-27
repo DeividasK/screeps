@@ -123,7 +123,7 @@ declare type Creep = RoomObject & {
   hits: number,
   hitsMax: number,
   id: string,
-  memory: { role: string, hasEnergy: boolean },
+  memory: { role: string, hasEnergy: boolean, needsRenewal: string },
   my: boolean,
   name: string,
   owner: { username: string },
