@@ -666,7 +666,7 @@ function run(creep) {
   (0, _updateWorkStatus2.default)(creep);
 
   if (!creep.memory.hasEnergy) {
-    return _actions2.default.withdrawEnergy(creep);
+    return _actions2.default.harvestEnergy(creep);
   }
 
   status = creep.upgradeController(creep.room.controller);
