@@ -1,4 +1,4 @@
-export function createArea(
+export default function createArea(
   centerPosition: RoomPosition,
   radius: number,
 ): AreaDimensions {

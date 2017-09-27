@@ -1,7 +1,7 @@
 // @flow
 import _ from 'lodash';
 import logger from 'logger';
-import { createArea } from 'utils/createArea';
+import createArea from 'utils/createArea';
 import { canBuild, canBuildOn } from '.';
 
 export function createConstructionSites(type: StructureType, game: GameObject) {

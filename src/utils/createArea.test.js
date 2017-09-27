@@ -1,4 +1,4 @@
-import { createArea } from './createArea';
+import createArea from './createArea';
 
 describe('createArea', () => {
   it('should return an area of a specified radius', () => {

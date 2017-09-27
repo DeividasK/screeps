@@ -7,11 +7,21 @@ export default function init(game: GameObject) {
     const creep = game.creeps[creepName];
     const role = roles[creep.memory.role];
 
-    if (role !== undefined) {
-      sharedActions(creep);
-      role.run(creep);
-    } else {
-      console.log('Creep memory role ', creep.memory.role, ' is undefined');
+    if (role === undefined) {
+      console.log(
+        'Creep memory role ',
+        creep.memory.role,
+        ' is undefined. Creep object: ' + JSON.stringify(creep),
+      );
+      return;
     }
+
+    const sharedActionTaken = sharedActions(creep);
+
+    if (sharedActionTaken) {
+      return false;
+    }
+
+    role.run(creep);
   }
 }

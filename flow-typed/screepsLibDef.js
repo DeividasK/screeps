@@ -133,6 +133,7 @@ declare type Creep = RoomObject & {
   generateSafeMode: (controller: StructureController) => number,
   getActiveBodyParts: (type: string) => number,
   harvest: (target: Source | Mineral) => number,
+  move: (direction: number) => number,
   moveTo: (target: RoomObject, opts?: { reusePath?: number }) => number,
   repair: (target: Structure) => number,
   transfer: (
@@ -187,23 +188,23 @@ declare type GameObject = {
 declare var Game: GameObject;
 
 declare var OK: number;
-// ERR_NOT_OWNER: -1,
-// ERR_NO_PATH: -2,
-// ERR_NAME_EXISTS: -3,
-// ERR_BUSY: -4,
-// ERR_NOT_FOUND: -5,
-// ERR_NOT_ENOUGH_ENERGY: -6,
+const ERR_NOT_OWNER = -1;
+const ERR_NO_PATH = -2;
+const ERR_NAME_EXISTS = -3;
+const ERR_BUSY = -4;
+const ERR_NOT_FOUND = -5;
+const ERR_NOT_ENOUGH_ENERGY = -6;
 declare var ERR_NOT_ENOUGH_RESOURCES: number;
-// ERR_INVALID_TARGET: -7,
-// ERR_FULL: -8,
+const ERR_INVALID_TARGET = -7;
+const ERR_FULL = -8;
 declare var ERR_NOT_IN_RANGE: number;
 
-// ERR_INVALID_ARGS: -10,
-// ERR_TIRED: -11,
-// ERR_NO_BODYPART: -12,
-// ERR_NOT_ENOUGH_EXTENSIONS: -6,
-// ERR_RCL_NOT_ENOUGH: -14,
-// ERR_GCL_NOT_ENOUGH: -15,
+const ERR_INVALID_ARGS = -10;
+const ERR_TIRED = -11;
+const ERR_NO_BODYPART = -12;
+const ERR_NOT_ENOUGH_EXTENSIONS = -6;
+const ERR_RCL_NOT_ENOUGH = -14;
+const ERR_GCL_NOT_ENOUGH = -15;
 //
 declare var FIND_EXIT_TOP: number;
 declare var FIND_EXIT_RIGHT: number;
