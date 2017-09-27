@@ -50,12 +50,22 @@ describe('calculateBodyCost', () => {
 
 describe('findBiggestCreatableBody', () => {
   it('should return the biggest body if energy is unlimited', () => {
-    expect(findBiggestCreatableBody(123456)).toBe(creepBodies[0]);
+    expect(findBiggestCreatableBody(500, [WORK, MOVE, CARRY])).toEqual([
+      WORK,
+      MOVE,
+      CARRY,
+      WORK,
+      MOVE,
+      CARRY,
+      WORK,
+    ]);
   });
 
   it('should return the smallest body if energy is minimal', () => {
-    expect(findBiggestCreatableBody(200)).toBe(
-      creepBodies[creepBodies.length - 1],
-    );
+    expect(findBiggestCreatableBody(200, [WORK, MOVE, CARRY])).toEqual([
+      WORK,
+      MOVE,
+      CARRY,
+    ]);
   });
 });

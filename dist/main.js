@@ -701,7 +701,6 @@ function run(creep) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.creepBodies = undefined;
 exports.calculateBodyCost = calculateBodyCost;
 exports.findBiggestCreatableBody = findBiggestCreatableBody;
 exports.getAvailableEnergy = getAvailableEnergy;
@@ -713,23 +712,24 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Build cost / weight (empty) / weight (loaded)
-var creepBodies = exports.creepBodies = [[WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE], // 1400 / 1 / 2(1.5)
-[WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE], // 800 / 1 / 2
-[WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE], // 550 / 1 / 2(1.7)
-[WORK, WORK, CARRY, MOVE], // 300 / 2 / 3
-[WORK, CARRY, MOVE]];
 function calculateBodyCost(bodyPartsArray) {
   return _lodash2.default.reduce(bodyPartsArray, function (sum, bodyPart) {
     return sum + BODYPART_COST[bodyPart];
   }, 0);
 }
+function findBiggestCreatableBody(availableEnergyCapacity, template) {
+  var body = [];
+  var templateCopy = template.slice();
 
-function findBiggestCreatableBody(availableEnergyCapacity) {
-  // $FlowFixMe
-  return _lodash2.default.find(creepBodies, function (bodyPartsArray) {
-    return calculateBodyCost(bodyPartsArray) <= availableEnergyCapacity;
-  });
+  while (calculateBodyCost(body) < availableEnergyCapacity) {
+    if (templateCopy.length === 0) {
+      templateCopy = template.slice();
+    }
+
+    body.push(templateCopy.shift());
+  }
+
+  return body;
 }
 
 function getAvailableEnergy(spawn, role) {
@@ -747,7 +747,7 @@ function getAvailableEnergy(spawn, role) {
 function assignBody(spawn, role) {
   var availableEnergy = getAvailableEnergy(spawn, role);
 
-  var body = findBiggestCreatableBody(availableEnergy);
+  var body = findBiggestCreatableBody(availableEnergy, [WORK, MOVE, CARRY]);
 
   return body;
 }
