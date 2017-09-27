@@ -609,8 +609,11 @@ function moveAwayFromResources(creep) {
     return false;
   }
 
+  console.log('Obstacles at area for creep: ' + JSON.stringify(creep));
+
   for (var i = 0; i < directions.length; i += 1) {
     var moveStatus = creep.move(directions[i]);
+    console.log('Move status: ', moveStatus);
 
     if (moveStatus === OK) {
       return true;
