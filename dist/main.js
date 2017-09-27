@@ -387,12 +387,9 @@ function init(game) {
 
     var sharedActionTaken = (0, _shared2.default)(creep);
 
-    console.log('Shared action taken: ', sharedActionTaken);
-
-    // if (sharedActionTaken) {
-    //   continue;
-    // }
-    console.log('Running ' + creep.memory.role + ' action.');
+    if (sharedActionTaken) {
+      continue;
+    }
 
     role.run(creep);
   }
@@ -582,6 +579,7 @@ function withdrawEnergy(creep) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getPosition = getPosition;
 exports.default = moveAwayFromResources;
 
 var _lodash = __webpack_require__(0);
@@ -596,6 +594,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var directions = [TOP, TOP_RIGHT, RIGHT, BOTTOM_RIGHT, BOTTOM, BOTTOM_LEFT, LEFT, TOP_LEFT];
 
+function getPosition(direction, x, y) {
+  switch (direction) {
+    case TOP:
+      return { x: x, y: y - 1 };
+    case TOP_RIGHT:
+      return { x: x + 1, y: y - 1 };
+    case RIGHT:
+      return { x: x + 1, y: y };
+    case BOTTOM_RIGHT:
+      return { x: x + 1, y: y + 1 };
+    case BOTTOM:
+      return { x: x, y: y + 1 };
+    case BOTTOM_LEFT:
+      return { x: x - 1, y: y + 1 };
+    case LEFT:
+      return { x: x - 1, y: y };
+    default:
+      // TOP_LEFT
+      return { x: x - 1, y: y - 1 };
+  }
+}
+
 function moveAwayFromResources(creep) {
   var area = (0, _createArea2.default)(creep.pos, 1);
 
@@ -609,18 +629,25 @@ function moveAwayFromResources(creep) {
     return false;
   }
 
-  console.log('Obstacles at area for creep: ' + JSON.stringify(creep));
-
   for (var i = 0; i < directions.length; i += 1) {
-    var moveStatus = creep.move(directions[i]);
-    console.log('Move status: ', moveStatus);
+    var direction = directions[i];
+
+    var targetPosition = getPosition(direction, creep.pos.x, creep.pos.y);
+
+    var objectsAtTargetPosition = creep.room.lookAt(targetPosition.x, targetPosition.y);
+
+    var obstacle = _lodash2.default.some(objectsAtTargetPosition, function (object) {
+      return _lodash2.default.includes(OBSTACLE_OBJECT_TYPES, object[object.type]);
+    });
+
+    if (obstacle) {
+      continue;
+    }
+
+    var moveStatus = creep.move(direction);
 
     if (moveStatus === OK) {
       return true;
-    }
-
-    if (moveStatus === ERR_INVALID_ARGS) {
-      continue;
     }
 
     return false;

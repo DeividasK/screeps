@@ -32,6 +32,13 @@ declare type Room = {
     pos?: RoomPosition,
     structureType: $Keys<typeof CONTROLLER_STRUCTURES>,
   ) => string,
+  lookAt: (
+    x: number,
+    y: number,
+  ) => Array<{
+    type: string,
+    [string]: mixed,
+  }>,
   lookForAt: (type: string, x: number, y: number) => Array<any>,
   lookAtArea: (
     top: number,
@@ -260,9 +267,25 @@ const LOOK_FLAGS = 'flag';
 const LOOK_CONSTRUCTION_SITES = 'constructionSite';
 const LOOK_NUKES = 'nuke';
 const LOOK_TERRAIN = 'terrain';
-//
-// OBSTACLE_OBJECT_TYPES: ["spawn", "creep", "wall", "source", "constructedWall", "extension", "link", "storage", "tower", "observer", "powerSpawn", "powerBank", "lab", "terminal","nuker"],
-//
+
+const OBSTACLE_OBJECT_TYPES = [
+  'spawn',
+  'creep',
+  'wall',
+  'source',
+  'constructedWall',
+  'extension',
+  'link',
+  'storage',
+  'tower',
+  'observer',
+  'powerSpawn',
+  'powerBank',
+  'lab',
+  'terminal',
+  'nuker',
+];
+
 const MOVE = 'move';
 const WORK = 'work';
 const CARRY = 'carry';

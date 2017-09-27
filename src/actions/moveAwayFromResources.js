@@ -13,6 +13,32 @@ const directions = [
   TOP_LEFT,
 ];
 
+export function getPosition(
+  direction: number,
+  x: number,
+  y: number,
+): { x: number, y: number } {
+  switch (direction) {
+    case TOP:
+      return { x, y: y - 1 };
+    case TOP_RIGHT:
+      return { x: x + 1, y: y - 1 };
+    case RIGHT:
+      return { x: x + 1, y };
+    case BOTTOM_RIGHT:
+      return { x: x + 1, y: y + 1 };
+    case BOTTOM:
+      return { x, y: y + 1 };
+    case BOTTOM_LEFT:
+      return { x: x - 1, y: y + 1 };
+    case LEFT:
+      return { x: x - 1, y };
+    default:
+      // TOP_LEFT
+      return { x: x - 1, y: y - 1 };
+  }
+}
+
 export default function moveAwayFromResources(creep: Creep): boolean {
   const area: AreaDimensions = createArea(creep.pos, 1);
 
@@ -38,18 +64,28 @@ export default function moveAwayFromResources(creep: Creep): boolean {
     return false;
   }
 
-  console.log('Obstacles at area for creep: ' + JSON.stringify(creep));
-
   for (let i = 0; i < directions.length; i += 1) {
-    const moveStatus = creep.move(directions[i]);
-    console.log('Move status: ', moveStatus);
+    const direction: number = directions[i];
+
+    const targetPosition = getPosition(direction, creep.pos.x, creep.pos.y);
+
+    const objectsAtTargetPosition: Array<{
+      type: string,
+      [string]: mixed,
+    }> = creep.room.lookAt(targetPosition.x, targetPosition.y);
+
+    const obstacle = _.some(objectsAtTargetPosition, object => {
+      return _.includes(OBSTACLE_OBJECT_TYPES, object[object.type]);
+    });
+
+    if (obstacle) {
+      continue;
+    }
+
+    const moveStatus = creep.move(direction);
 
     if (moveStatus === OK) {
       return true;
-    }
-
-    if (moveStatus === ERR_INVALID_ARGS) {
-      continue;
     }
 
     return false;
