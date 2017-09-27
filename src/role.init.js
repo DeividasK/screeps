@@ -18,9 +18,12 @@ export default function init(game: GameObject) {
 
     const sharedActionTaken = sharedActions(creep);
 
+    console.log('Shared action taken: ', sharedActionTaken);
+
     if (sharedActionTaken) {
       return false;
     }
+    console.log('Running ' + creep.memory.role + ' action.');
 
     role.run(creep);
   }

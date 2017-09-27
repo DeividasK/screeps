@@ -387,9 +387,12 @@ function init(game) {
 
     var sharedActionTaken = (0, _shared2.default)(creep);
 
+    console.log('Shared action taken: ', sharedActionTaken);
+
     if (sharedActionTaken) {
       return false;
     }
+    console.log('Running ' + creep.memory.role + ' action.');
 
     role.run(creep);
   }
