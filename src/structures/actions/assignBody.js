@@ -54,8 +54,7 @@ export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
   let availableEnergy;
 
   if (role === 'harvester') {
-    const energyInExtensions = spawn.room.energyAvailable - spawn.energy;
-    availableEnergy = energyInExtensions + spawn.energyCapacity;
+    availableEnergy = spawn.room.energyAvailable;
   } else {
     availableEnergy = spawn.room.energyCapacityAvailable;
   }

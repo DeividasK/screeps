@@ -15,7 +15,7 @@ describe('getAvailableEnergy', () => {
       },
     };
 
-    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(450);
+    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(200);
   });
 
   it('Role: others. Should return ', () => {

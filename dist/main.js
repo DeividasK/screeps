@@ -736,8 +736,7 @@ function getAvailableEnergy(spawn, role) {
   var availableEnergy = void 0;
 
   if (role === 'harvester') {
-    var energyInExtensions = spawn.room.energyAvailable - spawn.energy;
-    availableEnergy = energyInExtensions + spawn.energyCapacity;
+    availableEnergy = spawn.room.energyAvailable;
   } else {
     availableEnergy = spawn.room.energyCapacityAvailable;
   }
