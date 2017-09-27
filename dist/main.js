@@ -719,14 +719,21 @@ function calculateBodyCost(bodyPartsArray) {
 }
 function findBiggestCreatableBody(availableEnergyCapacity, template) {
   var body = [];
+  var nextBodyPart = void 0;
   var templateCopy = template.slice();
 
-  while (calculateBodyCost(body) < availableEnergyCapacity) {
+  while (true) {
     if (templateCopy.length === 0) {
       templateCopy = template.slice();
     }
 
-    body.push(templateCopy.shift());
+    nextBodyPart = templateCopy.shift();
+
+    if (calculateBodyCost(body.concat(nextBodyPart)) > availableEnergyCapacity) {
+      break;
+    }
+
+    body.push(nextBodyPart);
   }
 
   return body;

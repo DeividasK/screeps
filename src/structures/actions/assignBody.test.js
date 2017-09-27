@@ -49,8 +49,17 @@ describe('calculateBodyCost', () => {
 });
 
 describe('findBiggestCreatableBody', () => {
-  it('should return the biggest body if energy is unlimited', () => {
+  it('should return the biggest body for the available energy', () => {
     expect(findBiggestCreatableBody(500, [WORK, MOVE, CARRY])).toEqual([
+      WORK,
+      MOVE,
+      CARRY,
+      WORK,
+      MOVE,
+      CARRY,
+      WORK,
+    ]);
+    expect(findBiggestCreatableBody(505, [WORK, MOVE, CARRY])).toEqual([
       WORK,
       MOVE,
       CARRY,

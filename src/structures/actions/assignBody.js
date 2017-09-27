@@ -16,14 +16,23 @@ export function findBiggestCreatableBody(
   template: BodyParts,
 ): BodyParts {
   const body: BodyParts = [];
+  let nextBodyPart: string;
   let templateCopy = template.slice();
 
-  while (calculateBodyCost(body) < availableEnergyCapacity) {
+  while (true) {
     if (templateCopy.length === 0) {
       templateCopy = template.slice();
     }
 
-    body.push(templateCopy.shift());
+    nextBodyPart = templateCopy.shift();
+
+    if (
+      calculateBodyCost(body.concat(nextBodyPart)) > availableEnergyCapacity
+    ) {
+      break;
+    }
+
+    body.push(nextBodyPart);
   }
 
   return body;
