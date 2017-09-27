@@ -26,9 +26,11 @@ export function processQueue(memory: MemoryObject, spawn: StructureSpawn) {
   }
 
   logger('Spawning new ' + creepSchema.role + '.');
+  const timeString = new Date().toTimeString().slice(0, 8);
+
   const creepName = spawn.createCreep(
     creepSchema.body,
-    creepSchema.role + ' ' + Date.now(),
+    creepSchema.role + ' ' + timeString,
     {
       role: creepSchema.role,
     },
