@@ -79,6 +79,7 @@ describe('getNextCreepSchema', () => {
 
   it('should return if queue is not empty', () => {
     const fakeMemory = {
+      roles: { upgrader: 1 },
       queue: [{ body: '', role: '' }],
     };
     const fakeSpawn = {

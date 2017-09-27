@@ -29,13 +29,6 @@ export function getNextCreepSchema(
     return;
   }
 
-  if (memory.queue.length !== 0) {
-    logger(
-      `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
-    );
-    return;
-  }
-
   // $FlowFixMe
   const roles: Array<CreepRole> = _.keys(memory.roles);
 
@@ -46,6 +39,26 @@ export function getNextCreepSchema(
   }
 
   const nextCreepRole = findNextCreepRole(roles, memory);
+
+  if (
+    memory.queue.length !== 0 &&
+    nextCreepRole === 'harvester' &&
+    memory.queue[0].role !== 'harvester'
+  ) {
+    logger(
+      'Cleared ' +
+        JSON.stringify(memory.queue[0]) +
+        ' from queue in favor of harvester.',
+    );
+    memory.queue = [];
+  }
+
+  if (memory.queue.length !== 0) {
+    logger(
+      `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
+    );
+    return;
+  }
 
   if (!nextCreepRole) {
     return;

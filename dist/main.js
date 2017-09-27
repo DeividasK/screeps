@@ -795,11 +795,6 @@ function getNextCreepSchema(memory, spawn) {
     return;
   }
 
-  if (memory.queue.length !== 0) {
-    (0, _logger2.default)('Queue is not empty. Currently in queue: ' + JSON.stringify(memory.queue));
-    return;
-  }
-
   // $FlowFixMe
   var roles = _lodash2.default.keys(memory.roles);
 
@@ -808,6 +803,16 @@ function getNextCreepSchema(memory, spawn) {
   }
 
   var nextCreepRole = findNextCreepRole(roles, memory);
+
+  if (memory.queue.length !== 0 && nextCreepRole === 'harvester' && memory.queue[0].role !== 'harvester') {
+    (0, _logger2.default)('Cleared ' + JSON.stringify(memory.queue[0]) + ' from queue in favor of harvester.');
+    memory.queue = [];
+  }
+
+  if (memory.queue.length !== 0) {
+    (0, _logger2.default)('Queue is not empty. Currently in queue: ' + JSON.stringify(memory.queue));
+    return;
+  }
 
   if (!nextCreepRole) {
     return;
