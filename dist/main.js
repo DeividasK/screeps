@@ -456,8 +456,11 @@ function init(game) {
 
     if ((0, _shared2.default)(creep)) {
       game.spawns['Spawn1'].renewCreep(creep);
+      console.log('Renewing creep ' + JSON.stringify(creep));
       continue;
     }
+
+    console.log(creep.name + ' does not need renewal.');
 
     role.run(creep);
   }
@@ -493,8 +496,9 @@ function sharedActions(creep) {
   var hasEnergy = (0, _updateWorkStatus2.default)(creep);
   (0, _updateRenewalStatus2.default)(creep);
 
-  if (creep.memory.renewalStatus === 'yes') {
+  if (creep.memory.needsRenewal === 'yes') {
     _actions2.default.moveToSpawn(creep);
+    console.log(JSON.stringify(creep) + ' moving to spawn.');
     return true;
   }
 }
