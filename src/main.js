@@ -1,5 +1,5 @@
 // @flow
-import initRoles from 'role.init';
+import initRoles from 'roles/init';
 import memoryHandler from 'memory';
 import {
   getNextCreepSchema,
@@ -33,7 +33,8 @@ function loop() {
 export { loop };
 
 // Goals
-// - Creep repair
+// - Renew creeps
+// - Add storage
 // - Automatically adjust harvesters count
 // - Automatically build roads
 // - Recycle creeps

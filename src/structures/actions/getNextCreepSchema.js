@@ -54,9 +54,9 @@ export function getNextCreepSchema(
   }
 
   if (memory.queue.length !== 0) {
-    logger(
-      `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
-    );
+    // logger(
+    //   `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
+    // );
     return;
   }
 

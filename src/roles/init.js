@@ -1,6 +1,6 @@
 // @flow
-import sharedActions from './roles/shared';
-import * as roles from './roles';
+import sharedActions from './shared';
+import * as roles from '.';
 
 export default function init(game: GameObject) {
   for (const creepName in game.creeps) {

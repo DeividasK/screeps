@@ -15,7 +15,7 @@ export function processQueue(memory: MemoryObject, spawn: StructureSpawn) {
   const canCreate = spawn.canCreateCreep(creepSchema.body);
 
   if (canCreate !== OK) {
-    logger('Cannot create creep: ' + canCreate);
+    // logger('Cannot create creep: ' + canCreate);
     return;
   }
 

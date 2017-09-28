@@ -376,9 +376,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loop = undefined;
 
-var _role = __webpack_require__(9);
+var _init = __webpack_require__(9);
 
-var _role2 = _interopRequireDefault(_role);
+var _init2 = _interopRequireDefault(_init);
 
 var _memory = __webpack_require__(7);
 
@@ -407,13 +407,14 @@ function loop() {
 
   (0, _actions.processQueue)(Memory, Game.spawns['Spawn1']);
 
-  (0, _role2.default)(Game);
+  (0, _init2.default)(Game);
 }
 
 exports.loop = loop;
 
 // Goals
-// - Creep repair
+// - Renew creeps
+// - Add storage
 // - Automatically adjust harvesters count
 // - Automatically build roads
 // - Recycle creeps
@@ -435,9 +436,9 @@ var _shared = __webpack_require__(10);
 
 var _shared2 = _interopRequireDefault(_shared);
 
-var _roles = __webpack_require__(18);
+var _ = __webpack_require__(18);
 
-var roles = _interopRequireWildcard(_roles);
+var roles = _interopRequireWildcard(_);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -536,7 +537,8 @@ exports.default = updateRenewalStatus;
 var _assignBody = __webpack_require__(6);
 
 function updateRenewalStatus(creep) {
-  var renewalThreshold = 50;
+  var minThreshold = 1250;
+  var maxThreshold = 1450;
   var renewalStatus = creep.memory.needsRenewal;
 
   if (renewalStatus === 'never') {
@@ -548,19 +550,21 @@ function updateRenewalStatus(creep) {
     return;
   }
 
-  if (renewalStatus === 'yes' && creep.ticksToLive > 1450) {
+  if (renewalStatus === 'yes' && creep.ticksToLive > maxThreshold) {
     creep.memory.needsRenewal = 'no';
     return;
   }
 
   // renewalStatus === 'no'
-  if (creep.ticksToLive > renewalThreshold) {
+  if (creep.ticksToLive > minThreshold) {
     return;
   }
 
   var biggestCreatableBody = (0, _assignBody.findBiggestCreatableBody)(creep.room.energyCapacityAvailable);
 
   if (creep.body.length < biggestCreatableBody.length) {
+    console.log('Creep body length', creep.body.length);
+    console.log('Biggest creatable body', biggestCreatableBody.length);
     creep.memory.needsRenewal = 'never';
     return;
   }
@@ -975,7 +979,9 @@ function getNextCreepSchema(memory, spawn) {
   }
 
   if (memory.queue.length !== 0) {
-    (0, _logger2.default)('Queue is not empty. Currently in queue: ' + JSON.stringify(memory.queue));
+    // logger(
+    //   `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
+    // );
     return;
   }
 
@@ -1033,7 +1039,7 @@ function processQueue(memory, spawn) {
   var canCreate = spawn.canCreateCreep(creepSchema.body);
 
   if (canCreate !== OK) {
-    (0, _logger2.default)('Cannot create creep: ' + canCreate);
+    // logger('Cannot create creep: ' + canCreate);
     return;
   }
 
