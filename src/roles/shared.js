@@ -9,7 +9,6 @@ export default function sharedActions(creep: Creep) {
 
   if (creep.memory.needsRenewal === 'yes') {
     actions.moveToSpawn(creep);
-    console.log(JSON.stringify(creep) + ' moving to spawn.');
     return true;
   }
 }
