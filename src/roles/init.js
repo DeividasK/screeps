@@ -16,10 +16,14 @@ export default function init(game: GameObject) {
       return;
     }
 
-    if (sharedActions(creep)) {
-      game.spawns['Spawn1'].renewCreep(creep);
-      continue;
-    }
+    sharedActions(creep);
+
+    // TODO: Enable creep renewal, but add additional checks. Otherwise the colony dies
+    // if (creep.memory.needsRenewal === 'yes') {
+    //   actions.moveToSpawn(creep);
+    //   game.spawns['Spawn1'].renewCreep(creep);
+    //   continue;
+    // }
 
     role.run(creep);
   }

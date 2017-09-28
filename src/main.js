@@ -33,6 +33,7 @@ function loop() {
 export { loop };
 
 // Goals
+// - Defend against invader
 // - Renew creeps
 // - Add storage
 // - Automatically adjust harvesters count

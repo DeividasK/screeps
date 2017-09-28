@@ -413,6 +413,7 @@ function loop() {
 exports.loop = loop;
 
 // Goals
+// - Defend against invader
 // - Renew creeps
 // - Add storage
 // - Automatically adjust harvesters count
@@ -454,13 +455,14 @@ function init(game) {
       return;
     }
 
-    if ((0, _shared2.default)(creep)) {
-      game.spawns['Spawn1'].renewCreep(creep);
-      console.log('Renewing creep ' + JSON.stringify(creep));
-      continue;
-    }
+    (0, _shared2.default)(creep);
 
-    console.log(creep.name + ' does not need renewal.');
+    // TODO: Enable creep renewal, but add additional checks. Otherwise the colony dies
+    // if (creep.memory.needsRenewal === 'yes') {
+    //   actions.moveToSpawn(creep);
+    //   game.spawns['Spawn1'].renewCreep(creep);
+    //   continue;
+    // }
 
     role.run(creep);
   }
@@ -495,12 +497,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function sharedActions(creep) {
   var hasEnergy = (0, _updateWorkStatus2.default)(creep);
   (0, _updateRenewalStatus2.default)(creep);
-
-  if (creep.memory.needsRenewal === 'yes') {
-    _actions2.default.moveToSpawn(creep);
-    console.log(JSON.stringify(creep) + ' moving to spawn.');
-    return true;
-  }
 }
 
 /***/ }),
