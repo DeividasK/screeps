@@ -2,7 +2,8 @@
 import { findBiggestCreatableBody } from 'structures/actions/assignBody';
 
 export default function updateRenewalStatus(creep: Creep) {
-  const minThreshold = 1250;
+  const bodySizeOffset = 2;
+  const minThreshold = 100;
   const maxThreshold = 1450;
   const renewalStatus = creep.memory.needsRenewal;
 
@@ -29,9 +30,7 @@ export default function updateRenewalStatus(creep: Creep) {
     creep.room.energyCapacityAvailable,
   );
 
-  if (creep.body.length < biggestCreatableBody.length) {
-    console.log('Creep body length', creep.body.length);
-    console.log('Biggest creatable body', biggestCreatableBody.length);
+  if (creep.body.length + bodySizeOffset < biggestCreatableBody.length) {
     creep.memory.needsRenewal = 'never';
     return;
   }

@@ -537,7 +537,8 @@ exports.default = updateRenewalStatus;
 var _assignBody = __webpack_require__(6);
 
 function updateRenewalStatus(creep) {
-  var minThreshold = 1250;
+  var bodySizeOffset = 2;
+  var minThreshold = 100;
   var maxThreshold = 1450;
   var renewalStatus = creep.memory.needsRenewal;
 
@@ -562,9 +563,7 @@ function updateRenewalStatus(creep) {
 
   var biggestCreatableBody = (0, _assignBody.findBiggestCreatableBody)(creep.room.energyCapacityAvailable);
 
-  if (creep.body.length < biggestCreatableBody.length) {
-    console.log('Creep body length', creep.body.length);
-    console.log('Biggest creatable body', biggestCreatableBody.length);
+  if (creep.body.length + bodySizeOffset < biggestCreatableBody.length) {
     creep.memory.needsRenewal = 'never';
     return;
   }
@@ -1039,7 +1038,6 @@ function processQueue(memory, spawn) {
   var canCreate = spawn.canCreateCreep(creepSchema.body);
 
   if (canCreate !== OK) {
-    // logger('Cannot create creep: ' + canCreate);
     return;
   }
 
