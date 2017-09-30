@@ -34,7 +34,8 @@ function loop() {
 export { loop };
 
 // Goals
-// - Upgrade queue management
+// Harvester -> build if full capacity -> storage if no construction sites
+// Builder -> Take from storage -> Harvest if storage empty
 // - Defend against invader
 // - Renew creeps
 // - Automatically adjust harvesters count
