@@ -6,19 +6,12 @@ export default function transferToStructure(
   structureType: string,
 ): boolean {
   const target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-    filter: { structureType },
+    filter: structure =>
+      structure.structureType === structureType &&
+      structure.energy < structure.energyCapacity,
   });
 
   if (target === null) {
-    return false;
-  }
-
-  if (
-    [STRUCTURE_TOWER, STRUCTURE_EXTENSION, STRUCTURE_SPAWN].includes(
-      structureType,
-    ) &&
-    target.energy === target.energyCapacity
-  ) {
     return false;
   }
 

@@ -13,20 +13,10 @@ describe('Roles - Actions - transferToStructure', () => {
     energyCapacity: 1000,
   };
 
-  it('should return false if not structures are found', () => {
+  it('should return false if no structures are found', () => {
     const creep = {
       pos: {
         findClosestByPath: jest.fn(() => null),
-      },
-    };
-
-    expect(transferToStructure(creep, STRUCTURE_TOWER)).toBe(false);
-  });
-
-  it('should return false if structure is tower and it has full energy', () => {
-    const creep = {
-      pos: {
-        findClosestByPath: jest.fn(() => fullTower),
       },
     };
 

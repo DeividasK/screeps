@@ -11,7 +11,7 @@ import { run } from './harvester';
 
 describe('Role - Harvester - run', () => {
   it('should harvest energy if it does not have it', () => {
-    const mockCreep = {
+    const creep = {
       memory: {
         hasEnergy: false,
       },
@@ -20,13 +20,13 @@ describe('Role - Harvester - run', () => {
       },
     };
 
-    run(mockCreep);
+    run(creep);
 
-    expect(actions.harvestEnergy).toHaveBeenCalledWith(mockCreep);
+    expect(actions.harvestEnergy).toHaveBeenCalledWith(creep);
   });
 
   it('should store energy if there is capacity in spawns or extensions', () => {
-    const mockCreep = {
+    const creep = {
       memory: {
         hasEnergy: true,
       },
@@ -34,18 +34,19 @@ describe('Role - Harvester - run', () => {
         energyAvailable: 500,
         energyCapacityAvailable: 1000,
       },
+      transfer: jest.fn(),
     };
 
-    run(mockCreep);
+    run(creep);
 
     expect(actions.transferToStructure).toHaveBeenCalledWith(
-      mockCreep,
+      creep,
       STRUCTURE_SPAWN,
     );
   });
 
   it('should build construction sites if there is no empty capacity to store energy', () => {
-    const mockCreep = {
+    const creep = {
       memory: {
         hasEnergy: true,
       },
@@ -55,13 +56,13 @@ describe('Role - Harvester - run', () => {
       },
     };
 
-    run(mockCreep);
+    run(creep);
 
-    expect(actions.build).toHaveBeenCalledWith(mockCreep);
+    expect(actions.build).toHaveBeenCalledWith(creep);
   });
 
   it('should fill storage if there are no construction sites and there is no empty capacity to store energy', () => {
-    const mockCreep = {
+    const creep = {
       memory: {
         hasEnergy: true,
       },
@@ -71,8 +72,8 @@ describe('Role - Harvester - run', () => {
       },
     };
 
-    run(mockCreep);
+    run(creep);
 
-    expect(actions.build).toHaveBeenCalledWith(mockCreep);
+    expect(actions.build).toHaveBeenCalledWith(creep);
   });
 });

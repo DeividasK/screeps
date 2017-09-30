@@ -1146,14 +1146,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function transferToStructure(creep, structureType) {
   var target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-    filter: { structureType: structureType }
+    filter: function filter(structure) {
+      return structure.structureType === structureType && structure.energy < structure.energyCapacity;
+    }
   });
 
   if (target === null) {
-    return false;
-  }
-
-  if ([STRUCTURE_TOWER, STRUCTURE_EXTENSION, STRUCTURE_SPAWN].includes(structureType) && target.energy === target.energyCapacity) {
     return false;
   }
 
