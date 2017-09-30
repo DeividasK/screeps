@@ -4,6 +4,9 @@ jest.mock('structures/actions/manageCreepCount');
 jest.mock('structures/actions/assignBody', () => ({
   assignBody: jest.fn(() => ['mockedBody']),
 }));
+jest.mock('structures/actions/attackInvaders', () => ({
+  attackInvaders: jest.fn(),
+}));
 
 describe('Main', () => {
   describe('if memory.queue array does not exist', () => {

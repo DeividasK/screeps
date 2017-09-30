@@ -144,6 +144,15 @@ Object.defineProperty(exports, 'manageCreepCount', {
   }
 });
 
+var _attackInvaders = __webpack_require__(36);
+
+Object.defineProperty(exports, 'attackInvaders', {
+  enumerable: true,
+  get: function get() {
+    return _attackInvaders.attackInvaders;
+  }
+});
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -477,20 +486,19 @@ function loop() {
 
   (0, _actions.processQueue)(Memory, Game.spawns['Spawn1']);
 
+  (0, _actions.attackInvaders)(Game.rooms['W7S56']);
+
   (0, _init2.default)(Game);
 }
 
 exports.loop = loop;
 
 // Goals:
-// Build tower
 // Defend against invader
-// Builder -> Take from storage -> Harvest if storage empty
-// - Renew creeps
-// - Automatically adjust harvesters count
-// - Automatically build roads
-// - Recycle creeps
-// - Creep should move away from an energy source
+// ? Renew creeps
+// ? Automatically build roads
+// Recycle creeps
+// ? Creep should move away from an energy source
 
 /***/ }),
 /* 10 */
@@ -1555,6 +1563,58 @@ function manageCreepCount(memory, spawn) {
   if (memory.roles.builder > 0 && constructionSites.length === 0) {
     memory.roles.builder = 0;
     (0, _logger2.default)('Found builders. 0 construction sites. Removing builders.');
+  }
+}
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.attackInvaders = attackInvaders;
+function attackInvaders(room) {
+  var invaders = room.find(FIND_HOSTILE_CREEPS);
+
+  if (invaders.length === 0) {
+    return false;
+  }
+
+  var towers = room.find(FIND_MY_STRUCTURES, {
+    filter: { structureType: STRUCTURE_TOWER }
+  });
+
+  if (towers.length === 0) {
+    return false;
+  }
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = towers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var tower = _step.value;
+
+      tower.attack(invaders[0]);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
 }
 

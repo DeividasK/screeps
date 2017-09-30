@@ -6,6 +6,7 @@ import {
   processQueue,
   createConstructionSites,
   manageCreepCount,
+  attackInvaders,
 } from 'structures/actions';
 import _ from 'lodash';
 
@@ -29,17 +30,16 @@ function loop() {
 
   processQueue(Memory, Game.spawns['Spawn1']);
 
+  attackInvaders(Game.rooms['W7S56']);
+
   initRoles(Game);
 }
 
 export { loop };
 
 // Goals:
-// Build tower
 // Defend against invader
-// Builder -> Take from storage -> Harvest if storage empty
-// - Renew creeps
-// - Automatically adjust harvesters count
-// - Automatically build roads
-// - Recycle creeps
-// - Creep should move away from an energy source
+// ? Renew creeps
+// ? Automatically build roads
+// Recycle creeps
+// ? Creep should move away from an energy source

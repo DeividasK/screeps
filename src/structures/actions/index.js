@@ -5,3 +5,4 @@ export { canBuild } from './canBuild';
 export { canBuildOn } from './canBuildOn';
 export { createConstructionSites } from './createConstructionSites';
 export { manageCreepCount } from './manageCreepCount';
+export { attackInvaders } from './attackInvaders';
