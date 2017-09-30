@@ -90,7 +90,7 @@ Object.defineProperty(exports, 'assignBody', {
   }
 });
 
-var _getNextCreepSchema = __webpack_require__(27);
+var _getNextCreepSchema = __webpack_require__(28);
 
 Object.defineProperty(exports, 'getNextCreepSchema', {
   enumerable: true,
@@ -99,7 +99,7 @@ Object.defineProperty(exports, 'getNextCreepSchema', {
   }
 });
 
-var _processQueue = __webpack_require__(28);
+var _processQueue = __webpack_require__(29);
 
 Object.defineProperty(exports, 'processQueue', {
   enumerable: true,
@@ -108,7 +108,7 @@ Object.defineProperty(exports, 'processQueue', {
   }
 });
 
-var _canBuild = __webpack_require__(29);
+var _canBuild = __webpack_require__(30);
 
 Object.defineProperty(exports, 'canBuild', {
   enumerable: true,
@@ -117,7 +117,7 @@ Object.defineProperty(exports, 'canBuild', {
   }
 });
 
-var _canBuildOn = __webpack_require__(30);
+var _canBuildOn = __webpack_require__(31);
 
 Object.defineProperty(exports, 'canBuildOn', {
   enumerable: true,
@@ -126,7 +126,7 @@ Object.defineProperty(exports, 'canBuildOn', {
   }
 });
 
-var _createConstructionSites = __webpack_require__(31);
+var _createConstructionSites = __webpack_require__(32);
 
 Object.defineProperty(exports, 'createConstructionSites', {
   enumerable: true,
@@ -135,7 +135,7 @@ Object.defineProperty(exports, 'createConstructionSites', {
   }
 });
 
-var _manageCreepCount = __webpack_require__(32);
+var _manageCreepCount = __webpack_require__(33);
 
 Object.defineProperty(exports, 'manageCreepCount', {
   enumerable: true,
@@ -344,9 +344,13 @@ var _harvestEnergy = __webpack_require__(24);
 
 var _harvestEnergy2 = _interopRequireDefault(_harvestEnergy);
 
+var _withdrawEnergy = __webpack_require__(25);
+
+var _withdrawEnergy2 = _interopRequireDefault(_withdrawEnergy);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = { build: _build2.default, fillStorage: _fillStorage2.default, pickupEnergy: _pickupEnergy2.default, harvestEnergy: _harvestEnergy2.default };
+exports.default = { build: _build2.default, fillStorage: _fillStorage2.default, pickupEnergy: _pickupEnergy2.default, harvestEnergy: _harvestEnergy2.default, withdrawEnergy: _withdrawEnergy2.default };
 
 /***/ }),
 /* 8 */
@@ -438,6 +442,7 @@ function loop() {
 
   (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);
   (0, _actions.createConstructionSites)(STRUCTURE_STORAGE, Game);
+  (0, _actions.createConstructionSites)(STRUCTURE_TOWER, Game);
 
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema, Memory);
@@ -450,11 +455,9 @@ function loop() {
 
 exports.loop = loop;
 
-// Goals
-// Clear queue if no creeps available
-// Harvester -> build if full capacity -> storage if no construction sites
-// Pick up dropped energy
-// - Defend against invader
+// Goals:
+// Build tower
+// Defend against invader
 // Builder -> Take from storage -> Harvest if storage empty
 // - Renew creeps
 // - Automatically adjust harvesters count
@@ -842,11 +845,11 @@ var _builder = __webpack_require__(20);
 
 var builder = _interopRequireWildcard(_builder);
 
-var _harvester = __webpack_require__(25);
+var _harvester = __webpack_require__(26);
 
 var harvester = _interopRequireWildcard(_harvester);
 
-var _upgrader = __webpack_require__(26);
+var _upgrader = __webpack_require__(27);
 
 var upgrader = _interopRequireWildcard(_upgrader);
 
@@ -876,6 +879,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function run(creep) {
   var working = void 0;
+
+  working = _actions2.default.withdrawEnergy(creep);
+
+  if (working) {
+    return;
+  }
 
   working = _actions2.default.harvestEnergy(creep);
 
@@ -1025,6 +1034,39 @@ function harvestEnergy(creep) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = withdrawEnergy;
+function withdrawEnergy(creep) {
+  if (creep.memory.hasEnergy) {
+    return false;
+  }
+
+  if (creep.room.storage === undefined) {
+    return false;
+  }
+
+  if (creep.room.storage.store[RESOURCE_ENERGY] < creep.carryCapacity) {
+    return false;
+  }
+
+  var status = creep.withdraw(creep.room.storage, RESOURCE_ENERGY);
+
+  if (status === ERR_NOT_IN_RANGE) {
+    creep.moveTo(creep.room.storage);
+  }
+
+  return true;
+}
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.run = run;
 
 var _actions = __webpack_require__(3);
@@ -1066,7 +1108,7 @@ function run(creep) {
 }
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1098,7 +1140,7 @@ function run(creep) {
 }
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1131,7 +1173,7 @@ function findNextCreepRole(roles, memory) {
     var requiredRoleCount = memory.roles[role];
     var existingRoleCount = existingCreepsByRole[role];
 
-    return !existingRoleCount || requiredRoleCount > existingRoleCount;
+    return requiredRoleCount > 0 && !existingRoleCount || requiredRoleCount > existingRoleCount;
   });
 
   var urgent = nextCreepRole === 'harvester' && !existingCreepsByRole.harvester;
@@ -1179,7 +1221,7 @@ function getNextCreepSchema(memory, spawn) {
 // },
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1238,7 +1280,7 @@ function processQueue(memory, spawn) {
 }
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1280,7 +1322,7 @@ function canBuild(room, structureType) {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1341,7 +1383,7 @@ function canBuildOn(room, pos) {
 }
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1406,7 +1448,7 @@ function createConstructionSites(type, game) {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

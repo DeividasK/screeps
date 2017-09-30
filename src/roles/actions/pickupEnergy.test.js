@@ -1,6 +1,6 @@
-import pickUpEnergy from './pickUpEnergy';
+import pickupEnergy from './pickupEnergy';
 
-describe('Roles - Actions - pickUpEnergy', () => {
+describe('Roles - Actions - pickupEnergy', () => {
   it('should return false if creep has energy', () => {
     const creep = {
       memory: {
@@ -8,7 +8,7 @@ describe('Roles - Actions - pickUpEnergy', () => {
       },
     };
 
-    expect(pickUpEnergy(creep)).toBe(false);
+    expect(pickupEnergy(creep)).toBe(false);
   });
 
   it('should return false if droppedEnergy is null', () => {
@@ -21,7 +21,7 @@ describe('Roles - Actions - pickUpEnergy', () => {
       },
     };
 
-    expect(pickUpEnergy(creep)).toBe(false);
+    expect(pickupEnergy(creep)).toBe(false);
   });
 
   it('should pick up dropped energy', () => {
@@ -36,7 +36,7 @@ describe('Roles - Actions - pickUpEnergy', () => {
       pickup: jest.fn(),
     };
 
-    expect(pickUpEnergy(creep)).toBe(true);
+    expect(pickupEnergy(creep)).toBe(true);
     expect(creep.pickup).toHaveBeenCalledWith(droppedEnergy);
   });
 
@@ -53,7 +53,7 @@ describe('Roles - Actions - pickUpEnergy', () => {
       moveTo: jest.fn(),
     };
 
-    expect(pickUpEnergy(creep)).toBe(true);
+    expect(pickupEnergy(creep)).toBe(true);
     expect(creep.pickup).toHaveBeenCalledWith(droppedEnergy);
     expect(creep.moveTo).toHaveBeenCalledWith(droppedEnergy);
   });
