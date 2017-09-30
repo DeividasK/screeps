@@ -1,6 +1,10 @@
 import withdrawEnergy from './withdrawEnergy';
 
 describe('Roles - Actions - withdrawEnergy', () => {
+  const constructionSite = {
+    foo: 'bar',
+  };
+
   it('should return false if creep has energy', () => {
     const creep = {
       memory: {
@@ -10,12 +14,28 @@ describe('Roles - Actions - withdrawEnergy', () => {
 
     expect(withdrawEnergy(creep)).toBe(false);
   });
+
+  it('should return false if there are no construction sites in the room', () => {
+    const creep = {
+      memory: {
+        hasEnergy: false,
+      },
+      room: {
+        find: jest.fn(() => []),
+      },
+    };
+
+    expect(withdrawEnergy(creep)).toBe(false);
+  });
+
   it('should return false if there is no storage in the room', () => {
     const creep = {
       memory: {
         hasEnergy: false,
       },
-      room: {},
+      room: {
+        find: jest.fn(() => [constructionSite]),
+      },
     };
 
     expect(withdrawEnergy(creep)).toBe(false);
@@ -32,6 +52,7 @@ describe('Roles - Actions - withdrawEnergy', () => {
             energy: 200,
           },
         },
+        find: jest.fn(() => [constructionSite]),
       },
       carryCapacity: 500,
     };
@@ -50,6 +71,7 @@ describe('Roles - Actions - withdrawEnergy', () => {
             energy: 500,
           },
         },
+        find: jest.fn(() => [constructionSite]),
       },
       carryCapacity: 500,
       withdraw: jest.fn(),
@@ -73,6 +95,7 @@ describe('Roles - Actions - withdrawEnergy', () => {
             energy: 500,
           },
         },
+        find: jest.fn(() => [constructionSite]),
       },
       carryCapacity: 500,
       withdraw: jest.fn(() => ERR_NOT_IN_RANGE),
