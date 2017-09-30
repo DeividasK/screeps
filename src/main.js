@@ -21,6 +21,7 @@ function loop() {
 
   createConstructionSites(STRUCTURE_EXTENSION, Game);
   createConstructionSites(STRUCTURE_STORAGE, Game);
+  createConstructionSites(STRUCTURE_TOWER, Game);
 
   if (nextCreepSchema) {
     memoryHandler.addToQueue(nextCreepSchema, Memory);
@@ -33,11 +34,9 @@ function loop() {
 
 export { loop };
 
-// Goals
-// Clear queue if no creeps available
-// Harvester -> build if full capacity -> storage if no construction sites
-// Pick up dropped energy
-// - Defend against invader
+// Goals:
+// Build tower
+// Defend against invader
 // Builder -> Take from storage -> Harvest if storage empty
 // - Renew creeps
 // - Automatically adjust harvesters count

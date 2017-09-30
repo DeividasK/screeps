@@ -16,7 +16,7 @@ export function findNextCreepRole(
     const requiredRoleCount = memory.roles[role];
     const existingRoleCount = existingCreepsByRole[role];
 
-    return !existingRoleCount || requiredRoleCount > existingRoleCount;
+    return (requiredRoleCount > 0 && !existingRoleCount) || requiredRoleCount > existingRoleCount;
   });
 
   const urgent =
