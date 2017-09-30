@@ -1,31 +1,16 @@
 // @flow
-import actions from 'actions';
-import Actions from './actions';
+import runner from './runner';
 
 export function run(creep: Creep) {
-  let working;
+  const actionItems = [
+    'pickupEnergy',
+    'harvestEnergy',
+    { name: 'transferToStructure', additionalArguments: [STRUCTURE_SPAWN] },
+    { name: 'transferToStructure', additionalArguments: [STRUCTURE_EXTENSION] },
+    'build',
+    { name: 'transferToStructure', additionalArguments: [STRUCTURE_TOWER] },
+    'fillStorage',
+  ];
 
-  working = Actions.pickupEnergy(creep);
-
-  if (working) {
-    return;
-  }
-
-  working = Actions.harvestEnergy(creep);
-
-  if (working) {
-    return;
-  }
-
-  if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
-    return actions.storeEnergy(creep);
-  }
-
-  working = Actions.build(creep);
-
-  if (working) {
-    return;
-  }
-
-  Actions.fillStorage(creep);
+  runner(creep, actionItems);
 }

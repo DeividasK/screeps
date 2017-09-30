@@ -14,7 +14,9 @@ export default function transferToStructure(
   }
 
   if (
-    structureType === STRUCTURE_TOWER &&
+    [STRUCTURE_TOWER, STRUCTURE_EXTENSION, STRUCTURE_SPAWN].includes(
+      structureType,
+    ) &&
     target.energy === target.energyCapacity
   ) {
     return false;
