@@ -1,16 +1,8 @@
 // @flow
-import actions from '../actions';
+import runner from './runner';
 
 export function run(creep: Creep) {
-  let status;
+  const actionItems = ['harvestEnergy', 'upgradeController'];
 
-  if (!creep.memory.hasEnergy) {
-    return actions.harvestEnergy(creep);
-  }
-
-  status = creep.upgradeController(creep.room.controller);
-
-  if (status === ERR_NOT_IN_RANGE) {
-    return creep.moveTo(creep.room.controller);
-  }
+  runner(creep, actionItems);
 }

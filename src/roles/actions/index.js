@@ -4,6 +4,7 @@ import pickupEnergy from './pickupEnergy';
 import harvestEnergy from './harvestEnergy';
 import withdrawEnergy from './withdrawEnergy';
 import transferToStructure from './transferToStructure';
+import upgradeController from './upgradeController';
 
 export default {
   build,
@@ -12,4 +13,5 @@ export default {
   harvestEnergy,
   withdrawEnergy,
   transferToStructure,
+  upgradeController,
 };
