@@ -38,11 +38,11 @@ export function findBiggestCreatableBody(
   return body;
 }
 
-export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
+export function getAvailableEnergy(spawn: StructureSpawn, urgent: boolean) {
   const smallestBodyCost = 200;
   let availableEnergy;
 
-  if (role === 'harvester') {
+  if (urgent) {
     availableEnergy =
       spawn.room.energyAvailable > smallestBodyCost
         ? spawn.room.energyAvailable
@@ -54,8 +54,11 @@ export function getAvailableEnergy(spawn: StructureSpawn, role: CreepRole) {
   return availableEnergy;
 }
 
-export function assignBody(spawn: StructureSpawn, role: CreepRole): BodyParts {
-  const availableEnergy = getAvailableEnergy(spawn, role);
+export function assignBody(
+  spawn: StructureSpawn,
+  urgent: boolean = false,
+): BodyParts {
+  const availableEnergy = getAvailableEnergy(spawn, urgent);
 
   const body = findBiggestCreatableBody(availableEnergy);
 

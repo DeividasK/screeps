@@ -1,6 +1,6 @@
-import { updateCreepCount } from './updateCreepCount';
+import { manageCreepCount } from './manageCreepCount';
 
-describe('updateCreepCount', () => {
+describe('manageCreepCount', () => {
   it('should add builder to memory if none existed and construction sites were found', () => {
     const fakeMemory = {
       roles: {
@@ -13,7 +13,7 @@ describe('updateCreepCount', () => {
       },
     };
 
-    updateCreepCount(fakeMemory, fakeSpawn);
+    manageCreepCount(fakeMemory, fakeSpawn);
 
     expect(fakeMemory.roles.builder).toEqual(1);
   });
@@ -30,7 +30,7 @@ describe('updateCreepCount', () => {
       },
     };
 
-    updateCreepCount(fakeMemory, fakeSpawn);
+    manageCreepCount(fakeMemory, fakeSpawn);
 
     expect(fakeMemory.roles.builder).toEqual(0);
   });

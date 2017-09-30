@@ -1,2 +1,6 @@
+# Test coverage
+coverage
+
+# Default
 node_modules
 yarn-error.log

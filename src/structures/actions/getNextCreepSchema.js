@@ -6,9 +6,9 @@ import { assignBody } from '.';
 export function findNextCreepRole(
   roles: Array<CreepRole>,
   memory: MemoryObject,
-): CreepRole {
+): { nextCreepRole?: CreepRole, urgent: boolean } {
   // $FlowFixMe
-  return _.find(roles, function(role: CreepRole): boolean {
+  const nextCreepRole = _.find(roles, function(role: CreepRole): boolean {
     const requiredRoleCount = memory.roles[role];
 
     const existingCreepsByRole: Array<Creep> = _.filter(
@@ -18,6 +18,8 @@ export function findNextCreepRole(
 
     return requiredRoleCount > existingCreepsByRole.length;
   });
+
+  return { nextCreepRole, urgent: nextCreepRole === 'harvester' };
 }
 
 export function getNextCreepSchema(
@@ -32,14 +34,9 @@ export function getNextCreepSchema(
   // $FlowFixMe
   const roles: Array<CreepRole> = _.keys(memory.roles);
 
-  if (roles.length === 0) {
-    throw new Error(
-      `Memory contains no roles. Memory object ${JSON.stringify(memory)}`,
-    );
-  }
+  const { nextCreepRole } = findNextCreepRole(roles, memory);
 
-  const nextCreepRole = findNextCreepRole(roles, memory);
-
+  // Priority for harvesters
   if (
     memory.queue.length !== 0 &&
     nextCreepRole === 'harvester' &&
@@ -54,9 +51,6 @@ export function getNextCreepSchema(
   }
 
   if (memory.queue.length !== 0) {
-    // logger(
-    //   `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
-    // );
     return;
   }
 

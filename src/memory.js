@@ -21,8 +21,10 @@ module.exports = {
       memory.queue = [];
     }
 
-    if (memory.roles === undefined) {
+    if (!memory.roles) {
       memory.roles = {
+        harvester: 1,
+        upgrader: 1,
         builder: 0,
       };
     }

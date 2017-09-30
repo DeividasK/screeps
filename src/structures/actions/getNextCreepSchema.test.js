@@ -24,7 +24,7 @@ describe('findNextCreepRole', () => {
         },
       },
     };
-    const nextCreepRole = findNextCreepRole(fakeRoles, fakeMemory);
+    const { nextCreepRole } = findNextCreepRole(fakeRoles, fakeMemory);
     expect(nextCreepRole).toBe('harvester');
   });
 
@@ -37,8 +37,9 @@ describe('findNextCreepRole', () => {
       },
       creeps: {},
     };
-    const nextCreepRole = findNextCreepRole(fakeRoles, fakeMemory);
+    const { nextCreepRole, urgent } = findNextCreepRole(fakeRoles, fakeMemory);
     expect(nextCreepRole).toBe('harvester');
+    expect(urgent).toEqual(true);
   });
 
   it('should return undefined where existing creeps count is equal to the required creeps count', () => {
@@ -47,6 +48,7 @@ describe('findNextCreepRole', () => {
       queue: [],
       roles: {
         harvester: 1,
+        builder: 0,
       },
       creeps: {
         Creep1: {
@@ -57,7 +59,7 @@ describe('findNextCreepRole', () => {
         },
       },
     };
-    const nextCreepRole = findNextCreepRole(fakeRoles, fakeMemory);
+    const { nextCreepRole } = findNextCreepRole(fakeRoles, fakeMemory);
     expect(nextCreepRole).toBe(undefined);
   });
 });

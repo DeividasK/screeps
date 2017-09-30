@@ -1,6 +1,6 @@
 import { loop } from './main';
 jest.mock('structures/actions/createConstructionSites');
-jest.mock('structures/actions/updateCreepCount');
+jest.mock('structures/actions/manageCreepCount');
 jest.mock('structures/actions/assignBody', () => ({
   assignBody: jest.fn(() => ['mockedBody']),
 }));

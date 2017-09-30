@@ -4,4 +4,4 @@ export { processQueue } from './processQueue';
 export { canBuild } from './canBuild';
 export { canBuildOn } from './canBuildOn';
 export { createConstructionSites } from './createConstructionSites';
-export { updateCreepCount } from './updateCreepCount';
+export { manageCreepCount } from './manageCreepCount';

@@ -176,12 +176,12 @@ Object.defineProperty(exports, 'createConstructionSites', {
   }
 });
 
-var _updateCreepCount = __webpack_require__(27);
+var _manageCreepCount = __webpack_require__(27);
 
-Object.defineProperty(exports, 'updateCreepCount', {
+Object.defineProperty(exports, 'manageCreepCount', {
   enumerable: true,
   get: function get() {
-    return _updateCreepCount.updateCreepCount;
+    return _manageCreepCount.manageCreepCount;
   }
 });
 
@@ -294,11 +294,11 @@ function findBiggestCreatableBody(availableEnergyCapacity) {
   return body;
 }
 
-function getAvailableEnergy(spawn, role) {
+function getAvailableEnergy(spawn, urgent) {
   var smallestBodyCost = 200;
   var availableEnergy = void 0;
 
-  if (role === 'harvester') {
+  if (urgent) {
     availableEnergy = spawn.room.energyAvailable > smallestBodyCost ? spawn.room.energyAvailable : smallestBodyCost;
   } else {
     availableEnergy = spawn.room.energyCapacityAvailable;
@@ -307,8 +307,10 @@ function getAvailableEnergy(spawn, role) {
   return availableEnergy;
 }
 
-function assignBody(spawn, role) {
-  var availableEnergy = getAvailableEnergy(spawn, role);
+function assignBody(spawn) {
+  var urgent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+  var availableEnergy = getAvailableEnergy(spawn, urgent);
 
   var body = findBiggestCreatableBody(availableEnergy);
 
@@ -345,8 +347,10 @@ module.exports = {
       memory.queue = [];
     }
 
-    if (memory.roles === undefined) {
+    if (!memory.roles) {
       memory.roles = {
+        harvester: 1,
+        upgrader: 1,
         builder: 0
       };
     }
@@ -395,7 +399,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function loop() {
   _memory2.default.update(Memory);
 
-  (0, _actions.updateCreepCount)(Memory, Game.spawns['Spawn1']);
+  (0, _actions.manageCreepCount)(Memory, Game.spawns['Spawn1']);
 
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
@@ -414,7 +418,6 @@ function loop() {
 exports.loop = loop;
 
 // Goals
-// - Add storage
 // - Upgrade queue management
 // - Defend against invader
 // - Renew creeps
@@ -954,7 +957,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function findNextCreepRole(roles, memory) {
   // $FlowFixMe
-  return _lodash2.default.find(roles, function (role) {
+  var nextCreepRole = _lodash2.default.find(roles, function (role) {
     var requiredRoleCount = memory.roles[role];
 
     var existingCreepsByRole = _lodash2.default.filter(memory.creeps, function (creep) {
@@ -963,6 +966,8 @@ function findNextCreepRole(roles, memory) {
 
     return requiredRoleCount > existingCreepsByRole.length;
   });
+
+  return { nextCreepRole: nextCreepRole, urgent: nextCreepRole === 'harvester' };
 }
 function getNextCreepSchema(memory, spawn) {
   if (spawn.spawning !== null) {
@@ -973,11 +978,11 @@ function getNextCreepSchema(memory, spawn) {
   // $FlowFixMe
   var roles = _lodash2.default.keys(memory.roles);
 
-  if (roles.length === 0) {
-    throw new Error('Memory contains no roles. Memory object ' + JSON.stringify(memory));
-  }
+  var _findNextCreepRole = findNextCreepRole(roles, memory),
+      nextCreepRole = _findNextCreepRole.nextCreepRole;
 
-  var nextCreepRole = findNextCreepRole(roles, memory);
+  // Priority for harvesters
+
 
   if (memory.queue.length !== 0 && nextCreepRole === 'harvester' && memory.queue[0].role !== 'harvester') {
     (0, _logger2.default)('Cleared ' + JSON.stringify(memory.queue[0]) + ' from queue in favor of harvester.');
@@ -985,9 +990,6 @@ function getNextCreepSchema(memory, spawn) {
   }
 
   if (memory.queue.length !== 0) {
-    // logger(
-    //   `Queue is not empty. Currently in queue: ` + JSON.stringify(memory.queue),
-    // );
     return;
   }
 
@@ -1243,7 +1245,7 @@ function createConstructionSites(type, game) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateCreepCount = updateCreepCount;
+exports.manageCreepCount = manageCreepCount;
 
 var _lodash = __webpack_require__(0);
 
@@ -1255,7 +1257,7 @@ var _logger2 = _interopRequireDefault(_logger);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function updateCreepCount(memory, spawn) {
+function manageCreepCount(memory, spawn) {
   var constructionSites = spawn.room.find(FIND_CONSTRUCTION_SITES);
 
   if (memory.roles.builder < 1 && constructionSites.length > 0) {

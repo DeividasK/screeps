@@ -21,22 +21,6 @@
     "prettier-eslint": "^8.1.1",
     "webpack": "^3.6.0"
   },
-  "babel": {
-    "presets": ["es2017", "flow", "env"]
-  },
-  "scripts": {
-    "build": "yarn webpack --config internals/webpack.config.js",
-    "types": "yarn flow",
-    "test": "yarn jest",
-    "test:watch": "yarn jest --watch",
-    "ship": "yarn flow && yarn test && yarn build"
-  },
-  "jest": {
-    "moduleDirectories": ["node_modules", "src"],
-    "setupTestFrameworkScriptFile": "<rootDir>/internals/tests/setup.js",
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    }
-  },
+  "scripts": {},
   "dependencies": {}
 }

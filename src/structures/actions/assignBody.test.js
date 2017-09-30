@@ -1,12 +1,12 @@
 import {
   findBiggestCreatableBody,
-  creepBodies,
   calculateBodyCost,
   getAvailableEnergy,
+  assignBody,
 } from './assignBody';
 
 describe('getAvailableEnergy', () => {
-  it('Role: harvester. Should return smallest body cost if energy is less than that.', () => {
+  it('if urgent should return smallest body cost if energy is less than that.', () => {
     const fakeSpawn = {
       energy: 50,
       energyCapacity: 300,
@@ -15,7 +15,7 @@ describe('getAvailableEnergy', () => {
       },
     };
 
-    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(200);
+    expect(getAvailableEnergy(fakeSpawn, true)).toEqual(200);
   });
 
   it('Role: harvester. should return max spawn capacity + energy available in extensions', () => {
@@ -27,7 +27,7 @@ describe('getAvailableEnergy', () => {
       },
     };
 
-    expect(getAvailableEnergy(fakeSpawn, 'harvester')).toEqual(250);
+    expect(getAvailableEnergy(fakeSpawn, true)).toEqual(250);
   });
 
   it('Role: others. Should return ', () => {
@@ -37,7 +37,7 @@ describe('getAvailableEnergy', () => {
       },
     };
 
-    expect(getAvailableEnergy(fakeSpawn, 'upgrader')).toEqual(800);
+    expect(getAvailableEnergy(fakeSpawn)).toEqual(800);
   });
 });
 

@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import logger from 'logger';
 
-export function updateCreepCount(memory: MemoryObject, spawn: StructureSpawn) {
+export function manageCreepCount(memory: MemoryObject, spawn: StructureSpawn) {
   const constructionSites = spawn.room.find(FIND_CONSTRUCTION_SITES);
 
   if (memory.roles.builder < 1 && constructionSites.length > 0) {
