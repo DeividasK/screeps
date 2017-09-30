@@ -6,6 +6,7 @@ jest.mock('actions', () => ({
 jest.mock('./actions', () => ({
   build: jest.fn(() => false),
   fillStorage: jest.fn(),
+  pickupEnergy: jest.fn(() => false),
 }));
 
 import actions from 'actions';

@@ -24,4 +24,6 @@ declare type MemoryObject = {
   },
 };
 
+declare type ResourceType = 'energy' | 'power';
+
 declare var Memory: MemoryObject;

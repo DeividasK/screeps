@@ -3,6 +3,14 @@ import actions from 'actions';
 import Actions from './actions';
 
 export function run(creep: Creep) {
+  let working;
+
+  working = Actions.pickupEnergy(creep);
+
+  if (working) {
+    return;
+  }
+
   if (!creep.memory.hasEnergy) {
     return actions.harvestEnergy(creep);
   }
@@ -11,7 +19,7 @@ export function run(creep: Creep) {
     return actions.storeEnergy(creep);
   }
 
-  let working = Actions.build(creep);
+  working = Actions.build(creep);
 
   if (working) {
     return;
