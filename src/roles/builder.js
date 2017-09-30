@@ -1,5 +1,6 @@
 // @flow
 import actions from '../actions';
+import Actions from './actions';
 
 export function run(creep: Creep) {
   let status;
@@ -19,6 +20,12 @@ export function run(creep: Creep) {
     if (status === ERR_NOT_IN_RANGE) {
       return creep.moveTo(repairSites[0]);
     }
+  }
+
+  status = Actions.fillStorage(creep);
+
+  if (status) {
+    return;
   }
 
   // Look for construction sites
