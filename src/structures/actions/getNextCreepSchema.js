@@ -37,7 +37,7 @@ export function getNextCreepSchema(
   // $FlowFixMe
   const roles: Array<CreepRole> = _.keys(memory.roles);
 
-  const { nextCreepRole } = findNextCreepRole(roles, memory);
+  const { nextCreepRole, urgent } = findNextCreepRole(roles, memory);
 
   // Priority for harvesters
   if (
@@ -61,7 +61,7 @@ export function getNextCreepSchema(
     return;
   }
 
-  return { role: nextCreepRole, body: assignBody(spawn, nextCreepRole) };
+  return { role: nextCreepRole, body: assignBody(spawn, urgent) };
 }
 
 // function maintain(creepRole: string) {

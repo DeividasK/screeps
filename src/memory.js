@@ -22,8 +22,10 @@ module.exports = {
     }
 
     if (!memory.roles) {
+      const energySources = room.find(FIND_SOURCES).length;
+
       memory.roles = {
-        harvester: room.find(FIND_SOURCES).length,
+        harvester: energySources > 1 ? energySources : 2,
         upgrader: 1,
         builder: 0,
       };

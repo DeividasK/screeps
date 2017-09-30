@@ -348,8 +348,10 @@ module.exports = {
     }
 
     if (!memory.roles) {
+      var energySources = room.find(FIND_SOURCES).length;
+
       memory.roles = {
-        harvester: room.find(FIND_SOURCES).length,
+        harvester: energySources > 1 ? energySources : 2,
         upgrader: 1,
         builder: 0
       };
@@ -981,7 +983,8 @@ function getNextCreepSchema(memory, spawn) {
   var roles = _lodash2.default.keys(memory.roles);
 
   var _findNextCreepRole = findNextCreepRole(roles, memory),
-      nextCreepRole = _findNextCreepRole.nextCreepRole;
+      nextCreepRole = _findNextCreepRole.nextCreepRole,
+      urgent = _findNextCreepRole.urgent;
 
   // Priority for harvesters
 
@@ -999,7 +1002,7 @@ function getNextCreepSchema(memory, spawn) {
     return;
   }
 
-  return { role: nextCreepRole, body: (0, _2.assignBody)(spawn, nextCreepRole) };
+  return { role: nextCreepRole, body: (0, _2.assignBody)(spawn, urgent) };
 }
 
 // function maintain(creepRole: string) {
