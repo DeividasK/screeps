@@ -956,18 +956,20 @@ var _2 = __webpack_require__(2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function findNextCreepRole(roles, memory) {
-  // $FlowFixMe
-  var nextCreepRole = _lodash2.default.find(roles, function (role) {
-    var requiredRoleCount = memory.roles[role];
-
-    var existingCreepsByRole = _lodash2.default.filter(memory.creeps, function (creep) {
-      return creep.role === role;
-    });
-
-    return requiredRoleCount > existingCreepsByRole.length;
+  var existingCreepsByRole = _lodash2.default.countBy(memory.creeps, function (creep) {
+    return creep.role;
   });
 
-  return { nextCreepRole: nextCreepRole, urgent: nextCreepRole === 'harvester' };
+  var nextCreepRole = _lodash2.default.find(roles, function (role) {
+    var requiredRoleCount = memory.roles[role];
+    var existingRoleCount = existingCreepsByRole[role];
+
+    return !existingRoleCount || requiredRoleCount > existingRoleCount;
+  });
+
+  var urgent = nextCreepRole === 'harvester' && !existingCreepsByRole.harvester;
+
+  return { nextCreepRole: nextCreepRole, urgent: urgent };
 }
 function getNextCreepSchema(memory, spawn) {
   if (spawn.spawning !== null) {

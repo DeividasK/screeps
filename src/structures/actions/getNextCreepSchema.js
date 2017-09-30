@@ -7,19 +7,22 @@ export function findNextCreepRole(
   roles: Array<CreepRole>,
   memory: MemoryObject,
 ): { nextCreepRole?: CreepRole, urgent: boolean } {
-  // $FlowFixMe
+  const existingCreepsByRole: { [CreepRole]: number } = _.countBy(
+    memory.creeps,
+    creep => creep.role,
+  );
+
   const nextCreepRole = _.find(roles, function(role: CreepRole): boolean {
     const requiredRoleCount = memory.roles[role];
+    const existingRoleCount = existingCreepsByRole[role];
 
-    const existingCreepsByRole: Array<Creep> = _.filter(
-      memory.creeps,
-      creep => creep.role === role,
-    );
-
-    return requiredRoleCount > existingCreepsByRole.length;
+    return !existingRoleCount || requiredRoleCount > existingRoleCount;
   });
 
-  return { nextCreepRole, urgent: nextCreepRole === 'harvester' };
+  const urgent =
+    nextCreepRole === 'harvester' && !existingCreepsByRole.harvester;
+
+  return { nextCreepRole, urgent };
 }
 
 export function getNextCreepSchema(

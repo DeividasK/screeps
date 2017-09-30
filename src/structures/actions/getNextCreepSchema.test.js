@@ -13,14 +13,10 @@ describe('findNextCreepRole', () => {
       },
       creeps: {
         Creep1: {
-          memory: {
-            role: 'builder',
-          },
+          role: 'builder',
         },
         Creep2: {
-          memory: {
-            role: 'harvester',
-          },
+          role: 'harvester',
         },
       },
     };
@@ -103,8 +99,12 @@ describe('getNextCreepSchema', () => {
   it('should return if no creeps are required', () => {
     const fakeMemory = {
       queue: [],
-      roles: { harvester: 0 },
-      creeps: {},
+      roles: { harvester: 1 },
+      creeps: {
+        Creep1: {
+          role: 'harvester',
+        },
+      },
     };
     const fakeSpawn = {
       spawning: null,
