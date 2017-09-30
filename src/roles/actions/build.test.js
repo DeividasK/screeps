@@ -7,7 +7,7 @@ describe('Role - Actions - build', () => {
         findClosestByPath: jest.fn(),
       },
     };
-    expect(build(mockCreep)).toBeUndefined();
+    expect(build(mockCreep)).toBe(false);
   });
 
   it('should try to build the construction site that is found', () => {
@@ -18,7 +18,7 @@ describe('Role - Actions - build', () => {
         findClosestByPath: jest.fn(() => mockConstructionSite),
       },
     };
-    build(mockCreep);
+    expect(build(mockCreep)).toBe(true);
     expect(mockCreep.build).toHaveBeenCalledWith(mockConstructionSite);
   });
 
@@ -31,7 +31,7 @@ describe('Role - Actions - build', () => {
         findClosestByPath: jest.fn(() => mockConstructionSite),
       },
     };
-    build(mockCreep);
+    expect(build(mockCreep)).toBe(true);
     expect(mockCreep.build).toHaveBeenCalledWith(mockConstructionSite);
     expect(mockCreep.moveTo).toHaveBeenCalledWith(mockConstructionSite);
   });

@@ -4,7 +4,8 @@ jest.mock('actions', () => ({
 }));
 
 jest.mock('./actions', () => ({
-  build: jest.fn(),
+  build: jest.fn(() => false),
+  fillStorage: jest.fn(),
 }));
 
 import actions from 'actions';
@@ -41,6 +42,22 @@ describe('Role - Harvester - run', () => {
   });
 
   it('should build construction sites if there is no empty capacity to store energy', () => {
+    const mockCreep = {
+      memory: {
+        hasEnergy: true,
+      },
+      room: {
+        energyAvailable: 1000,
+        energyCapacityAvailable: 1000,
+      },
+    };
+
+    run(mockCreep);
+
+    expect(Actions.build).toHaveBeenCalledWith(mockCreep);
+  });
+
+  it('should fill storage if there are no construction sites and there is no empty capacity to store energy', () => {
     const mockCreep = {
       memory: {
         hasEnergy: true,

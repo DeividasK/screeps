@@ -19,7 +19,7 @@ declare type Room = {
   energyCapacityAvailable: number,
   memory: any,
   name: string,
-  // storage: StructureStorage,
+  storage: StructureStorage,
   // terminal: StructureTerminal,
   // visual: RoomVisual,
   find: (
@@ -177,6 +177,12 @@ declare type StructureSpawn = RoomObject &
     ) => string,
     recycleCreep: (target: Creep) => string,
     renewCreep: (target: Creep) => string,
+  };
+
+declare type StructureStorage = RoomObject &
+  Structure & {
+    store: { [string]: number },
+    storeCapacity: number,
   };
 
 declare type GameObject = {

@@ -11,5 +11,11 @@ export function run(creep: Creep) {
     return actions.storeEnergy(creep);
   }
 
-  return Actions.build(creep);
+  let working = Actions.build(creep);
+
+  if (working) {
+    return;
+  }
+
+  Actions.fillStorage(creep);
 }

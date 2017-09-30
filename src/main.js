@@ -36,6 +36,7 @@ export { loop };
 // Goals
 // Harvester -> build if full capacity -> storage if no construction sites
 // Builder -> Take from storage -> Harvest if storage empty
+// Pick up dropped energy
 // - Defend against invader
 // - Renew creeps
 // - Automatically adjust harvesters count

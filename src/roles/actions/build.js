@@ -4,12 +4,14 @@ export default function build(creep: Creep) {
   const constructionSite = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
 
   if (!constructionSite) {
-    return;
+    return false;
   }
 
   let status = creep.build(constructionSite);
 
   if (status === ERR_NOT_IN_RANGE) {
-    return creep.moveTo(constructionSite);
+    creep.moveTo(constructionSite);
   }
+
+  return true;
 }
