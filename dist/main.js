@@ -400,6 +400,7 @@ function loop() {
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
   (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);
+  (0, _actions.createConstructionSites)(STRUCTURE_STORAGE, Game);
 
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema, Memory);
@@ -413,9 +414,10 @@ function loop() {
 exports.loop = loop;
 
 // Goals
+// - Add storage
+// - Upgrade queue management
 // - Defend against invader
 // - Renew creeps
-// - Add storage
 // - Automatically adjust harvesters count
 // - Automatically build roads
 // - Recycle creeps
@@ -766,7 +768,12 @@ function moveAwayFromResources(creep) {
       continue;
     }
 
-    console.log('No obstacles in ' + JSON.stringify(targetPosition) + '. Objects at target position: ' + JSON.stringify(objectsAtTargetPosition));
+    // console.log(
+    //   'No obstacles in ' +
+    //     JSON.stringify(targetPosition) +
+    //     '. Objects at target position: ' +
+    //     JSON.stringify(objectsAtTargetPosition),
+    // );
 
     var moveStatus = creep.move(direction);
 
@@ -1129,7 +1136,7 @@ function canBuildOn(room, pos) {
     x x x
     ^ - should be false
   */
-  var maxObstacles = 2;
+  var maxObstacles = 1;
 
   var structuresInPosition = room.lookForAt(LOOK_STRUCTURES, pos.x, pos.y);
   var constructionSiteInPosition = room.lookForAt(LOOK_CONSTRUCTION_SITES, pos.x, pos.y);

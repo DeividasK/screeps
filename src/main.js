@@ -20,6 +20,7 @@ function loop() {
   );
 
   createConstructionSites(STRUCTURE_EXTENSION, Game);
+  createConstructionSites(STRUCTURE_STORAGE, Game);
 
   if (nextCreepSchema) {
     memoryHandler.addToQueue(nextCreepSchema, Memory);
@@ -33,9 +34,10 @@ function loop() {
 export { loop };
 
 // Goals
+// - Add storage
+// - Upgrade queue management
 // - Defend against invader
 // - Renew creeps
-// - Add storage
 // - Automatically adjust harvesters count
 // - Automatically build roads
 // - Recycle creeps

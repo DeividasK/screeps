@@ -103,7 +103,7 @@ describe('canBuildOn', () => {
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
-  it('should return false if the area has more than 3 structures ', () => {
+  it('should return false if the area has more than 1 structure ', () => {
     const fakeStructuresArray = structuresArray.concat(structuresArray);
 
     const fakeRoom = {
@@ -115,7 +115,7 @@ describe('canBuildOn', () => {
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
-  it('should return false if area has more than 3 structures and/or construction sites', () => {
+  it('should return false if area has more than 1 structure and/or construction site', () => {
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
       lookAtArea: jest.fn(() =>
@@ -127,7 +127,7 @@ describe('canBuildOn', () => {
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
-  it('should return false if area has more than 3 obstacles', () => {
+  it('should return false if area has more than 1 obstacle', () => {
     const terrainArray = [
       { type: 'terrain', terrain: 'wall', x: 30, y: 41 },
       { type: 'terrain', terrain: 'wall', x: 31, y: 41 },
@@ -152,7 +152,7 @@ describe('canBuildOn', () => {
     expect(canBuildOn(fakeRoom, roomPosition)).toEqual(false);
   });
 
-  it('should return true if area has 3 or less obstacles', () => {
+  it('should return true if area has 1 or less obstacles', () => {
     const terrainArray = [
       { type: 'terrain', terrain: 'plain', x: 30, y: 41 },
       { type: 'terrain', terrain: 'plain', x: 31, y: 41 },
@@ -166,7 +166,7 @@ describe('canBuildOn', () => {
     ];
     const fakeRoom = {
       lookForAt: jest.fn(() => []),
-      lookAtArea: jest.fn(() => [...structuresArray, ...terrainArray]),
+      lookAtArea: jest.fn(() => [...terrainArray]),
     };
     const roomPosition = { x: 0, y: 0 };
 
