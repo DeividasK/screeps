@@ -1,6 +1,18 @@
 import transferToStructure from './transferToStructure';
 
 describe('Roles - Actions - transferToStructure', () => {
+  const fullTower = {
+    structureType: STRUCTURE_TOWER,
+    energy: 1000,
+    energyCapacity: 1000,
+  };
+
+  const emptyTower = {
+    structureType: STRUCTURE_TOWER,
+    energy: 500,
+    energyCapacity: 1000,
+  };
+
   it('should return false if not structures are found', () => {
     const creep = {
       pos: {
@@ -11,31 +23,39 @@ describe('Roles - Actions - transferToStructure', () => {
     expect(transferToStructure(creep, STRUCTURE_TOWER)).toBe(false);
   });
 
-  it('should transfer energy to structure', () => {
-    const structure = { foo: 'bar' };
+  it('should return false if structure is tower and it has full energy', () => {
     const creep = {
       pos: {
-        findClosestByPath: jest.fn(() => structure),
+        findClosestByPath: jest.fn(() => fullTower),
+      },
+    };
+
+    expect(transferToStructure(creep, STRUCTURE_TOWER)).toBe(false);
+  });
+
+  it('should transfer energy to structure', () => {
+    const creep = {
+      pos: {
+        findClosestByPath: jest.fn(() => emptyTower),
       },
       transfer: jest.fn(),
     };
 
     expect(transferToStructure(creep, STRUCTURE_TOWER)).toBe(true);
-    expect(creep.transfer).toHaveBeenCalledWith(structure, RESOURCE_ENERGY);
+    expect(creep.transfer).toHaveBeenCalledWith(emptyTower, RESOURCE_ENERGY);
   });
 
   it('should move closer to structure if it is not in range', () => {
-    const structure = { foo: 'bar' };
     const creep = {
       pos: {
-        findClosestByPath: jest.fn(() => structure),
+        findClosestByPath: jest.fn(() => emptyTower),
       },
       transfer: jest.fn(() => ERR_NOT_IN_RANGE),
       moveTo: jest.fn(),
     };
 
     expect(transferToStructure(creep, STRUCTURE_TOWER)).toBe(true);
-    expect(creep.transfer).toHaveBeenCalledWith(structure, RESOURCE_ENERGY);
-    expect(creep.moveTo).toHaveBeenCalledWith(structure);
+    expect(creep.transfer).toHaveBeenCalledWith(emptyTower, RESOURCE_ENERGY);
+    expect(creep.moveTo).toHaveBeenCalledWith(emptyTower);
   });
 });

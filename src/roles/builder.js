@@ -8,7 +8,7 @@ export function run(creep: Creep) {
     'harvestEnergy',
     'build',
     { name: 'transferToStructure', additionalArguments: [STRUCTURE_TOWER] },
-    { name: 'transferToStructure', additionalArguments: [STRUCTURE_STORAGE] },
+    'fillStorage',
   ];
 
   for (let action of actionItems) {

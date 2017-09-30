@@ -895,7 +895,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function run(creep) {
   var working = void 0;
-  var actionItems = ['withdrawEnergy', 'harvestEnergy', 'build', { name: 'transferToStructure', additionalArguments: [STRUCTURE_TOWER] }, { name: 'transferToStructure', additionalArguments: [STRUCTURE_STORAGE] }];
+  var actionItems = ['withdrawEnergy', 'harvestEnergy', 'build', { name: 'transferToStructure', additionalArguments: [STRUCTURE_TOWER] }, 'fillStorage'];
 
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -1119,6 +1119,10 @@ function transferToStructure(creep, structureType) {
   });
 
   if (target === null) {
+    return false;
+  }
+
+  if (structureType === STRUCTURE_TOWER && target.energy === target.energyCapacity) {
     return false;
   }
 

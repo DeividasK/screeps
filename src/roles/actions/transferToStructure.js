@@ -13,6 +13,13 @@ export default function transferToStructure(
     return false;
   }
 
+  if (
+    structureType === STRUCTURE_TOWER &&
+    target.energy === target.energyCapacity
+  ) {
+    return false;
+  }
+
   let status = creep.transfer(target, RESOURCE_ENERGY);
 
   if (status === ERR_NOT_IN_RANGE) {
