@@ -40,15 +40,11 @@ export function getNextCreepSchema(
   const { nextCreepRole, urgent } = findNextCreepRole(roles, memory);
 
   // Priority for harvesters
-  if (
-    memory.queue.length !== 0 &&
-    nextCreepRole === 'harvester' &&
-    memory.queue[0].role !== 'harvester'
-  ) {
+  if (memory.queue.length !== 0 && urgent && nextCreepRole) {
     logger(
-      'Cleared ' +
-        JSON.stringify(memory.queue[0]) +
-        ' from queue in favor of harvester.',
+      `Cleared ${JSON.stringify(
+        memory.queue[0],
+      )} from queue in favor of ${nextCreepRole}.`,
     );
     memory.queue = [];
   }

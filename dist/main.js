@@ -420,10 +420,11 @@ function loop() {
 exports.loop = loop;
 
 // Goals
+// Clear queue if no creeps available
 // Harvester -> build if full capacity -> storage if no construction sites
-// Builder -> Take from storage -> Harvest if storage empty
 // Pick up dropped energy
 // - Defend against invader
+// Builder -> Take from storage -> Harvest if storage empty
 // - Renew creeps
 // - Automatically adjust harvesters count
 // - Automatically build roads
@@ -1081,8 +1082,8 @@ function getNextCreepSchema(memory, spawn) {
   // Priority for harvesters
 
 
-  if (memory.queue.length !== 0 && nextCreepRole === 'harvester' && memory.queue[0].role !== 'harvester') {
-    (0, _logger2.default)('Cleared ' + JSON.stringify(memory.queue[0]) + ' from queue in favor of harvester.');
+  if (memory.queue.length !== 0 && urgent && nextCreepRole) {
+    (0, _logger2.default)('Cleared ' + JSON.stringify(memory.queue[0]) + ' from queue in favor of ' + nextCreepRole + '.');
     memory.queue = [];
   }
 
