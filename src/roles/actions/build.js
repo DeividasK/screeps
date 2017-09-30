@@ -7,7 +7,7 @@ export default function build(creep: Creep) {
     return false;
   }
 
-  let status = creep.build(constructionSite);
+  const status = creep.build(constructionSite);
 
   if (status === ERR_NOT_IN_RANGE) {
     creep.moveTo(constructionSite);

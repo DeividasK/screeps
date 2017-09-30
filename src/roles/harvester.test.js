@@ -1,5 +1,4 @@
 jest.mock('actions', () => ({
-  harvestEnergy: jest.fn(),
   storeEnergy: jest.fn(),
 }));
 
@@ -7,6 +6,7 @@ jest.mock('./actions', () => ({
   build: jest.fn(() => false),
   fillStorage: jest.fn(),
   pickupEnergy: jest.fn(() => false),
+  harvestEnergy: jest.fn(creep => (creep.memory.hasEnergy ? false : true)),
 }));
 
 import actions from 'actions';
@@ -19,11 +19,14 @@ describe('Role - Harvester - run', () => {
       memory: {
         hasEnergy: false,
       },
+      pos: {
+        findClosestByPath: jest.fn,
+      },
     };
 
     run(mockCreep);
 
-    expect(actions.harvestEnergy).toHaveBeenCalledWith(mockCreep);
+    expect(Actions.harvestEnergy).toHaveBeenCalledWith(mockCreep);
   });
 
   it('should store energy if there is capacity in spawns or extensions', () => {

@@ -11,8 +11,10 @@ export function run(creep: Creep) {
     return;
   }
 
-  if (!creep.memory.hasEnergy) {
-    return actions.harvestEnergy(creep);
+  working = Actions.harvestEnergy(creep);
+
+  if (working) {
+    return;
   }
 
   if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {

@@ -1,41 +1,20 @@
 // @flow
-import actions from '../actions';
 import Actions from './actions';
 
 export function run(creep: Creep) {
-  let status;
+  let working;
 
-  if (!creep.memory.hasEnergy) {
-    return actions.harvestEnergy(creep);
-  }
+  working = Actions.harvestEnergy(creep);
 
-  // Try to repair first
-  const repairSites = creep.room.find(FIND_MY_STRUCTURES, {
-    filter: structure => structure.hits < structure.hitsMax / 3,
-  });
-
-  if (repairSites.length > 0) {
-    status = creep.repair(repairSites[0]);
-
-    if (status === ERR_NOT_IN_RANGE) {
-      return creep.moveTo(repairSites[0]);
-    }
-  }
-
-  status = Actions.fillStorage(creep);
-
-  if (status) {
+  if (working) {
     return;
   }
 
-  // Look for construction sites
-  const constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
+  working = Actions.build(creep);
 
-  if (constructionSites.length > 0) {
-    status = creep.build(constructionSites[0]);
-
-    if (status === ERR_NOT_IN_RANGE) {
-      return creep.moveTo(constructionSites[0]);
-    }
+  if (working) {
+    return;
   }
+
+  Actions.fillStorage(creep);
 }
