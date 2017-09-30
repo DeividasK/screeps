@@ -4,7 +4,9 @@ export default function pickupEnergy(creep: Creep) {
     return false;
   }
 
-  const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
+  const droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
+    filter: (resource) => !!resource && resource.resourceType === RESOURCE_ENERGY
+  });
 
   if (droppedEnergy === null) {
     return false;

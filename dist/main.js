@@ -961,7 +961,11 @@ function pickupEnergy(creep) {
     return false;
   }
 
-  var droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_ENERGY);
+  var droppedEnergy = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {
+    filter: function filter(resource) {
+      return !!resource && resource.resourceType === RESOURCE_ENERGY;
+    }
+  });
 
   if (droppedEnergy === null) {
     return false;
