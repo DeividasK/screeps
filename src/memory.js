@@ -16,14 +16,14 @@ module.exports = {
     Memory.queue = [];
     return Memory.queue.slice();
   },
-  update: function(memory: MemoryObject) {
+  update: function(memory: MemoryObject, room: Room) {
     if (!memory.queue) {
       memory.queue = [];
     }
 
     if (!memory.roles) {
       memory.roles = {
-        harvester: 1,
+        harvester: room.find(FIND_SOURCES).length,
         upgrader: 1,
         builder: 0,
       };

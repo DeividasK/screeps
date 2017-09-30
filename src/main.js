@@ -10,7 +10,7 @@ import {
 import _ from 'lodash';
 
 function loop() {
-  memoryHandler.update(Memory);
+  memoryHandler.update(Memory, Game.rooms['W7S56']);
 
   manageCreepCount(Memory, Game.spawns['Spawn1']);
 

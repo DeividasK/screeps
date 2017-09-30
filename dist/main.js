@@ -342,14 +342,14 @@ module.exports = {
     Memory.queue = [];
     return Memory.queue.slice();
   },
-  update: function update(memory) {
+  update: function update(memory, room) {
     if (!memory.queue) {
       memory.queue = [];
     }
 
     if (!memory.roles) {
       memory.roles = {
-        harvester: 1,
+        harvester: room.find(FIND_SOURCES).length,
         upgrader: 1,
         builder: 0
       };
@@ -397,7 +397,7 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function loop() {
-  _memory2.default.update(Memory);
+  _memory2.default.update(Memory, Game.rooms['W7S56']);
 
   (0, _actions.manageCreepCount)(Memory, Game.spawns['Spawn1']);
 
