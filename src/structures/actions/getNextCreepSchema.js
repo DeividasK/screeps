@@ -16,7 +16,10 @@ export function findNextCreepRole(
     const requiredRoleCount = memory.roles[role];
     const existingRoleCount = existingCreepsByRole[role];
 
-    return (requiredRoleCount > 0 && !existingRoleCount) || requiredRoleCount > existingRoleCount;
+    return (
+      (requiredRoleCount > 0 && !existingRoleCount) ||
+      requiredRoleCount > existingRoleCount
+    );
   });
 
   const urgent =
@@ -30,7 +33,6 @@ export function getNextCreepSchema(
   spawn: StructureSpawn,
 ): ?CreepSchema {
   if (spawn.spawning !== null) {
-    logger(`Still spawning. Ticks remaining ${spawn.spawning.remainingTime}.`);
     return;
   }
 

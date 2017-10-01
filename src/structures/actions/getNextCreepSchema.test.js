@@ -86,16 +86,6 @@ describe('getNextCreepSchema', () => {
     expect(getNextCreepSchema(fakeMemory, fakeSpawn)).toEqual(undefined);
   });
 
-  it('should throw an error if there are no roles in memory', () => {
-    const fakeMemory = {
-      queue: [],
-    };
-    const fakeSpawn = {};
-    expect(() => {
-      getNextCreepSchema(fakeMemory, fakeSpawn);
-    }).toThrow();
-  });
-
   it('should return if no creeps are required', () => {
     const fakeMemory = {
       queue: [],

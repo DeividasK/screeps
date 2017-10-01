@@ -1007,7 +1007,6 @@ function findNextCreepRole(roles, memory) {
 }
 function getNextCreepSchema(memory, spawn) {
   if (spawn.spawning !== null) {
-    (0, _logger2.default)('Still spawning. Ticks remaining ' + spawn.spawning.remainingTime + '.');
     return;
   }
 
