@@ -406,6 +406,10 @@ var _memory2 = _interopRequireDefault(_memory);
 
 var _actions = __webpack_require__(1);
 
+var _rooms = __webpack_require__(31);
+
+var _rooms2 = _interopRequireDefault(_rooms);
+
 var _lodash = __webpack_require__(0);
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -419,29 +423,44 @@ function loop() {
 
   var nextCreepSchema = (0, _actions.getNextCreepSchema)(Memory, Game.spawns['Spawn1']);
 
-  (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);
-  (0, _actions.createConstructionSites)(STRUCTURE_STORAGE, Game);
-  (0, _actions.createConstructionSites)(STRUCTURE_TOWER, Game);
-
   if (nextCreepSchema) {
     _memory2.default.addToQueue(nextCreepSchema, Memory);
   }
 
   (0, _actions.processQueue)(Memory, Game.spawns['Spawn1']);
 
-  (0, _actions.attackInvaders)(Game.rooms['W7S56']);
+  (0, _actions.createConstructionSites)(STRUCTURE_EXTENSION, Game);
+  (0, _actions.createConstructionSites)(STRUCTURE_STORAGE, Game);
+  (0, _actions.createConstructionSites)(STRUCTURE_TOWER, Game);
+
+  (0, _rooms2.default)(Game);
 
   (0, _init2.default)(Game);
 }
-
 exports.loop = loop;
 
-// Goals:
-// Defend against invader
-// ? Renew creeps
-// ? Automatically build roads
-// Recycle creeps
-// ? Creep should move away from an energy source
+/*
+Goals:
+Claim another room
+  Add logic to increase scout number
+    Find room exists
+    For each exit
+      If other room is not in Game.rooms return false
+      If room controller is undefined return false
+      If room controller my is true return false
+      If room
+  Add scout to room roles
+  Send scout to another room
+  Place a flag in another room
+  Send claimers to other rooms
+Refactor queue to be part of room memory
+Create pure harvester role (harvest / build container)
+Create courrier role
+? Renew creeps
+? Automatically build roads
+Recycle creeps
+? Creep should move away from an energy source
+*/
 
 /***/ }),
 /* 8 */
@@ -1357,6 +1376,32 @@ function attackInvaders(room) {
       }
     }
   }
+}
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = roomActions;
+
+var _lodash = __webpack_require__(0);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _actions = __webpack_require__(1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function roomActions(game) {
+  _lodash2.default.forEach(game.rooms, function (room) {
+    (0, _actions.attackInvaders)(room);
+  });
 }
 
 /***/ })

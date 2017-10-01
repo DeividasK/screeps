@@ -6,8 +6,8 @@ import {
   processQueue,
   createConstructionSites,
   manageCreepCount,
-  attackInvaders,
 } from 'structures/actions';
+import roomActions from 'rooms';
 import _ from 'lodash';
 
 function loop() {
@@ -20,26 +20,42 @@ function loop() {
     Game.spawns['Spawn1'],
   );
 
-  createConstructionSites(STRUCTURE_EXTENSION, Game);
-  createConstructionSites(STRUCTURE_STORAGE, Game);
-  createConstructionSites(STRUCTURE_TOWER, Game);
-
   if (nextCreepSchema) {
     memoryHandler.addToQueue(nextCreepSchema, Memory);
   }
 
   processQueue(Memory, Game.spawns['Spawn1']);
 
-  attackInvaders(Game.rooms['W7S56']);
+  createConstructionSites(STRUCTURE_EXTENSION, Game);
+  createConstructionSites(STRUCTURE_STORAGE, Game);
+  createConstructionSites(STRUCTURE_TOWER, Game);
+
+  roomActions(Game);
 
   initRoles(Game);
 }
 
 export { loop };
 
-// Goals:
-// Defend against invader
-// ? Renew creeps
-// ? Automatically build roads
-// Recycle creeps
-// ? Creep should move away from an energy source
+/*
+Goals:
+Claim another room
+  Add logic to increase scout number
+    Find room exists
+    For each exit
+      If other room is not in Game.rooms return false
+      If room controller is undefined return false
+      If room controller my is true return false
+      If room
+  Add scout to room roles
+  Send scout to another room
+  Place a flag in another room
+  Send claimers to other rooms
+Refactor queue to be part of room memory
+Create pure harvester role (harvest / build container)
+Create courrier role
+? Renew creeps
+? Automatically build roads
+Recycle creeps
+? Creep should move away from an energy source
+*/
