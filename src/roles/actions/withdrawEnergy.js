@@ -4,12 +4,6 @@ export default function withdrawEnergy(creep: Creep) {
     return false;
   }
 
-  const constructionSites = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
-
-  if (constructionSites.length === 0) {
-    return false;
-  }
-
   if (creep.room.storage === undefined) {
     return false;
   }

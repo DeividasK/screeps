@@ -1,5 +1,6 @@
 jest.mock('./actions', () => ({
   withdrawEnergy: jest.fn(() => true),
+  harvestEnergy: jest.fn(() => true),
 }));
 
 import { run } from './builder';

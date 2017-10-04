@@ -3,7 +3,7 @@ import runner from './runner';
 
 export function run(creep: Creep) {
   const actionItems = [
-    'withdrawEnergy',
+    { name: 'withdrawEnergy', additionalCheck: 'foundConstructionSites' },
     'harvestEnergy',
     'build',
     { name: 'transferToStructure', additionalArguments: [STRUCTURE_TOWER] },
